@@ -135,5 +135,84 @@ function renderizar(){
 
 </script>
 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// 🔥 TU CONFIG DE FIREBASE
+const firebaseConfig = {
+  apiKey: "AIzaSyBnhuampwb_...",
+  authDomain: "lista-de-espera-6b89d.firebaseapp.com",
+  projectId: "lista-de-espera-6b89d",
+  storageBucket: "lista-de-espera-6b89d.firebasestorage.app",
+  messagingSenderId: "19656055004",
+  appId: "1:19656055004:web:a3a4ab6eb7d45de3e7fc19"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const col = collection(db, "lista");
+
+window.agregarPersona = async function () {
+
+  const nombre = document.getElementById("nombre").value.trim();
+
+  if (!nombre) {
+    alert("Escribe un nombre");
+    return;
+  }
+
+  await addDoc(col, {
+    nombre: nombre,
+    hora: new Date().toLocaleTimeString(),
+    timestamp: Date.now()
+  });
+
+  document.getElementById("nombre").value = "";
+};
+
+// 🔥 eliminar (atendido)
+window.atender = async function (id) {
+  await deleteDoc(doc(db, "lista", id));
+};
+
+// 🔄 tiempo real
+onSnapshot(col, (snapshot) => {
+
+  const lista = document.getElementById("lista");
+  lista.innerHTML = "";
+
+  let turno = 1;
+
+  snapshot.forEach((docSnap) => {
+
+    const p = docSnap.data();
+
+    lista.innerHTML += `
+      <div class="persona">
+        <div>
+          <strong>${turno++}</strong> - ${p.nombre}
+          <br>
+          <small>${p.hora}</small>
+        </div>
+
+        <button class="atendido" onclick="atender('${docSnap.id}')">
+          Atendido
+        </button>
+      </div>
+    `;
+  });
+});
+</script>
+    
 </body>
 </html>
