@@ -28,8 +28,7 @@ h1{
 .stats{
     display:flex;
     justify-content:space-between;
-    margin-bottom:15px;
-    font-size:14px;
+    margin-bottom:10px;
 }
 
 input{
@@ -51,6 +50,13 @@ button{
     width:100%;
     background:#2563eb;
     color:white;
+}
+
+.nuevo-dia{
+    width:100%;
+    background:#ef4444;
+    color:white;
+    margin-top:10px;
 }
 
 .persona{
@@ -82,34 +88,28 @@ button{
 
 <body>
 
-<h1>📋 Sistema de Recepción</h1>
+<h1>📋 Sistema de Espera</h1>
 
 <div class="card">
 
-    <div class="stats">
-        <div>⏳ Pendientes: <span id="pendientes">0</span></div>
-        <div>✅ Atendidos: <span id="atendidos">0</span></div>
-    </div>
+<div class="stats">
+  <div>⏳ Pendientes: <span id="pendientes">0</span></div>
+  <div>✅ Atendidos: <span id="atendidos">0</span></div>
+</div>
 
-    <input id="nombre" placeholder="Nombre de la persona">
-    <button class="agregar" onclick="agregarPersona()">
-        Agregar Persona
-    </button>
+<input id="nombre" placeholder="Nombre de la persona">
 
+<button class="agregar" onclick="agregarPersona()">
+  Agregar Persona
+</button>
 
-
-    <button onclick="nuevoDia()" style="margin-top:10px;width:100%;background:#ef4444;color:white;">
-  🔄 Nuevo día / Reiniciar lista
-    </button>
+<button class="nuevo-dia" onclick="nuevoDia()">
+  🔄 Nuevo Día
+</button>
 
 </div>
 
 <div id="lista"></div>
-
-
-
-
-
 
 <script type="module">
 
@@ -120,7 +120,10 @@ import {
   addDoc,
   updateDoc,
   doc,
-  onSnapshot
+  onSnapshot,
+  query,
+  orderBy,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -135,68 +138,61 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-import { query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+const listaRef = collection(db, "lista");
+const q = query(listaRef, orderBy("timestamp", "asc"));
 
-const col = query(collection(db, "lista"), orderBy("timestamp", "asc"));
-
-// 🔢 turno local simple
-const snapshot = await getDocs(col);
-
-let maxTurno = 0;
-
-snapshot.forEach(doc => {
-  const data = doc.data();
-  if (data.turno > maxTurno) {
-    maxTurno = data.turno;
-  }
-});
-
-const nuevoTurno = maxTurno + 1;
-
-// ➕ agregar persona
+// 🔢 AGREGAR PERSONA (turno automático correcto)
 window.agregarPersona = async function () {
 
   const nombre = document.getElementById("nombre").value.trim();
-
   if (!nombre) return alert("Escribe un nombre");
 
-  await addDoc(col, {
-  turno: nuevoTurno,
-  nombre,
-  hora: new Date().toLocaleTimeString(),
-  estado: "pendiente",
-  timestamp: Date.now()
-});
+  const snapshot = await getDocs(listaRef);
+
+  let maxTurno = 0;
+
+  snapshot.forEach(docSnap => {
+    const data = docSnap.data();
+    if (data.turno > maxTurno) {
+      maxTurno = data.turno;
+    }
+  });
+
+  const nuevoTurno = maxTurno + 1;
+
+  await addDoc(listaRef, {
+    turno: nuevoTurno,
+    nombre,
+    hora: new Date().toLocaleTimeString(),
+    estado: "pendiente",
+    timestamp: Date.now()
+  });
 
   document.getElementById("nombre").value = "";
 };
 
-// 🟢 marcar como atendido (YA NO BORRA)
+// 🟢 MARCAR COMO ATENDIDO
 window.atender = async function (id) {
   await updateDoc(doc(db, "lista", id), {
     estado: "atendido"
   });
 };
 
-// 🔄 render en tiempo real
-onSnapshot(col, (snapshot) => {
+// 🔄 TIEMPO REAL
+onSnapshot(q, (snapshot) => {
 
   const lista = document.getElementById("lista");
-
   lista.innerHTML = "";
 
   let pendientes = 0;
   let atendidos = 0;
 
-  snapshot.forEach((d) => {
+  snapshot.forEach(d => {
 
     const p = d.data();
 
-    if (p.estado === "pendiente") {
-      pendientes++;
-    } else {
-      atendidos++;
-    }
+    if (p.estado === "pendiente") pendientes++;
+    else atendidos++;
 
     lista.innerHTML += `
       <div class="persona">
@@ -221,21 +217,12 @@ onSnapshot(col, (snapshot) => {
   document.getElementById("atendidos").textContent = atendidos;
 });
 
-// 🧹 NUEVO DÍA / REINICIAR
+// 🔄 NUEVO DÍA (simple)
 window.nuevoDia = function () {
-  contador = 1;
-  location.reload(); // simple pero efectivo
+  location.reload();
 };
 
 </script>
-
-
-
-
-
-
-
-  
 
 </body>
 </html>
