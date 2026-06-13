@@ -114,17 +114,10 @@ button{
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  updateDoc,
-  doc,
-  onSnapshot,
-  query,
-  orderBy,
-  getDocs
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+import { getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBnhuampwb_...",
@@ -218,8 +211,19 @@ onSnapshot(q, (snapshot) => {
 });
 
 // 🔄 NUEVO DÍA (simple)
-window.nuevoDia = function () {
-  location.reload();
+    window.nuevoDia = async function () {
+
+  const confirmar = confirm("⚠️ ¿Seguro que quieres iniciar un nuevo día? Se borrará toda la lista.");
+
+  if (!confirmar) return;
+
+  const snapshot = await getDocs(listaRef);
+
+  snapshot.forEach(async (d) => {
+    await deleteDoc(doc(db, "lista", d.id));
+  });
+
+  alert("✅ Nuevo día iniciado. Lista reiniciada.");
 };
 
 </script>
