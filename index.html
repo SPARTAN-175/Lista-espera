@@ -62,6 +62,7 @@ button{
 }
 </style>
 </head>
+
 <body>
 
 <h1>📋 Lista de Espera</h1>
@@ -75,88 +76,20 @@ button{
 
 <div id="lista"></div>
 
-<script>
-
-let personas = [];
-let turnoActual = 1;
-
-function agregarPersona(){
-
-    const nombre = document.getElementById('nombre').value.trim();
-
-    if(!nombre){
-        alert('Escribe un nombre');
-        return;
-    }
-
-    personas.push({
-        turno: turnoActual++,
-        nombre:nombre,
-        hora:new Date().toLocaleTimeString()
-    });
-
-    document.getElementById('nombre').value='';
-
-    renderizar();
-}
-
-function atender(turno){
-
-    personas = personas.filter(p => p.turno !== turno);
-
-    renderizar();
-}
-
-function renderizar(){
-
-    const lista = document.getElementById('lista');
-
-    lista.innerHTML='';
-
-    personas.forEach(p=>{
-
-        lista.innerHTML += `
-        <div class="persona">
-            <div>
-                <strong>${p.turno}</strong> -
-                ${p.nombre}
-                <br>
-                <small>${p.hora}</small>
-            </div>
-
-            <button class="atendido"
-                onclick="atender(${p.turno})">
-                Atendido
-            </button>
-        </div>
-        `;
-    });
-}
-
-</script>
-
-
-
-
-
-    
-    
-
-
-
-    
 <script type="module">
-    console.log("Firebase cargó");
+
+// 🔥 Firebase imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
-  getFirestore,
-  collection,
-  addDoc,
-  deleteDoc,
-  doc,
-  onSnapshot
+    getFirestore,
+    collection,
+    addDoc,
+    deleteDoc,
+    doc,
+    onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+// 🔥 CONFIG FIREBASE (la tuya)
 const firebaseConfig = {
   apiKey: "AIzaSyBnhuampwb_...",
   authDomain: "lista-de-espera-6b89d.firebaseapp.com",
@@ -166,65 +99,77 @@ const firebaseConfig = {
   appId: "1:19656055004:web:a3a4ab6eb7d45de3e7fc19"
 };
 
+// 🔥 inicializar
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 const col = collection(db, "lista");
 
+// 🧪 PRUEBA CLAVE (esto DEBE aparecer en consola)
+console.log("🔥 Firebase script ejecutándose");
+
+// ➕ agregar persona
 window.agregarPersona = async function () {
-  const nombre = document.getElementById("nombre").value.trim();
 
-  if (!nombre) return alert("Escribe un nombre");
+    const nombre = document.getElementById("nombre").value.trim();
 
-  console.log("Guardando en Firebase...");
+    if (!nombre) {
+        alert("Escribe un nombre");
+        return;
+    }
 
-  await addDoc(col, {
-    nombre,
-    hora: new Date().toLocaleTimeString(),
-    timestamp: Date.now()
-  });
+    console.log("📤 Intentando guardar en Firebase...");
 
-  document.getElementById("nombre").value = "";
+    try {
+        await addDoc(col, {
+            nombre,
+            hora: new Date().toLocaleTimeString(),
+            timestamp: Date.now()
+        });
+
+        console.log("✅ Guardado en Firebase");
+
+        document.getElementById("nombre").value = "";
+
+    } catch (error) {
+        console.error("❌ Error al guardar:", error);
+    }
 };
 
+// ❌ eliminar (atendido)
 window.atender = async function (id) {
-  await deleteDoc(doc(db, "lista", id));
+    console.log("🗑 Eliminando:", id);
+    await deleteDoc(doc(db, "lista", id));
 };
 
+// 🔄 lectura en tiempo real
 onSnapshot(col, (snapshot) => {
-  console.log("Datos recibidos:", snapshot.size);
 
-  const lista = document.getElementById("lista");
-  lista.innerHTML = "";
+    console.log("📡 Datos recibidos:", snapshot.size);
 
-  let turno = 1;
+    const lista = document.getElementById("lista");
+    lista.innerHTML = "";
 
-  snapshot.forEach((d) => {
-    const p = d.data();
+    let turno = 1;
 
-    lista.innerHTML += `
-      <div class="persona">
-        <div>
-          <strong>${turno++}</strong> - ${p.nombre}
-          <br>
-          <small>${p.hora}</small>
-        </div>
+    snapshot.forEach((d) => {
+        const p = d.data();
 
-        <button class="atendido" onclick="atender('${d.id}')">
-          Atendido
-        </button>
-      </div>
-    `;
-  });
+        lista.innerHTML += `
+            <div class="persona">
+                <div>
+                    <strong>${turno++}</strong> - ${p.nombre}
+                    <br>
+                    <small>${p.hora}</small>
+                </div>
+
+                <button class="atendido" onclick="atender('${d.id}')">
+                    Atendido
+                </button>
+            </div>
+        `;
+    });
 });
 </script>
 
-
-
-
-
-
-    
-    
 </body>
 </html>
