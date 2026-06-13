@@ -140,7 +140,18 @@ import { query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/fireb
 const col = query(collection(db, "lista"), orderBy("timestamp", "asc"));
 
 // 🔢 turno local simple
-let contador = 1;
+const snapshot = await getDocs(col);
+
+let maxTurno = 0;
+
+snapshot.forEach(doc => {
+  const data = doc.data();
+  if (data.turno > maxTurno) {
+    maxTurno = data.turno;
+  }
+});
+
+const nuevoTurno = maxTurno + 1;
 
 // ➕ agregar persona
 window.agregarPersona = async function () {
@@ -150,12 +161,12 @@ window.agregarPersona = async function () {
   if (!nombre) return alert("Escribe un nombre");
 
   await addDoc(col, {
-    turno: contador++,
-    nombre,
-    hora: new Date().toLocaleTimeString(),
-    estado: "pendiente",
-    timestamp: Date.now()
-  });
+  turno: nuevoTurno,
+  nombre,
+  hora: new Date().toLocaleTimeString(),
+  estado: "pendiente",
+  timestamp: Date.now()
+});
 
   document.getElementById("nombre").value = "";
 };
