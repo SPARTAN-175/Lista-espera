@@ -1,0 +1,16 @@
+{
+  "name": "Sistema de Lista de Espera",
+  "short_name": "Turnos",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "description": "Sistema de turnos en tiempo real con Firebase",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
