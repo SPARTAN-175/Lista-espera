@@ -1,116 +1,13 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sistema de Lista de Espera</title>
-
-<style>
-body{
-    font-family: Arial, sans-serif;
-    margin:0;
-    padding:20px;
-    background:#f4f4f4;
-}
-
-h1{
-    text-align:center;
-}
-
-.card{
-    background:white;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:15px;
-    box-shadow:0 2px 5px rgba(0,0,0,.1);
-}
-
-.stats{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:15px;
-    font-size:14px;
-}
-
-input{
-    width:100%;
-    padding:12px;
-    font-size:16px;
-    margin-bottom:10px;
-    box-sizing:border-box;
-}
-
-button{
-    padding:10px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-}
-
-.agregar{
-    width:100%;
-    background:#2563eb;
-    color:white;
-}
-
-.persona{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:8px;
-    padding:10px;
-    background:white;
-    border-radius:8px;
-}
-
-.estado-pendiente{
-    color:#d97706;
-    font-weight:bold;
-}
-
-.estado-atendido{
-    color:#16a34a;
-    font-weight:bold;
-}
-
-.atendido{
-    background:#16a34a;
-    color:white;
-}
-</style>
-</head>
-
-<body>
-
-<h1>📋 Sistema de Recepción</h1>
-
-<div class="card">
-
-    <div class="stats">
-        <div>⏳ Pendientes: <span id="pendientes">0</span></div>
-        <div>✅ Atendidos: <span id="atendidos">0</span></div>
-    </div>
-
-    <input id="nombre" placeholder="Nombre de la persona">
-    <button class="agregar" onclick="agregarPersona()">
-        Agregar Persona
-    </button>
-
-</div>
-
-<div id="lista"></div>
-
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
-    getFirestore,
-    collection,
-    addDoc,
-    deleteDoc,
-    doc,
-    onSnapshot,
-    updateDoc
+  getFirestore,
+  collection,
+  addDoc,
+  updateDoc,
+  doc,
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -127,69 +24,81 @@ const db = getFirestore(app);
 
 const col = collection(db, "lista");
 
-// 🔢 contador de turnos locales (simple pero funcional)
+// 🔢 turno local simple
 let contador = 1;
 
 // ➕ agregar persona
 window.agregarPersona = async function () {
 
-    const nombre = document.getElementById("nombre").value.trim();
+  const nombre = document.getElementById("nombre").value.trim();
 
-    if (!nombre) return alert("Escribe un nombre");
+  if (!nombre) return alert("Escribe un nombre");
 
-    await addDoc(col, {
-        turno: contador++,
-        nombre,
-        hora: new Date().toLocaleTimeString(),
-        estado: "pendiente",
-        timestamp: Date.now()
-    });
+  await addDoc(col, {
+    turno: contador++,
+    nombre,
+    hora: new Date().toLocaleTimeString(),
+    estado: "pendiente",
+    timestamp: Date.now()
+  });
 
-    document.getElementById("nombre").value = "";
+  document.getElementById("nombre").value = "";
 };
 
-// 🟢 marcar como atendido
+// 🟢 marcar como atendido (YA NO BORRA)
 window.atender = async function (id) {
-    await deleteDoc(doc(db, "lista", id));
+  await updateDoc(doc(db, "lista", id), {
+    estado: "atendido"
+  });
 };
 
 // 🔄 render en tiempo real
 onSnapshot(col, (snapshot) => {
 
-    const lista = document.getElementById("lista");
+  const lista = document.getElementById("lista");
 
-    lista.innerHTML = "";
+  lista.innerHTML = "";
 
-    let pendientes = 0;
-    let atendidos = 0;
+  let pendientes = 0;
+  let atendidos = 0;
 
-    snapshot.forEach((d) => {
+  snapshot.forEach((d) => {
 
-        const p = d.data();
+    const p = d.data();
 
-        pendientes++;
+    if (p.estado === "pendiente") {
+      pendientes++;
+    } else {
+      atendidos++;
+    }
 
-        lista.innerHTML += `
-            <div class="persona">
-                <div>
-                    <strong>T${String(p.turno).padStart(3,'0')}</strong> - ${p.nombre}
-                    <br>
-                    <small>${p.hora}</small>
-                    <div class="estado-pendiente">Pendiente</div>
-                </div>
+    lista.innerHTML += `
+      <div class="persona">
+        <div>
+          <strong>T${String(p.turno).padStart(3,'0')}</strong> - ${p.nombre}
+          <br>
+          <small>${p.hora}</small>
+          <div class="${p.estado === 'pendiente' ? 'estado-pendiente' : 'estado-atendido'}">
+            ${p.estado.toUpperCase()}
+          </div>
+        </div>
 
-                <button class="atendido" onclick="atender('${d.id}')">
-                    Atender
-                </button>
-            </div>
-        `;
-    });
+        ${p.estado === "pendiente"
+          ? `<button class="atendido" onclick="atender('${d.id}')">Atender</button>`
+          : `<button disabled>Atendido</button>`
+        }
+      </div>
+    `;
+  });
 
-    document.getElementById("pendientes").textContent = pendientes;
-    document.getElementById("atendidos").textContent = atendidos;
+  document.getElementById("pendientes").textContent = pendientes;
+  document.getElementById("atendidos").textContent = atendidos;
 });
 
-</script>
+// 🧹 NUEVO DÍA / REINICIAR
+window.nuevoDia = function () {
+  contador = 1;
+  location.reload(); // simple pero efectivo
+};
 
-</body>
-</html>
+</script>
