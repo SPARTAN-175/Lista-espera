@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lista de Espera</title>
+<title>Sistema de Lista de Espera</title>
 
 <style>
 body{
@@ -25,16 +25,23 @@ h1{
     box-shadow:0 2px 5px rgba(0,0,0,.1);
 }
 
+.stats{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:15px;
+    font-size:14px;
+}
+
 input{
     width:100%;
     padding:12px;
     font-size:16px;
-    box-sizing:border-box;
     margin-bottom:10px;
+    box-sizing:border-box;
 }
 
 button{
-    padding:12px;
+    padding:10px;
     border:none;
     border-radius:8px;
     cursor:pointer;
@@ -56,6 +63,16 @@ button{
     border-radius:8px;
 }
 
+.estado-pendiente{
+    color:#d97706;
+    font-weight:bold;
+}
+
+.estado-atendido{
+    color:#16a34a;
+    font-weight:bold;
+}
+
 .atendido{
     background:#16a34a;
     color:white;
@@ -65,20 +82,26 @@ button{
 
 <body>
 
-<h1>📋 Lista de Espera</h1>
+<h1>📋 Sistema de Recepción</h1>
 
 <div class="card">
+
+    <div class="stats">
+        <div>⏳ Pendientes: <span id="pendientes">0</span></div>
+        <div>✅ Atendidos: <span id="atendidos">0</span></div>
+    </div>
+
     <input id="nombre" placeholder="Nombre de la persona">
     <button class="agregar" onclick="agregarPersona()">
         Agregar Persona
     </button>
+
 </div>
 
 <div id="lista"></div>
 
 <script type="module">
 
-// 🔥 Firebase imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
     getFirestore,
@@ -86,10 +109,10 @@ import {
     addDoc,
     deleteDoc,
     doc,
-    onSnapshot
+    onSnapshot,
+    updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// 🔥 CONFIG FIREBASE (la tuya)
 const firebaseConfig = {
   apiKey: "AIzaSyBnhuampwb_...",
   authDomain: "lista-de-espera-6b89d.firebaseapp.com",
@@ -99,76 +122,73 @@ const firebaseConfig = {
   appId: "1:19656055004:web:a3a4ab6eb7d45de3e7fc19"
 };
 
-// 🔥 inicializar
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
 const col = collection(db, "lista");
 
-// 🧪 PRUEBA CLAVE (esto DEBE aparecer en consola)
-console.log("🔥 Firebase script ejecutándose");
+// 🔢 contador de turnos locales (simple pero funcional)
+let contador = 1;
 
 // ➕ agregar persona
 window.agregarPersona = async function () {
 
     const nombre = document.getElementById("nombre").value.trim();
 
-    if (!nombre) {
-        alert("Escribe un nombre");
-        return;
-    }
+    if (!nombre) return alert("Escribe un nombre");
 
-    console.log("📤 Intentando guardar en Firebase...");
+    await addDoc(col, {
+        turno: contador++,
+        nombre,
+        hora: new Date().toLocaleTimeString(),
+        estado: "pendiente",
+        timestamp: Date.now()
+    });
 
-    try {
-        await addDoc(col, {
-            nombre,
-            hora: new Date().toLocaleTimeString(),
-            timestamp: Date.now()
-        });
-
-        console.log("✅ Guardado en Firebase");
-
-        document.getElementById("nombre").value = "";
-
-    } catch (error) {
-        console.error("❌ Error al guardar:", error);
-    }
+    document.getElementById("nombre").value = "";
 };
 
-// ❌ eliminar (atendido)
+// 🟢 marcar como atendido
 window.atender = async function (id) {
-    console.log("🗑 Eliminando:", id);
     await deleteDoc(doc(db, "lista", id));
 };
 
-// 🔄 lectura en tiempo real
+// 🔄 render en tiempo real
 onSnapshot(col, (snapshot) => {
 
-    console.log("📡 Datos recibidos:", snapshot.size);
-
     const lista = document.getElementById("lista");
+
     lista.innerHTML = "";
 
-    let turno = 1;
+    let pendientes = 0;
+    let atendidos = 0;
 
     snapshot.forEach((d) => {
+
         const p = d.data();
+
+        pendientes++;
 
         lista.innerHTML += `
             <div class="persona">
                 <div>
-                    <strong>${turno++}</strong> - ${p.nombre}
+                    <strong>T${String(p.turno).padStart(3,'0')}</strong> - ${p.nombre}
                     <br>
                     <small>${p.hora}</small>
+                    <div class="estado-pendiente">Pendiente</div>
                 </div>
 
                 <button class="atendido" onclick="atender('${d.id}')">
-                    Atendido
+                    Atender
                 </button>
             </div>
         `;
     });
+
+    document.getElementById("pendientes").textContent = pendientes;
+    document.getElementById("atendidos").textContent = atendidos;
 });
+
 </script>
 
 </body>
