@@ -1,3 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Lista de Espera</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    padding:20px;
+    background:#f4f4f4;
+}
+
+h1{
+    text-align:center;
+}
+
+.card{
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:15px;
+    box-shadow:0 2px 5px rgba(0,0,0,.1);
+}
+
+.stats{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:15px;
+    font-size:14px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    font-size:16px;
+    margin-bottom:10px;
+    box-sizing:border-box;
+}
+
+button{
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.agregar{
+    width:100%;
+    background:#2563eb;
+    color:white;
+}
+
+.persona{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:8px;
+    padding:10px;
+    background:white;
+    border-radius:8px;
+}
+
+.estado-pendiente{
+    color:#d97706;
+    font-weight:bold;
+}
+
+.estado-atendido{
+    color:#16a34a;
+    font-weight:bold;
+}
+
+.atendido{
+    background:#16a34a;
+    color:white;
+}
+</style>
+</head>
+
+<body>
+
+<h1>📋 Sistema de Recepción</h1>
+
+<div class="card">
+
+    <div class="stats">
+        <div>⏳ Pendientes: <span id="pendientes">0</span></div>
+        <div>✅ Atendidos: <span id="atendidos">0</span></div>
+    </div>
+
+    <input id="nombre" placeholder="Nombre de la persona">
+    <button class="agregar" onclick="agregarPersona()">
+        Agregar Persona
+    </button>
+
+</div>
+
+<div id="lista"></div>
+
+
+
+
+
+
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -102,3 +209,14 @@ window.nuevoDia = function () {
 };
 
 </script>
+
+
+
+
+
+
+
+  
+
+</body>
+</html>
