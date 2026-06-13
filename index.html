@@ -135,7 +135,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const col = collection(db, "lista");
+import { query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const col = query(collection(db, "lista"), orderBy("timestamp", "asc"));
 
 // 🔢 turno local simple
 let contador = 1;
