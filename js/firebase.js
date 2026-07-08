@@ -25,17 +25,13 @@ CONFIGURACIÓN FIREBASE
 
 const firebaseConfig = {
 
-    apiKey: "TU_API_KEY",
-
-    authDomain: "TU_AUTH_DOMAIN",
-
-    projectId: "TU_PROJECT_ID",
-
-    storageBucket: "TU_STORAGE_BUCKET",
-
-    messagingSenderId: "TU_MESSAGING_SENDER",
-
-    appId: "TU_APP_ID"
+  apiKey: "AIzaSyBnhuampwb_9Jhw7Ki2CYcwt2PZIgiqmE8",
+  authDomain: "lista-de-espera-6b89d.firebaseapp.com",
+  projectId: "lista-de-espera-6b89d",
+  storageBucket: "lista-de-espera-6b89d.firebasestorage.app",
+  messagingSenderId: "19656055004",
+  appId: "1:19656055004:web:a3a4ab6eb7d45de3e7fc19",
+  measurementId: "G-30V2P6CZ22"
 
 };
 
