@@ -7,7 +7,6 @@ Autor     : Carlos & ChatGPT
 =========================================
 */
 
-
 /* ==========================
    BODY
 ========================== */
@@ -31,13 +30,13 @@ body{
 
     width:100%;
 
-    max-width:480px;
+    max-width:430px;
 
     min-height:100vh;
 
     margin:0 auto;
 
-    padding:24px 18px 32px;
+    padding:28px 18px 30px;
 
 }
 
@@ -75,5 +74,7 @@ h3{
 p{
 
     color:var(--text-light);
+
+    line-height:1.5;
 
 }
