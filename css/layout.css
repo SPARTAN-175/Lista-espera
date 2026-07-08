@@ -1,1 +1,79 @@
+/*
+=========================================
+Proyecto : Lista de Espera
+Archivo   : layout.css
+Versión   : v2.0.0
+Autor     : Carlos & ChatGPT
+=========================================
+*/
 
+
+/* ==========================
+   BODY
+========================== */
+
+body{
+
+    background:var(--background);
+
+    font-family:var(--font);
+
+    color:var(--text);
+
+}
+
+
+/* ==========================
+   CONTENEDOR PRINCIPAL
+========================== */
+
+.app{
+
+    width:100%;
+
+    max-width:480px;
+
+    min-height:100vh;
+
+    margin:0 auto;
+
+    padding:24px 18px 32px;
+
+}
+
+
+/* ==========================
+   SECCIONES
+========================== */
+
+section{
+
+    margin-bottom:24px;
+
+}
+
+
+/* ==========================
+   TÍTULOS
+========================== */
+
+h1,
+h2,
+h3{
+
+    font-weight:600;
+
+    color:var(--text);
+
+}
+
+
+/* ==========================
+   PÁRRAFOS
+========================== */
+
+p{
+
+    color:var(--text-light);
+
+}
