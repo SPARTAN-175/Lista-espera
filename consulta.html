@@ -1,1 +1,242 @@
+<!--
+=========================================
+Proyecto : Lista de Espera
+Pantalla : Portal Ciudadano
+Versión  : v2.0.0
+Autor    : Carlos & ChatGPT
+=========================================
+-->
 
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Consulta de Turnos</title>
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/consulta.css">
+
+    <!-- Tipografía -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+</head>
+
+<body>
+
+<main class="app">
+
+    <!-- =========================
+         BUSCADOR
+    ========================== -->
+
+    <section class="search-section">
+
+        <div class="search-header">
+
+            <h1>
+                Buscar mi turno
+            </h1>
+
+            <button
+                class="info-button"
+                id="infoButton">
+
+                ℹ️
+
+            </button>
+
+        </div>
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="buscar"
+                placeholder="Escriba su nombre">
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         TURNO ACTUAL
+    ========================== -->
+
+    <section class="current-turn">
+
+        <p class="section-title">
+
+            TURNO ACTUAL
+
+        </p>
+
+        <h2 class="turn-number">
+
+            T018
+
+        </h2>
+
+        <p class="person-name">
+
+            María Hernández
+
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         SIGUIENTES TURNOS
+    ========================== -->
+
+    <section class="next-turns">
+
+        <div class="next-card">
+
+            T019
+
+        </div>
+
+        <div class="next-card">
+
+            T020
+
+        </div>
+
+        <div class="next-card">
+
+            T021
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         LISTA
+    ========================== -->
+
+    <section class="waiting-list">
+
+        <h3>
+
+            Lista de Espera
+
+        </h3>
+
+        <div class="list-container">
+
+            <!-- Persona -->
+
+            <div class="person-card">
+
+                <span class="person-turn">
+
+                    T018
+
+                </span>
+
+                <span class="person-fullname">
+
+                    María Hernández
+
+                </span>
+
+            </div>
+
+            <div class="person-card">
+
+                <span class="person-turn">
+
+                    T019
+
+                </span>
+
+                <span class="person-fullname">
+
+                    José Gómez
+
+                </span>
+
+            </div>
+
+            <div class="person-card">
+
+                <span class="person-turn">
+
+                    T020
+
+                </span>
+
+                <span class="person-fullname">
+
+                    Ana López
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================
+     POPUP INFORMACIÓN
+========================== -->
+
+<div
+    class="modal"
+    id="infoModal">
+
+    <div class="modal-content">
+
+        <h2>
+
+            Credencialización de Salud Universal
+
+        </h2>
+
+        <p>
+
+            Aquí aparecerá la información del trámite.
+
+        </p>
+
+        <button id="closeModal">
+
+            Cerrar
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="js/consulta.js"></script>
+
+</body>
+                               </html>
