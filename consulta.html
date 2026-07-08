@@ -47,46 +47,72 @@ Autor    : Carlos & ChatGPT
 </head>
 
 <body>
-
 <main class="app">
 
-    <!-- =========================
-         BUSCADOR
-    ========================== -->
+    <!--=========================
+        ENCABEZADO
+    ==========================-->
+
+    <header class="top-header">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+
+                🪪
+
+            </div>
+
+            <div class="brand-text">
+
+                <span>Credencialización</span>
+
+                <small>de Salud Universal</small>
+
+            </div>
+
+        </div>
+
+        <button
+            class="info-button"
+            id="infoButton">
+
+            <span>ⓘ</span>
+
+            <small>Información</small>
+
+        </button>
+
+    </header>
+
+
+    <!--=========================
+        BUSCADOR
+    ==========================-->
 
     <section class="search-section">
 
-        <div class="search-header">
+        <h1>
 
-            <h1>
-                Buscar mi turno
-            </h1>
+            Buscar mi turno
 
-            <button
-                class="info-button"
-                id="infoButton">
-
-                ℹ️
-
-            </button>
-
-        </div>
+        </h1>
 
         <div class="search-box">
 
             <input
                 type="text"
                 id="buscar"
-                placeholder="Escriba su nombre">
+                placeholder="Buscar por nombre de la persona...">
 
         </div>
 
     </section>
 
 
-    <!-- =========================
-         TURNO ACTUAL
-    ========================== -->
+    <!--=========================
+        TURNO ACTUAL
+    ==========================-->
 
     <section class="current-turn">
 
@@ -108,97 +134,109 @@ Autor    : Carlos & ChatGPT
 
         </p>
 
-    </section>
+        <div class="turn-time">
 
-
-    <!-- =========================
-         SIGUIENTES TURNOS
-    ========================== -->
-
-    <section class="next-turns">
-
-        <div class="next-card">
-
-            T019
-
-        </div>
-
-        <div class="next-card">
-
-            T020
-
-        </div>
-
-        <div class="next-card">
-
-            T021
+            🕒 08:46 a.m.
 
         </div>
 
     </section>
 
 
-    <!-- =========================
-         LISTA
-    ========================== -->
+    <!--=========================
+        SIGUIENTES
+    ==========================-->
+
+    <section class="next-section">
+
+        <h3>
+
+            SIGUIENTES TURNOS
+
+        </h3>
+
+        <div class="next-turns">
+
+            <div class="next-card">
+
+                <strong>T019</strong>
+
+                <small>Siguiente</small>
+
+            </div>
+
+            <div class="next-card">
+
+                <strong>T020</strong>
+
+                <small>En espera</small>
+
+            </div>
+
+            <div class="next-card">
+
+                <strong>T021</strong>
+
+                <small>En espera</small>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!--=========================
+        LISTA
+    ==========================-->
 
     <section class="waiting-list">
 
         <h3>
 
-            Lista de Espera
+            LISTA DE ESPERA
 
         </h3>
 
-        <div class="list-container">
+        <div class="table-list">
 
-            <!-- Persona -->
+            <div class="table-row">
 
-            <div class="person-card">
+                <span class="turn">T018</span>
 
-                <span class="person-turn">
+                <span class="name">María Hernández</span>
 
-                    T018
-
-                </span>
-
-                <span class="person-fullname">
-
-                    María Hernández
-
-                </span>
+                <span class="hour">08:46</span>
 
             </div>
 
-            <div class="person-card">
+            <div class="table-row">
 
-                <span class="person-turn">
+                <span class="turn">T019</span>
 
-                    T019
+                <span class="name">José Gómez</span>
 
-                </span>
-
-                <span class="person-fullname">
-
-                    José Gómez
-
-                </span>
+                <span class="hour">08:52</span>
 
             </div>
 
-            <div class="person-card">
+            <div class="table-row">
 
-                <span class="person-turn">
+                <span class="turn">T020</span>
 
-                    T020
+                <span class="name">Ana López</span>
 
-                </span>
+                <span class="hour">08:58</span>
 
-                <span class="person-fullname">
+            </div>
 
-                    Ana López
+            <div class="table-row">
 
-                </span>
+                <span class="turn">T021</span>
+
+                <span class="name">Pedro Ruiz</span>
+
+                <span class="hour">09:04</span>
 
             </div>
 
@@ -207,7 +245,7 @@ Autor    : Carlos & ChatGPT
     </section>
 
 </main>
-
+    
 
 <!-- =========================
      POPUP INFORMACIÓN
