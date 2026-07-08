@@ -1,1 +1,104 @@
+/*
+=========================================
+Proyecto : Lista de Espera
+Archivo   : list.css
+Versión   : v2.0.0
+Autor     : Carlos & ChatGPT
+=========================================
+*/
 
+
+/*==========================
+LISTA
+==========================*/
+
+.waiting-list h3{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    margin-bottom:18px;
+
+    color:var(--text);
+
+}
+
+
+.list-container{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+
+/*==========================
+PERSONA
+==========================*/
+
+.person-card{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    background:var(--card);
+
+    padding:18px;
+
+    border-radius:18px;
+
+    box-shadow:var(--shadow-sm);
+
+    transition:var(--transition);
+
+}
+
+
+.person-card:active{
+
+    transform:scale(.98);
+
+}
+
+
+.person-turn{
+
+    min-width:72px;
+
+    text-align:center;
+
+    background:var(--primary-light);
+
+    color:var(--primary);
+
+    font-weight:700;
+
+    padding:10px 0;
+
+    border-radius:12px;
+
+    font-size:16px;
+
+}
+
+
+.person-fullname{
+
+    flex:1;
+
+    margin-left:18px;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    color:var(--text);
+
+}
