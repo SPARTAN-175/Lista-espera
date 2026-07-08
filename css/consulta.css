@@ -1,1 +1,29 @@
+/*
+=========================================
+Proyecto : Lista de Espera
+Archivo   : consulta.css
+Versión   : v2.0.0
+Autor     : Carlos & ChatGPT
+=========================================
+*/
 
+
+.current-turn{
+
+    margin-top:10px;
+
+}
+
+
+.next-turns{
+
+    margin-top:-8px;
+
+}
+
+
+.waiting-list{
+
+    margin-top:8px;
+
+}
