@@ -18,6 +18,12 @@ const nombreActual = document.getElementById("nombreActual");
 
 const horaActual = document.getElementById("horaActual");
 
+const nextTurn1 = document.getElementById("nextTurn1");
+
+const nextTurn2 = document.getElementById("nextTurn2");
+
+const nextTurn3 = document.getElementById("nextTurn3");
+
 
 escucharLista((personas)=>{
 
@@ -32,6 +38,8 @@ escucharLista((personas)=>{
     renderLista(pendientes);
 
     renderTurnoActual(pendientes);
+
+    renderSiguientes(pendientes);
 
 });
 
@@ -107,4 +115,24 @@ function renderTurnoActual(pendientes){
 
 }
 
+/*==================================
+SIGUIENTES TURNOS
+==================================*/
 
+function renderSiguientes(pendientes){
+
+    const siguientes = pendientes.slice(1,4);
+
+    nextTurn1.textContent = siguientes[0]
+        ? "T" + String(siguientes[0].turno).padStart(3,"0")
+        : "---";
+
+    nextTurn2.textContent = siguientes[1]
+        ? "T" + String(siguientes[1].turno).padStart(3,"0")
+        : "---";
+
+    nextTurn3.textContent = siguientes[2]
+        ? "T" + String(siguientes[2].turno).padStart(3,"0")
+        : "---";
+
+}
