@@ -471,8 +471,8 @@ onSnapshot(q, (snapshot) => {
   alert("✅ Nuevo día iniciado. Lista reiniciada.");
 };
 
-const enlaceConsulta =
-"https://spartan-175.github.io/Lista-espera/consulta.html";
+//const enlaceConsulta =
+//"https://spartan-175.github.io/Lista-espera/consulta.html";
 
 /*==================================
 MOSTRAR TICKET
@@ -489,7 +489,7 @@ function mostrarTicket(turno, nombre, hora){
     document.getElementById("ticketHora").textContent =
         "🕒 " + hora;
 
-    const qr = document.getElementById("ticketQR");
+   /* const qr = document.getElementById("ticketQR");
 
 qr.innerHTML = "";
 
@@ -501,7 +501,7 @@ new QRCode(qr,{
 
     height:120
 
-});
+});*/
 
     document
         .getElementById("ticketModal")
@@ -564,7 +564,7 @@ TICKET DE TURNO
 
         </p>
 
-        <div class="ticket-divider"></div>
+     <div class="ticket-divider"></div>
 
         <small>SU TURNO ES</small>
 
@@ -592,19 +592,20 @@ TICKET DE TURNO
 
         </div>
 
-        <div class="ticket-divider"></div>
+       <div class="ticket-divider"></div>
 
         <p class="ticket-texto">
 
-            Conserve este turno.
+            Conserve este número de turno.
 
-            Puede consultar el avance escaneando el código QR ubicado en la entrada.
-
+Si desea consultar el avance de la fila,
+escanee el código QR disponible
+en el módulo de atención.
         </p>
         
-        <div class="ticket-divider"></div>
+     <!--   <div class="ticket-divider"></div>
 
-<div id="ticketQR"></div>
+<div id="ticketQR"></div>-->
 
         <button id="cerrarTicket">
 
