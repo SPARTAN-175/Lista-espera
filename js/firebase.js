@@ -1,12 +1,3 @@
-/*
-=========================================
-Proyecto : Lista de Espera
-Archivo   : firebase.js
-Versión   : v2.0.0
-Autor     : Carlos & ChatGPT
-=========================================
-*/
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 
 import {
@@ -17,14 +8,7 @@ import {
     onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-
-
-/*==================================
-CONFIGURACIÓN FIREBASE
-==================================*/
-
 const firebaseConfig = {
-
   apiKey: "AIzaSyBnhuampwb_9Jhw7Ki2CYcwt2PZIgiqmE8",
   authDomain: "lista-de-espera-6b89d.firebaseapp.com",
   projectId: "lista-de-espera-6b89d",
@@ -32,37 +16,17 @@ const firebaseConfig = {
   messagingSenderId: "19656055004",
   appId: "1:19656055004:web:a3a4ab6eb7d45de3e7fc19",
   measurementId: "G-30V2P6CZ22"
-
 };
-
-
-
-/*==================================
-INICIALIZAR
-==================================*/
 
 const app = initializeApp(firebaseConfig);
 
+console.log("✅ Firebase iniciado");
+
 const db = getFirestore(app);
 
+const listaRef = collection(db, "lista");
 
-
-/*==================================
-REFERENCIAS
-==================================*/
-
-const listaRef = collection(db,"lista");
-
-const listaQuery = query(
-    listaRef,
-    orderBy("turno","asc")
-);
-
-
-
-/*==================================
-ESCUCHAR CAMBIOS
-==================================*/
+const listaQuery = query(listaRef, orderBy("turno", "asc"));
 
 export function escucharLista(callback){
 
@@ -73,11 +37,8 @@ export function escucharLista(callback){
         snapshot.forEach(doc=>{
 
             personas.push({
-
                 id:doc.id,
-
                 ...doc.data()
-
             });
 
         });
