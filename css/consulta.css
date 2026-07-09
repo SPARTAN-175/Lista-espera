@@ -27,3 +27,44 @@ Autor     : Carlos & ChatGPT
     margin-top:8px;
 
 }
+
+
+/*==================================
+RESULTADO DEL BUSCADOR
+==================================*/
+
+.resultado-busqueda{
+
+    display:none;
+
+    margin-top:14px;
+
+    padding:16px;
+
+    border-radius:16px;
+
+    background:#EEF8EF;
+
+    border:1px solid #CFE7D3;
+
+}
+
+.resultado-busqueda h4{
+
+    color:#1F7A43;
+
+    font-size:15px;
+
+    margin-bottom:10px;
+
+}
+
+.resultado-busqueda p{
+
+    color:#1F2937;
+
+    margin:6px 0;
+
+    font-size:15px;
+
+}
