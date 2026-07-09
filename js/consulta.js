@@ -24,16 +24,19 @@ const nextTurn2 = document.getElementById("nextTurn2");
 
 const nextTurn3 = document.getElementById("nextTurn3");
 
+const inputBuscar = document.getElementById("buscar");
+
+const resultadoBusqueda = document.getElementById("resultadoBusqueda");
+
+let listaPendientes = [];
 
 escucharLista((personas)=>{
-
-    console.table(personas);
 
     const pendientes = personas.filter(
         persona => persona.estado === "pendiente"
     );
 
-    console.log(pendientes);
+    listaPendientes = pendientes;
 
     renderLista(pendientes);
 
@@ -134,5 +137,94 @@ function renderSiguientes(pendientes){
     nextTurn3.textContent = siguientes[2]
         ? "T" + String(siguientes[2].turno).padStart(3,"0")
         : "---";
+
+}
+
+
+/*==================================
+BUSCADOR
+==================================*/
+
+inputBuscar.addEventListener("input", buscarPersona);
+
+function buscarPersona(){
+
+    const texto = inputBuscar.value
+        .toLowerCase()
+        .trim();
+
+    if(texto===""){
+
+        resultadoBusqueda.style.display="none";
+
+        renderLista(listaPendientes);
+
+        return;
+
+    }
+
+    const encontrados = listaPendientes.filter(persona=>
+
+        persona.nombre.toLowerCase().includes(texto)
+
+    );
+
+    renderLista(encontrados);
+
+    if(encontrados.length===0){
+
+        resultadoBusqueda.style.display="block";
+
+        resultadoBusqueda.innerHTML=`
+
+            <h4>
+
+                Persona no encontrada
+
+            </h4>
+
+            <p>
+
+                Verifique el nombre e inténtelo nuevamente.
+
+            </p>
+
+        `;
+
+        return;
+
+    }
+
+    const persona = encontrados[0];
+
+    const faltan = listaPendientes.findIndex(
+
+        p=>p.id===persona.id
+
+    );
+
+    resultadoBusqueda.style.display="block";
+
+    resultadoBusqueda.innerHTML=`
+
+        <h4>
+
+            ✔ Persona encontrada
+
+        </h4>
+
+        <p><strong>Turno:</strong>
+
+        T${String(persona.turno).padStart(3,"0")}</p>
+
+        <p><strong>Nombre:</strong>
+
+        ${persona.nombre}</p>
+
+        <p><strong>Personas antes que usted:</strong>
+
+        ${faltan}</p>
+
+    `;
 
 }
