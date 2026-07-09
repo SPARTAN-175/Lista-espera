@@ -15,9 +15,19 @@ const lista = document.getElementById("listaEspera");
 
 escucharLista((personas)=>{
 
-    renderLista(personas);
+    const pendientes = personas.filter(
+        persona => persona.estado === "pendiente"
+    );
+
+    renderLista(pendientes);
+
+    renderTurnoActual(pendientes);
 
 });
+
+function renderTurnoActual(pendientes){
+
+}
 
 
 
