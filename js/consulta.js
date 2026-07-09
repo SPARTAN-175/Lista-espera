@@ -1,6 +1,3 @@
-
-console.log("Consulta.js funcionando");
-
 /*
 =========================================
 Proyecto : Lista de Espera
@@ -12,11 +9,54 @@ Autor     : Carlos & ChatGPT
 
 import { escucharLista } from "./firebase.js";
 
-console.log("Conectando con Firebase...");
+
+const lista = document.getElementById("listaEspera");
+
 
 escucharLista((personas)=>{
 
-    console.log(personas);
+    renderLista(personas);
 
 });
 
+
+
+/*==================================
+MOSTRAR LISTA
+==================================*/
+
+function renderLista(personas){
+
+    lista.innerHTML = "";
+
+    personas.forEach(persona=>{
+
+        lista.innerHTML += `
+
+            <div class="table-row">
+
+                <span class="turn">
+
+                    T${String(persona.turno).padStart(3,"0")}
+
+                </span>
+
+                <span class="name">
+
+                    ${persona.nombre}
+
+                </span>
+
+                <span class="hour">
+
+                    ${persona.hora}
+
+                </span>
+
+            </div>
+
+        `;
+
+    });
+
+}
