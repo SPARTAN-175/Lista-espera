@@ -291,6 +291,27 @@ TICKET DE TURNO
     }
 
             }
+
+
+    #ticketQR{
+
+    display:flex;
+
+    justify-content:center;
+
+    margin:18px 0;
+
+}
+
+.ticket-qr-texto{
+
+    font-size:14px;
+
+    color:#6B7280;
+
+    line-height:1.5;
+
+}
 </style>
 </head>
 
@@ -450,7 +471,8 @@ onSnapshot(q, (snapshot) => {
   alert("✅ Nuevo día iniciado. Lista reiniciada.");
 };
 
-
+const enlaceConsulta =
+"https://spartan-175.github.io/Lista-espera/consulta.html";
 
 /*==================================
 MOSTRAR TICKET
@@ -466,6 +488,20 @@ function mostrarTicket(turno, nombre, hora){
 
     document.getElementById("ticketHora").textContent =
         "🕒 " + hora;
+
+    const qr = document.getElementById("ticketQR");
+
+qr.innerHTML = "";
+
+new QRCode(qr,{
+
+    text: enlaceConsulta,
+
+    width:120,
+
+    height:120
+
+});
 
     document
         .getElementById("ticketModal")
@@ -565,6 +601,17 @@ TICKET DE TURNO
             Puede consultar el avance escaneando el código QR ubicado en la entrada.
 
         </p>
+        
+        <div class="ticket-divider"></div>
+
+<div id="ticketQR"></div>
+
+<p class="ticket-qr-texto">
+
+    Escanee este código para consultar
+    el avance de su turno.
+
+</p>
 
         <button id="cerrarTicket">
 
@@ -575,6 +622,9 @@ TICKET DE TURNO
     </div>
 
 </div>
-    
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </body>
 </html>
