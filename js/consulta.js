@@ -21,20 +21,19 @@ const horaActual = document.getElementById("horaActual");
 
 escucharLista((personas)=>{
 
+    console.table(personas);
+
     const pendientes = personas.filter(
         persona => persona.estado === "pendiente"
     );
+
+    console.log(pendientes);
 
     renderLista(pendientes);
 
     renderTurnoActual(pendientes);
 
 });
-
-function renderTurnoActual(pendientes){
-
-}
-
 
 
 /*==================================
@@ -45,8 +44,7 @@ function renderLista(personas){
 
     lista.innerHTML = "";
 
-    personas.filter(persona => persona.estado === "pendiente")
-    .forEach(persona => {
+    personas.forEach(persona => {
 
         lista.innerHTML += `
 
