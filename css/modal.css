@@ -81,3 +81,78 @@ Autor     : Carlos & ChatGPT
     font-weight:600;
 
 }
+.modal.show{
+
+    display:flex;
+
+    animation:fade .25s;
+
+}
+
+.modal-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    margin-bottom:18px;
+
+}
+
+.modal-icon{
+
+    width:56px;
+
+    height:56px;
+
+    border-radius:16px;
+
+    background:#EEF8EF;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:28px;
+
+}
+
+.requirements{
+
+    margin:20px 0;
+
+}
+
+.requirements li{
+
+    margin:14px 0;
+
+    line-height:1.5;
+
+    color:#1F2937;
+
+}
+
+@keyframes fade{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(.95);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+}
