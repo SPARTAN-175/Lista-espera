@@ -29,7 +29,8 @@ function renderLista(personas){
 
     lista.innerHTML = "";
 
-    personas.forEach(persona=>{
+    personas.filter(persona => persona.estado === "pendiente")
+    .forEach(persona => {
 
         lista.innerHTML += `
 
