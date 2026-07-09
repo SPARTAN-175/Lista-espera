@@ -12,6 +12,12 @@ import { escucharLista } from "./firebase.js";
 
 const lista = document.getElementById("listaEspera");
 
+const turnoActual = document.getElementById("turnoActual");
+
+const nombreActual = document.getElementById("nombreActual");
+
+const horaActual = document.getElementById("horaActual");
+
 
 escucharLista((personas)=>{
 
@@ -71,3 +77,36 @@ function renderLista(personas){
     });
 
 }
+
+/*==================================
+TURNO ACTUAL
+==================================*/
+
+function renderTurnoActual(pendientes){
+
+    if(pendientes.length===0){
+
+        turnoActual.textContent="---";
+
+        nombreActual.textContent="No hay personas en espera";
+
+        horaActual.textContent="🕒 --:--";
+
+        return;
+
+    }
+
+    const actual = pendientes[0];
+
+    turnoActual.textContent=
+        "T"+String(actual.turno).padStart(3,"0");
+
+    nombreActual.textContent=
+        actual.nombre;
+
+    horaActual.textContent=
+        "🕒 "+actual.hora;
+
+}
+
+
