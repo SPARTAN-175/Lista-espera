@@ -228,3 +228,39 @@ function buscarPersona(){
     `;
 
 }
+
+
+/*==================================
+POPUP INFORMACIÓN
+==================================*/
+
+const modal = document.getElementById("infoModal");
+
+const infoButton = document.getElementById("infoButton");
+
+const closeModal = document.getElementById("closeModal");
+
+
+infoButton.addEventListener("click",()=>{
+
+    modal.classList.add("show");
+
+});
+
+
+closeModal.addEventListener("click",()=>{
+
+    modal.classList.remove("show");
+
+});
+
+
+modal.addEventListener("click",(e)=>{
+
+    if(e.target===modal){
+
+        modal.classList.remove("show");
+
+    }
+
+});
