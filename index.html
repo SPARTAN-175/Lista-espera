@@ -312,6 +312,28 @@ TICKET DE TURNO
     line-height:1.5;
 
 }
+
+.acciones{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.incompleto{
+    background:#F59E0B;
+    color:#fff;
+    border:none;
+    padding:8px 12px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.estado-incompleto{
+    color:#D97706;
+    font-weight:700;
+    font-size:14px;
+}
 </style>
 </head>
 
@@ -416,6 +438,15 @@ window.atender = async function (id) {
   });
 };
 
+// 🟠 MARCAR COMO INCOMPLETO
+window.incompleto = async function (id) {
+
+  await updateDoc(doc(db, "lista", id), {
+    estado: "incompleto"
+  });
+
+};
+
 // 🔄 TIEMPO REAL
 onSnapshot(q, (snapshot) => {
 
@@ -444,9 +475,49 @@ onSnapshot(q, (snapshot) => {
         </div>
 
         ${p.estado === "pendiente"
-          ? `<button class="atendido" onclick="atender('${d.id}')">Atender</button>`
-          : `<button disabled>Atendido</button>`
-        }
+  ? `
+    <div class="acciones">
+
+      <button
+        class="incompleto"
+        onclick="incompleto('${d.id}')">
+
+        Incompleto
+
+      </button>
+
+      <button
+        class="atendido"
+        onclick="atender('${d.id}')">
+
+        Atender
+
+      </button>
+
+    </div>
+  `
+  : p.estado === "incompleto"
+  ? `
+    <div class="acciones">
+
+      <span class="estado-incompleto">
+
+        ⚠ Incompleto
+
+      </span>
+
+      <button
+        class="atendido"
+        onclick="atender('${d.id}')">
+
+        Atender
+
+      </button>
+
+    </div>
+  `
+  : `<button disabled>Atendido</button>`
+    }
       </div>
     `;
   });
