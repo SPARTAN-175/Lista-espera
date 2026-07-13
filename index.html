@@ -347,13 +347,31 @@ TICKET DE TURNO
 
     margin-bottom:14px;
 
+    line-height:1.6;
+
+}
+
+#horaActualSistema{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:#1F7A43;
+
 }
 </style>
 </head>
 
 <body>
 
-<div id="fechaHoy" class="fecha-hoy"></div>
+<div class="fecha-hoy">
+
+    <div id="fechaHoy"></div>
+
+    <div id="horaActualSistema"></div>
+
+</div>
 
 <h1>📋 Sistema de Espera</h1>
 
@@ -408,6 +426,50 @@ const db = getFirestore(app);
 
 const listaRef = collection(db, "lista");
 const q = query(listaRef, orderBy("turno", "asc"));
+
+
+
+/*==================================
+FECHA Y HORA
+==================================*/
+
+function actualizarFechaHora(){
+
+    const ahora = new Date();
+
+    const fecha = ahora.toLocaleDateString("es-MX",{
+
+        weekday:"long",
+
+        year:"numeric",
+
+        month:"long",
+
+        day:"numeric"
+
+    });
+
+    const hora = ahora.toLocaleTimeString("es-MX",{
+
+        hour:"2-digit",
+
+        minute:"2-digit",
+
+        second:"2-digit"
+
+    });
+
+    document.getElementById("fechaHoy").textContent = fecha;
+
+    document.getElementById("horaActualSistema").textContent = hora;
+
+}
+
+actualizarFechaHora();
+
+setInterval(actualizarFechaHora,1000);
+
+    
 
 // 🔢 AGREGAR PERSONA (turno automático correcto)
 window.agregarPersona = async function () {
