@@ -76,7 +76,6 @@ button{
     color:white;
 }
 
-
 /*==================================
 TICKET DE TURNO
 ==================================*/
@@ -109,7 +108,222 @@ TICKET DE TURNO
 
 }
 
+.ticket{
 
+    width:100%;
+
+    max-width:360px;
+
+    background:#FFFFFF;
+
+    border-radius:28px;
+
+    padding:30px 24px;
+
+    text-align:center;
+
+    box-shadow:0 20px 45px rgba(0,0,0,.18);
+
+}
+
+.ticket-success{
+
+    width:70px;
+
+    height:70px;
+
+    margin:0 auto 18px;
+
+    border-radius:50%;
+
+    background:#E8F5E9;
+
+    color:#2E7D32;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:34px;
+
+}
+
+.ticket h2{
+
+    font-size:26px;
+
+    margin-bottom:6px;
+
+    color:#1F2937;
+
+}
+
+.ticket>p{
+
+    color:#6B7280;
+
+    margin-bottom:20px;
+
+}
+
+.ticket-divider{
+
+    height:1px;
+
+    background:#E5E7EB;
+
+    margin:20px 0;
+
+}
+
+.ticket small{
+
+    display:block;
+
+    color:#2E7D32;
+
+    font-weight:700;
+
+    letter-spacing:2px;
+
+    margin-bottom:10px;
+
+}
+
+.ticket-turno{
+
+    font-size:72px;
+
+    font-weight:800;
+
+    color:#2E7D32;
+
+    line-height:1;
+
+    margin-bottom:14px;
+
+}
+
+.ticket-nombre{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:#1F2937;
+
+}
+
+.ticket-hora{
+
+    margin-top:10px;
+
+    color:#6B7280;
+
+    font-size:16px;
+
+}
+
+.ticket-texto{
+
+    margin-top:18px;
+
+    font-size:15px;
+
+    line-height:1.6;
+
+    color:#4B5563;
+
+}
+
+#cerrarTicket{
+
+    width:100%;
+
+    height:54px;
+
+    margin-top:24px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:#2E7D32;
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(.95);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+            }
+
+
+    #ticketQR{
+
+    display:flex;
+
+    justify-content:center;
+
+    margin:18px 0;
+
+}
+
+.ticket-qr-texto{
+
+    font-size:14px;
+
+    color:#6B7280;
+
+    line-height:1.5;
+
+}
+
+.acciones{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.incompleto{
+    background:#F59E0B;
+    color:#fff;
+    border:none;
+    padding:8px 12px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.estado-incompleto{
+    color:#D97706;
+    font-weight:700;
+    font-size:14px;
+}
 
 .fecha-hoy{
 
@@ -136,11 +350,3 @@ TICKET DE TURNO
     color:#1F7A43;
 
 }
-
-
-
-
-
-
-
-
