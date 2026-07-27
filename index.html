@@ -388,10 +388,6 @@ TICKET DE TURNO
   Agregar Persona
 </button>
 
-<button class="nuevo-dia" onclick="nuevoDia()">
-  🔄 Nuevo Día
-</button>
-
 </div>
 
 <div id="lista"></div>
@@ -522,11 +518,19 @@ window.agregarPersona = async function () {
   const hora = new Date().toLocaleTimeString();
 
 await addDoc(listaRef, {
-  turno: nuevoTurno,
-  nombre,
-  hora,
-  estado: "pendiente",
-  timestamp: Date.now()
+
+    turno: nuevoTurno,
+
+    nombre: nombre,
+
+    hora: hora,
+
+    estado: "pendiente",
+
+    fecha: fechaActual,
+
+    timestamp: Date.now()
+
 });
 
   document.getElementById("nombre").value = "";
@@ -634,20 +638,6 @@ onSnapshot(q, (snapshot) => {
 });
 
 // 🔄 NUEVO DÍA (simple)
-    window.nuevoDia = async function () {
-
-  const confirmar = confirm("⚠️ ¿Seguro que quieres iniciar un nuevo día? Se borrará toda la lista.");
-
-  if (!confirmar) return;
-
-  const snapshot = await getDocs(listaRef);
-
-  snapshot.forEach(async (d) => {
-    await deleteDoc(doc(db, "lista", d.id));
-  });
-
-  alert("✅ Nuevo día iniciado. Lista reiniciada.");
-};
 
 //const enlaceConsulta =
 //"https://spartan-175.github.io/Lista-espera/consulta.html";
