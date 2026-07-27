@@ -474,9 +474,23 @@ function obtenerListaRef() {
     );
 
     }
-const q = query(listaRef, orderBy("turno", "asc"));
 
 
+/*==================================
+OBTENER REFERENCIA DE UNA PERSONA
+==================================*/
+
+function obtenerPersonaRef(id) {
+
+    return doc(
+        db,
+        "listas",
+        obtenerFechaActual(),
+        "personas",
+        id
+    );
+
+}
 
 /*==================================
 FECHA Y HORA
@@ -551,7 +565,7 @@ await addDoc(obtenerListaRef(), {
 
     estado: "pendiente",
 
-    fecha: fechaActual,
+    fecha: obtenerFechaActual(),
 
     timestamp: Date.now()
 
@@ -568,17 +582,25 @@ mostrarTicket(
 
 // 🟢 MARCAR COMO ATENDIDO
 window.atender = async function (id) {
-  await updateDoc(doc(db, "lista", id), {
-    estado: "atendido"
-  });
+
+    await updateDoc(
+        obtenerPersonaRef(id),
+        {
+            estado: "atendido"
+        }
+    );
+
 };
 
 // 🟠 MARCAR COMO INCOMPLETO
 window.incompleto = async function (id) {
 
-  await updateDoc(doc(db, "lista", id), {
-    estado: "incompleto"
-  });
+    await updateDoc(
+        obtenerPersonaRef(id),
+        {
+            estado: "incompleto"
+        }
+    );
 
 };
 
