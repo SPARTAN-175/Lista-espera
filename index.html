@@ -420,6 +420,23 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+
+/*==================================
+CONFIGURACIÓN DEL SISTEMA
+==================================*/
+
+const CONFIG = {
+
+    institucion: "OST001",
+
+    nombreInstitucion: "Hospital Básico Comunitario de Ostuacán",
+
+    zonaHoraria: "America/Mexico_City",
+
+    version: "3.0.0"
+
+};
+
 /*==================================
 OBTENER FECHA DEL DÍA
 ==================================*/
@@ -467,14 +484,22 @@ OBTENER REFERENCIA DE LA LISTA DEL DÍA
 function obtenerListaRef() {
 
     return collection(
+
         db,
+
+        "instituciones",
+
+        CONFIG.institucion,
+
         "listas",
+
         obtenerFechaActual(),
+
         "personas"
+
     );
 
     }
-
 
 /*==================================
 OBTENER REFERENCIA DE UNA PERSONA
@@ -483,11 +508,21 @@ OBTENER REFERENCIA DE UNA PERSONA
 function obtenerPersonaRef(id) {
 
     return doc(
+
         db,
+
+        "instituciones",
+
+        CONFIG.institucion,
+
         "listas",
+
         obtenerFechaActual(),
+
         "personas",
+
         id
+
     );
 
 }
