@@ -10,7 +10,7 @@ CONFIGURACIÓN DE FIREBASE
 
 const firebaseConfig = {
 
-    apiKey: "AIzaSyBnhuampwb_...",
+    apiKey: "AIzaSyBnhuampwb_9Jhw7Ki2CYcwt2PZIgiqmE8",
 
     authDomain: "lista-de-espera-6b89d.firebaseapp.com",
 
