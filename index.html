@@ -439,17 +439,39 @@ function obtenerFechaActual() {
 }
 
 /*==================================
-COLECCIÓN DEL DÍA
+VERIFICAR CAMBIO DE DÍA
 ==================================*/
 
-const fechaActual = obtenerFechaActual();
+let fechaSistema = obtenerFechaActual();
 
-const listaRef = collection(
-    db,
-    "listas",
-    fechaActual,
-    "personas"
-);
+setInterval(() => {
+
+    const nuevaFecha = obtenerFechaActual();
+
+    if (nuevaFecha !== fechaSistema) {
+
+        fechaSistema = nuevaFecha;
+
+        location.reload();
+
+    }
+
+}, 60000);
+    
+/*==================================
+OBTENER REFERENCIA DE LA LISTA DEL DÍA
+==================================*/
+
+function obtenerListaRef() {
+
+    return collection(
+        db,
+        "listas",
+        obtenerFechaActual(),
+        "personas"
+    );
+
+    }
 const q = query(listaRef, orderBy("turno", "asc"));
 
 
@@ -502,7 +524,7 @@ window.agregarPersona = async function () {
   const nombre = document.getElementById("nombre").value.trim();
   if (!nombre) return alert("Escribe un nombre");
 
-  const snapshot = await getDocs(listaRef);
+  const snapshot = await getDocs(obtenerListaRef());
 
   let maxTurno = 0;
 
@@ -517,7 +539,7 @@ window.agregarPersona = async function () {
 
   const hora = new Date().toLocaleTimeString();
 
-await addDoc(listaRef, {
+await addDoc(obtenerListaRef(), {
 
     turno: nuevoTurno,
 
