@@ -401,11 +401,12 @@ import {
   addDoc,
   updateDoc,
   doc,
+  getDoc,
   onSnapshot,
   query,
   getDocs,
   deleteDoc,
-    orderBy
+  orderBy
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -429,11 +430,7 @@ const CONFIG = {
 
     institucion: "OST001",
 
-    nombreInstitucion: "Hospital Básico Comunitario de Ostuacán",
-
-    zonaHoraria: "America/Mexico_City",
-
-    version: "3.0.0"
+    sistema: {}
 
 };
 
@@ -471,7 +468,9 @@ setInterval(() => {
 
         fechaSistema = nuevaFecha;
 
-        iniciarEscucha();
+        await cargarConfiguracion();
+
+iniciarEscucha();
 
     }
 
@@ -524,6 +523,36 @@ function obtenerPersonaRef(id) {
         id
 
     );
+
+}
+
+/*==================================
+CARGAR CONFIGURACIÓN DEL SISTEMA
+==================================*/
+
+async function cargarConfiguracion() {
+
+    const referencia = doc(
+        db,
+        "instituciones",
+        CONFIG.institucion,
+        "configuracion",
+        "sistema"
+    );
+
+    const documento = await getDoc(referencia);
+
+    if (!documento.exists()) {
+
+        console.error("No existe la configuración del sistema.");
+
+        return;
+
+    }
+
+    CONFIG.sistema = documento.data();
+
+    console.log("Configuración cargada:", CONFIG.sistema);
 
 }
 
