@@ -424,7 +424,36 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const listaRef = collection(db, "lista");
+/*==================================
+OBTENER FECHA DEL DÍA
+==================================*/
+
+function obtenerFechaActual() {
+
+    const hoy = new Date();
+
+    const anio = hoy.getFullYear();
+
+    const mes = String(hoy.getMonth() + 1).padStart(2, "0");
+
+    const dia = String(hoy.getDate()).padStart(2, "0");
+
+    return `${anio}-${mes}-${dia}`;
+
+}
+
+/*==================================
+COLECCIÓN DEL DÍA
+==================================*/
+
+const fechaActual = obtenerFechaActual();
+
+const listaRef = collection(
+    db,
+    "listas",
+    fechaActual,
+    "personas"
+);
 const q = query(listaRef, orderBy("turno", "asc"));
 
 
