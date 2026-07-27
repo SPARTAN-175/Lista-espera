@@ -444,6 +444,8 @@ VERIFICAR CAMBIO DE DÍA
 
 let fechaSistema = obtenerFechaActual();
 
+let detenerEscucha = null;
+
 setInterval(() => {
 
     const nuevaFecha = obtenerFechaActual();
@@ -452,7 +454,7 @@ setInterval(() => {
 
         fechaSistema = nuevaFecha;
 
-        location.reload();
+        iniciarEscucha();
 
     }
 
@@ -581,84 +583,101 @@ window.incompleto = async function (id) {
 };
 
 // 🔄 TIEMPO REAL
-onSnapshot(q, (snapshot) => {
+function iniciarEscucha() {
 
-  const lista = document.getElementById("lista");
-  lista.innerHTML = "";
+  if (detenerEscucha) {
+    detenerEscucha();
+  }
 
-  let pendientes = 0;
-  let atendidos = 0;
+  const q = query(
+    obtenerListaRef(),
+    orderBy("turno")
+  );
 
-  snapshot.forEach(d => {
+  detenerEscucha = onSnapshot(q, (snapshot) => {
 
-    const p = d.data();
+    const lista = document.getElementById("lista");
+    lista.innerHTML = "";
 
-    if (p.estado === "pendiente") pendientes++;
-    else atendidos++;
+    let pendientes = 0;
+    let atendidos = 0;
 
-    lista.innerHTML += `
-      <div class="persona">
-        <div>
-          <strong>T${String(p.turno).padStart(3,'0')}</strong> - ${p.nombre}
-          <br>
-          <small>${p.hora}</small>
-          <div class="${p.estado === 'pendiente' ? 'estado-pendiente' : 'estado-atendido'}">
-            ${p.estado.toUpperCase()}
+    snapshot.forEach(d => {
+
+      const p = d.data();
+
+      if (p.estado === "pendiente") pendientes++;
+      else atendidos++;
+
+      lista.innerHTML += `
+        <div class="persona">
+          <div>
+            <strong>T${String(p.turno).padStart(3,'0')}</strong> - ${p.nombre}
+            <br>
+            <small>${p.hora}</small>
+            <div class="${p.estado === 'pendiente' ? 'estado-pendiente' : 'estado-atendido'}">
+              ${p.estado.toUpperCase()}
+            </div>
           </div>
+
+          ${p.estado === "pendiente"
+            ? `
+              <div class="acciones">
+
+                <button
+                  class="incompleto"
+                  onclick="incompleto('${d.id}')">
+
+                  Incompleto
+
+                </button>
+
+                <button
+                  class="atendido"
+                  onclick="atender('${d.id}')">
+
+                  Atender
+
+                </button>
+
+              </div>
+            `
+            : p.estado === "incompleto"
+            ? `
+              <div class="acciones">
+
+                <span class="estado-incompleto">
+
+                  ⚠ Incompleto
+
+                </span>
+
+                <button
+                  class="atendido"
+                  onclick="atender('${d.id}')">
+
+                  Atender
+
+                </button>
+
+              </div>
+            `
+            : `<button disabled>Atendido</button>`
+          }
+
         </div>
+      `;
 
-        ${p.estado === "pendiente"
-  ? `
-    <div class="acciones">
+    });
 
-      <button
-        class="incompleto"
-        onclick="incompleto('${d.id}')">
+    document.getElementById("pendientes").textContent = pendientes;
+    document.getElementById("atendidos").textContent = atendidos;
 
-        Incompleto
-
-      </button>
-
-      <button
-        class="atendido"
-        onclick="atender('${d.id}')">
-
-        Atender
-
-      </button>
-
-    </div>
-  `
-  : p.estado === "incompleto"
-  ? `
-    <div class="acciones">
-
-      <span class="estado-incompleto">
-
-        ⚠ Incompleto
-
-      </span>
-
-      <button
-        class="atendido"
-        onclick="atender('${d.id}')">
-
-        Atender
-
-      </button>
-
-    </div>
-  `
-  : `<button disabled>Atendido</button>`
-    }
-      </div>
-    `;
   });
 
-  document.getElementById("pendientes").textContent = pendientes;
-  document.getElementById("atendidos").textContent = atendidos;
-});
+    }
 
+iniciarEscucha();
 // 🔄 NUEVO DÍA (simple)
 
 //const enlaceConsulta =
