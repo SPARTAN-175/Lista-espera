@@ -1,1 +1,147 @@
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    padding:20px;
+    background:#f4f4f4;
+}
+
+h1{
+    text-align:center;
+}
+
+.card{
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:15px;
+    box-shadow:0 2px 5px rgba(0,0,0,.1);
+}
+
+.stats{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    font-size:16px;
+    margin-bottom:10px;
+    box-sizing:border-box;
+}
+
+button{
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.agregar{
+    width:100%;
+    background:#2563eb;
+    color:white;
+}
+
+.nuevo-dia{
+    width:100%;
+    background:#ef4444;
+    color:white;
+    margin-top:10px;
+}
+
+.persona{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:8px;
+    padding:10px;
+    background:white;
+    border-radius:8px;
+}
+
+.estado-pendiente{
+    color:#d97706;
+    font-weight:bold;
+}
+
+.estado-atendido{
+    color:#16a34a;
+    font-weight:bold;
+}
+
+.atendido{
+    background:#16a34a;
+    color:white;
+}
+
+
+/*==================================
+TICKET DE TURNO
+==================================*/
+
+.ticket-modal{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:20px;
+
+    z-index:9999;
+
+}
+
+.ticket-modal.show{
+
+    display:flex;
+
+    animation:fadeIn .25s ease;
+
+}
+
+
+}
+
+.fecha-hoy{
+
+    text-align:center;
+
+    color:#6B7280;
+
+    font-size:14px;
+
+    font-weight:500;
+
+    margin-bottom:14px;
+
+    line-height:1.6;
+
+}
+
+#horaActualSistema{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:#1F7A43;
+
+}
+
+
+
+
+
+
+
 
