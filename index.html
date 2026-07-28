@@ -67,7 +67,8 @@ const CONFIG = {
     sistema: {}
 
 };
-
+let MODO = "capturista";
+    
 /*==================================
 OBTENER FECHA DEL DÍA
 ==================================*/
@@ -340,49 +341,53 @@ function iniciarEscucha() {
             </div>
           </div>
 
-          ${p.estado === "pendiente"
-            ? `
-              <div class="acciones">
+          ${MODO === "atencion"
+  ? (
+      p.estado === "pendiente"
+        ? `
+          <div class="acciones">
 
-                <button
-                  class="incompleto"
-                  onclick="incompleto('${d.id}')">
+            <button
+              class="incompleto"
+              onclick="incompleto('${d.id}')">
 
-                  Incompleto
+              Incompleto
 
-                </button>
+            </button>
 
-                <button
-                  class="atendido"
-                  onclick="atender('${d.id}')">
+            <button
+              class="atendido"
+              onclick="atender('${d.id}')">
 
-                  Atender
+              Atender
 
-                </button>
+            </button>
 
-              </div>
-            `
-            : p.estado === "incompleto"
-            ? `
-              <div class="acciones">
+          </div>
+        `
+        : p.estado === "incompleto"
+        ? `
+          <div class="acciones">
 
-                <span class="estado-incompleto">
+            <span class="estado-incompleto">
 
-                  ⚠ Incompleto
+              ⚠ Incompleto
 
-                </span>
+            </span>
 
-                <button
-                  class="atendido"
-                  onclick="atender('${d.id}')">
+            <button
+              class="atendido"
+              onclick="atender('${d.id}')">
 
-                  Atender
+              Atender
 
-                </button>
+            </button>
 
-              </div>
-            `
-            : `<button disabled>Atendido</button>`
+          </div>
+        `
+        : `<button disabled>Atendido</button>`
+    )
+  : ""
           }
 
         </div>
