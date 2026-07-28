@@ -1,27 +1,20 @@
 import { db } from "./firebase.js";
 
 import {
-    collectionGroup,
-    query,
-    where,
-    getDocs
+    doc,
+    getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 export async function obtenerUsuario(uid) {
 
-    // Buscar al usuario en todas las subcolecciones "usuarios"
-    const q = query(
-        collectionGroup(db, "usuarios"),
-        where("uid", "==", uid)
-    );
+    // Buscar al usuario en la colección global
+    const referencia = doc(db, "usuarios", uid);
 
-    const snapshot = await getDocs(q);
+    const documento = await getDoc(referencia);
 
-    if (snapshot.empty) {
+    if (!documento.exists()) {
         throw new Error("usuario-no-existe");
     }
-
-    const documento = snapshot.docs[0];
 
     const datos = documento.data();
 
