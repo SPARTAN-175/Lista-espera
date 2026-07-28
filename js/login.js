@@ -9,7 +9,10 @@ import {
     collection,
     query,
     where,
-    getDocs
+    getDocs,
+    addDoc,
+    collection,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 import { db } from "./firebase.js";
@@ -24,6 +27,29 @@ const mensaje = document.getElementById("mensaje");
 const btnEscanearQR = document.getElementById("btnEscanearQR");
 
 let lectorQR = null;
+
+
+
+
+const CLAVE_DISPOSITIVO = "motiQueueDispositivo";
+
+function obtenerIdDispositivo() {
+
+    let id = localStorage.getItem(CLAVE_DISPOSITIVO);
+
+    if (!id) {
+
+        id = crypto.randomUUID();
+
+        localStorage.setItem(CLAVE_DISPOSITIVO, id);
+
+    }
+
+    return id;
+
+}
+
+
 
 const ultimoCorreo = localStorage.getItem("ultimoCorreo");
 
@@ -172,10 +198,9 @@ if(!vinculacion){
 
 }
 
-alert(
-    "Institución:\n\n" +
-    vinculacion.nombreInstitucion
-);
+await registrarDispositivo(vinculacion);
+
+alert("¡Dispositivo vinculado correctamente!");
 
             },
 
@@ -215,5 +240,23 @@ async function validarCodigoQR(codigo){
 
 }
 
+async function registrarDispositivo(vinculacion){
 
+    await addDoc(collection(db, "dispositivos"), {
+
+        dispositivoId: obtenerIdDispositivo(),
+
+        institucionId: vinculacion.institucionId,
+
+        nombreInstitucion: vinculacion.nombreInstitucion,
+
+        activo: true,
+
+        fechaVinculacion: serverTimestamp(),
+
+        ultimoAcceso: serverTimestamp()
+
+    });
+
+}
 
