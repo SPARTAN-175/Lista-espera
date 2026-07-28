@@ -22,6 +22,13 @@
 
 <h1>📋 Sistema de Espera</h1>
 
+<button id="btnEscanear">
+
+📷 Escanear otro hospital
+
+</button>
+<div id="lectorQR" style="display:none;margin-top:15px;"></div>
+
 <div class="card">
 
 <div class="stats">
@@ -52,7 +59,9 @@ import {
   onSnapshot,
   query,
   getDocs,
-  orderBy
+  orderBy,
+  where,
+  limit
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 
@@ -107,25 +116,40 @@ function cargarSesion() {
 
 async function buscarModuloPorCodigo(codigo) {
 
-    const snapshot = await db
-        .collection("instituciones")
-        .doc(CONFIG.institucion)
-        .collection("modulos")
-        .where("codigoVinculacion", "==", codigo)
-        .limit(1)
-        .get();
+    const q = query(
+
+        collection(
+            db,
+            "instituciones",
+            CONFIG.institucion,
+            "modulos"
+        ),
+
+        where("codigoVinculacion", "==", codigo),
+
+        limit(1)
+
+    );
+
+    const snapshot = await getDocs(q);
 
     if (snapshot.empty) {
+
         return null;
+
     }
 
-    const doc = snapshot.docs[0];
+    const documento = snapshot.docs[0];
 
     return {
-    id: doc.id,
-    hospital: CONFIG.institucion,
-    ...doc.data()
-};
+
+        id: documento.id,
+
+        hospital: CONFIG.institucion,
+
+        ...documento.data()
+
+    };
 
 }
 
@@ -660,5 +684,11 @@ en el módulo de atención.
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+
+
+
 </body>
 </html>
