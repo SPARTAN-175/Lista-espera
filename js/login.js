@@ -16,6 +16,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 import { db } from "./firebase.js";
+import { guardarDispositivo } from "./dispositivo.js";
 
 const txtCorreo = document.getElementById("correo");
 const txtPassword = document.getElementById("password");
@@ -198,9 +199,21 @@ if(!vinculacion){
 
 }
 
+const dispositivoId = obtenerIdDispositivo();
+
 await registrarDispositivo(vinculacion);
 
-alert("¡Dispositivo vinculado correctamente!");
+guardarDispositivo({
+
+    dispositivoId,
+
+    institucionId: vinculacion.institucionId,
+
+    nombreInstitucion: vinculacion.nombreInstitucion
+
+});
+
+window.location.href = "index.html";
 
             },
 
