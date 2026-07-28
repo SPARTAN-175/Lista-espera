@@ -10,6 +10,21 @@ Autor     : Carlos & ChatGPT
 import { escucharLista } from "./firebase.js";
 import { obtenerDispositivo } from "./dispositivo.js";
 
+const parametros = new URLSearchParams(window.location.search);
+
+const institucionId = parametros.get("institucion");
+
+if (!institucionId) {
+
+    document.body.innerHTML = `
+        <h2 style="text-align:center;margin-top:50px;">
+            Institución no especificada.
+        </h2>
+    `;
+
+    throw new Error("Institución no especificada.");
+
+}
 
 const lista = document.getElementById("listaEspera");
 
@@ -39,7 +54,7 @@ if (!dispositivo) {
 
 } else {
 
-    escucharLista(dispositivo.institucionId, (personas) => {
+    escucharLista(institucionId, (personas) => {
 
         const pendientes = personas.filter(
             persona => persona.estado === "pendiente"
