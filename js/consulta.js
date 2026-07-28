@@ -2,29 +2,16 @@
 =========================================
 Proyecto : Lista de Espera
 Archivo   : consulta.js
-Versión   : v2.0.0
+Versión   : v2.1.0
 Autor     : Carlos & ChatGPT
 =========================================
 */
 
 import { escucharLista } from "./firebase.js";
 
-const parametros = new URLSearchParams(window.location.search);
-
-const institucionId = parametros.get("institucion");
-
-if (!institucionId) {
-
-    document.body.innerHTML = `
-        <h2 style="text-align:center;margin-top:50px;">
-            Institución no especificada.
-        </h2>
-    `;
-
-    throw new Error("Institución no especificada.");
-
-}
-
+/*==================================
+OBTENER INSTITUCIÓN DESDE LA URL
+==================================*/
 
 const parametros = new URLSearchParams(window.location.search);
 
@@ -41,6 +28,10 @@ if (!institucionId) {
     throw new Error("Institución no especificada.");
 
 }
+
+/*==================================
+ELEMENTOS HTML
+==================================*/
 
 const lista = document.getElementById("listaEspera");
 
@@ -60,13 +51,19 @@ const inputBuscar = document.getElementById("buscar");
 
 const resultadoBusqueda = document.getElementById("resultadoBusqueda");
 
+const modal = document.getElementById("infoModal");
+
+const infoButton = document.getElementById("infoButton");
+
+const closeModal = document.getElementById("closeModal");
+
 let listaPendientes = [];
 
 /*==================================
 MOSTRAR LISTA
 ==================================*/
 
-function renderLista(personas){
+function renderLista(personas) {
 
     lista.innerHTML = "";
 
@@ -77,21 +74,15 @@ function renderLista(personas){
             <div class="table-row">
 
                 <span class="turn">
-
                     T${String(persona.turno).padStart(3,"0")}
-
                 </span>
 
                 <span class="name">
-
                     ${persona.nombre}
-
                 </span>
 
                 <span class="hour">
-
                     ${persona.hora}
-
                 </span>
 
             </div>
@@ -106,15 +97,15 @@ function renderLista(personas){
 TURNO ACTUAL
 ==================================*/
 
-function renderTurnoActual(pendientes){
+function renderTurnoActual(pendientes) {
 
-    if(pendientes.length===0){
+    if (pendientes.length === 0) {
 
-        turnoActual.textContent="---";
+        turnoActual.textContent = "---";
 
-        nombreActual.textContent="No hay personas en espera";
+        nombreActual.textContent = "No hay personas en espera";
 
-        horaActual.textContent="🕒 --:--";
+        horaActual.textContent = "🕒 --:--";
 
         return;
 
@@ -122,14 +113,14 @@ function renderTurnoActual(pendientes){
 
     const actual = pendientes[0];
 
-    turnoActual.textContent=
-        "T"+String(actual.turno).padStart(3,"0");
+    turnoActual.textContent =
+        "T" + String(actual.turno).padStart(3,"0");
 
-    nombreActual.textContent=
+    nombreActual.textContent =
         actual.nombre;
 
-    horaActual.textContent=
-        "🕒 "+actual.hora;
+    horaActual.textContent =
+        "🕒 " + actual.hora;
 
 }
 
@@ -137,7 +128,7 @@ function renderTurnoActual(pendientes){
 SIGUIENTES TURNOS
 ==================================*/
 
-function renderSiguientes(pendientes){
+function renderSiguientes(pendientes) {
 
     const siguientes = pendientes.slice(1,4);
 
@@ -155,22 +146,21 @@ function renderSiguientes(pendientes){
 
 }
 
-
 /*==================================
 BUSCADOR
 ==================================*/
 
 inputBuscar.addEventListener("input", buscarPersona);
 
-function buscarPersona(){
+function buscarPersona() {
 
     const texto = inputBuscar.value
         .toLowerCase()
         .trim();
 
-    if(texto===""){
+    if (texto === "") {
 
-        resultadoBusqueda.style.display="none";
+        resultadoBusqueda.style.display = "none";
 
         renderLista(listaPendientes);
 
@@ -178,7 +168,7 @@ function buscarPersona(){
 
     }
 
-    const encontrados = listaPendientes.filter(persona=>
+    const encontrados = listaPendientes.filter(persona =>
 
         persona.nombre.toLowerCase().includes(texto)
 
@@ -186,23 +176,15 @@ function buscarPersona(){
 
     renderLista(encontrados);
 
-    if(encontrados.length===0){
+    if (encontrados.length === 0) {
 
-        resultadoBusqueda.style.display="block";
+        resultadoBusqueda.style.display = "block";
 
-        resultadoBusqueda.innerHTML=`
+        resultadoBusqueda.innerHTML = `
 
-            <h4>
+            <h4>Persona no encontrada</h4>
 
-                Persona no encontrada
-
-            </h4>
-
-            <p>
-
-                Verifique el nombre e inténtelo nuevamente.
-
-            </p>
+            <p>Verifique el nombre e inténtelo nuevamente.</p>
 
         `;
 
@@ -214,68 +196,73 @@ function buscarPersona(){
 
     const faltan = listaPendientes.findIndex(
 
-        p=>p.id===persona.id
+        p => p.id === persona.id
 
     );
 
-    resultadoBusqueda.style.display="block";
+    resultadoBusqueda.style.display = "block";
 
-    resultadoBusqueda.innerHTML=`
+    resultadoBusqueda.innerHTML = `
 
-        <h4>
-
-            ✔ Persona encontrada
-
-        </h4>
+        <h4>✔ Persona encontrada</h4>
 
         <p><strong>Turno:</strong>
-
         T${String(persona.turno).padStart(3,"0")}</p>
 
         <p><strong>Nombre:</strong>
-
         ${persona.nombre}</p>
 
         <p><strong>Personas antes que usted:</strong>
-
         ${faltan}</p>
 
     `;
 
 }
 
-
 /*==================================
 POPUP INFORMACIÓN
 ==================================*/
 
-const modal = document.getElementById("infoModal");
-
-const infoButton = document.getElementById("infoButton");
-
-const closeModal = document.getElementById("closeModal");
-
-
-infoButton.addEventListener("click",()=>{
+infoButton.addEventListener("click", () => {
 
     modal.classList.add("show");
 
 });
 
-
-closeModal.addEventListener("click",()=>{
+closeModal.addEventListener("click", () => {
 
     modal.classList.remove("show");
 
 });
 
+modal.addEventListener("click", (e) => {
 
-modal.addEventListener("click",(e)=>{
-
-    if(e.target===modal){
+    if (e.target === modal) {
 
         modal.classList.remove("show");
 
     }
+
+});
+
+/*==================================
+ESCUCHAR FIRESTORE
+==================================*/
+
+escucharLista(institucionId, (personas) => {
+
+    const pendientes = personas.filter(
+
+        persona => persona.estado === "pendiente"
+
+    );
+
+    listaPendientes = pendientes;
+
+    renderLista(pendientes);
+
+    renderTurnoActual(pendientes);
+
+    renderSiguientes(pendientes);
 
 });
