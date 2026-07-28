@@ -1,6 +1,8 @@
 
 import { observarSesion, cerrarSesion } from "./auth.js";
 
+import { obtenerUsuario } from "./sesion.js";
+
 const btnSalir = document.getElementById("btnSalir");
 const bienvenida = document.getElementById("bienvenida");
 
@@ -14,7 +16,17 @@ observarSesion((usuario) => {
 
     }
 
-    bienvenida.textContent = `Bienvenido, ${usuario.email}`;
+    const datos = obtenerUsuario();
+
+if (datos) {
+
+    bienvenida.textContent = `Bienvenido, ${datos.nombre}`;
+
+} else {
+
+    bienvenida.textContent = "Bienvenido";
+
+}
 
 });
 
