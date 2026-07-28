@@ -81,6 +81,38 @@ const CONFIG = {
 
 let MODO = "capturista";
 
+
+
+async function iniciarSistema() {
+
+    const usuario = obtenerUsuario();
+
+    if (!usuario) {
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
+
+    CONFIG.institucion = usuario.institucionId;
+
+    MODO = usuario.rol;
+
+    console.log("Usuario:", usuario);
+
+    console.log("Institución:", CONFIG.institucion);
+
+    console.log("Modo:", MODO);
+
+    await cargarConfiguracion();
+
+    iniciarSistema();
+
+}
+
+
+
 let SESION = {
 
     hospital: null,
