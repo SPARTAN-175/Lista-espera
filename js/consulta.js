@@ -8,7 +8,23 @@ Autor     : Carlos & ChatGPT
 */
 
 import { escucharLista } from "./firebase.js";
-import { obtenerDispositivo } from "./dispositivo.js";
+
+const parametros = new URLSearchParams(window.location.search);
+
+const institucionId = parametros.get("institucion");
+
+if (!institucionId) {
+
+    document.body.innerHTML = `
+        <h2 style="text-align:center;margin-top:50px;">
+            Institución no especificada.
+        </h2>
+    `;
+
+    throw new Error("Institución no especificada.");
+
+}
+
 
 const parametros = new URLSearchParams(window.location.search);
 
@@ -45,32 +61,6 @@ const inputBuscar = document.getElementById("buscar");
 const resultadoBusqueda = document.getElementById("resultadoBusqueda");
 
 let listaPendientes = [];
-
-const dispositivo = obtenerDispositivo();
-
-if (!dispositivo) {
-
-    alert("Este dispositivo no está vinculado.");
-
-} else {
-
-    escucharLista(institucionId, (personas) => {
-
-        const pendientes = personas.filter(
-            persona => persona.estado === "pendiente"
-        );
-
-        listaPendientes = pendientes;
-
-        renderLista(pendientes);
-
-        renderTurnoActual(pendientes);
-
-        renderSiguientes(pendientes);
-
-    });
-
-}
 
 /*==================================
 MOSTRAR LISTA
