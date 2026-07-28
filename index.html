@@ -105,6 +105,52 @@ function cargarSesion() {
 
 }
 
+async function buscarModuloPorCodigo(codigo) {
+
+    const snapshot = await db
+        .collection("instituciones")
+        .doc(CONFIG.institucion)
+        .collection("modulos")
+        .where("codigoVinculacion", "==", codigo)
+        .limit(1)
+        .get();
+
+    if (snapshot.empty) {
+        return null;
+    }
+
+    const doc = snapshot.docs[0];
+
+    return {
+    id: doc.id,
+    hospital: CONFIG.institucion,
+    ...doc.data()
+};
+
+}
+
+async function vincularModulo(codigo) {
+
+    const modulo = await buscarModuloPorCodigo(codigo);
+
+    if (!modulo) {
+        alert("No se encontró un módulo con ese código.");
+        return false;
+    }
+
+    if (!modulo.activo) {
+        alert("Este módulo está desactivado.");
+        return false;
+    }
+
+    return {
+        hospital: modulo.hospital,
+        modulo: modulo.id,
+        nombreModulo: modulo.nombre
+    };
+
+            }
+    
 function cambiarModo(nuevoModo) {
 
     MODO = nuevoModo;
