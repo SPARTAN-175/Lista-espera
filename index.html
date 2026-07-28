@@ -22,6 +22,16 @@
 
 <h1>📋 Sistema de Espera</h1>
 
+<div class="barra-superior">
+
+    <button id="btnCerrarSesion">
+
+        🚪 Cerrar sesión
+
+    </button>
+
+</div>
+
 <button id="btnEscanear">
 
 📷 Escanear otro hospital
@@ -50,7 +60,10 @@
 
 import { db } from "./js/firebase.js";
 
-import { obtenerUsuario } from "./js/sesion.js";
+import {
+    obtenerUsuario,
+    limpiarSesion
+} from "./js/sesion.js";
 
 import {
   collection,
@@ -99,6 +112,18 @@ async function iniciarSistema() {
 
     MODO = usuario.rol;
 
+    const botonSalir = document.getElementById("btnCerrarSesion");
+
+if (usuario.rol === "atencion") {
+
+    botonSalir.style.display = "block";
+
+} else {
+
+    botonSalir.style.display = "none";
+
+}
+
     console.log("Usuario:", usuario);
 
     console.log("Institución:", CONFIG.institucion);
@@ -112,6 +137,24 @@ async function iniciarSistema() {
 }
 
 
+
+document
+.getElementById("btnCerrarSesion")
+.addEventListener("click", () => {
+
+    if (!confirm("¿Desea cerrar la sesión?")) {
+
+        return;
+
+    }
+
+    limpiarSesion();
+
+    window.location.href = "login.html";
+
+});
+
+    
 
 let SESION = {
 
