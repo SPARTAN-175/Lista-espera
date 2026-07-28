@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Vinculación de capturistas</title>
+
+<link rel="stylesheet" href="css/dashboard.css">
+
+<style>
+
+.contenedorQR{
+
+    max-width:500px;
+
+    margin:40px auto;
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    text-align:center;
+
+}
+
+#qrcode{
+
+    margin:25px auto;
+
+    width:250px;
+
+}
+
+.codigo{
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    margin:20px 0;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header class="header">
+
+<h1>Vinculación de capturistas</h1>
+
+<button onclick="history.back()">
+
+← Regresar
+
+</button>
+
+</header>
+
+<div class="contenedorQR">
+
+<h2>
+
+Autorizar nuevo dispositivo
+
+</h2>
+
+<p>
+
+Genera un código QR para que un capturista pueda vincular su dispositivo.
+
+</p>
+
+<div id="qrcode"></div>
+
+<div
+id="codigo"
+class="codigo">
+
+Sin generar
+
+</div>
+
+<button id="btnGenerar">
+
+Generar nuevo código
+
+</button>
+
+</div>
+
+<script type="module" src="js/vinculacion.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+</body>
+
+</html>
