@@ -60,11 +60,24 @@ async function ingresar(){
 // Buscar información del usuario en Firestore
 const usuario = await obtenerUsuario(firebaseUser.uid);
 
-// Guardar la sesión de la aplicación
 guardarUsuario(usuario);
 
-// Entrar al sistema
-window.location.href = "dashboard.html";
+// Redirigir según el rol
+switch (usuario.rol) {
+
+    case "administrador":
+        window.location.href = "dashboard.html";
+        break;
+
+    case "licenciado":
+    case "capturista":
+        window.location.href = "index.html";
+        break;
+
+    default:
+        alert("Este usuario no tiene un rol válido.");
+        break;
+}
     }catch(error){
 
         console.error(error);
