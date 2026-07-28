@@ -350,3 +350,40 @@ TICKET DE TURNO
     color:#1F7A43;
 
 }
+
+
+.barra-superior{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    margin-bottom:15px;
+
+}
+
+#btnCerrarSesion{
+
+    display:none;
+
+    background:#dc2626;
+
+    color:white;
+
+    border:none;
+
+    border-radius:8px;
+
+    padding:10px 16px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+#btnCerrarSesion:hover{
+
+    background:#b91c1c;
+
+}
