@@ -1,9 +1,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 
 import {
-    getFirestore
+    getFirestore,
+    collection,
+    query,
+    orderBy,
+    onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
 import {
     getAuth
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -44,3 +47,62 @@ export {
     auth
 
 };
+/*==================================
+OBTENER FECHA ACTUAL
+==================================*/
+
+function obtenerFechaActual() {
+
+    const hoy = new Date();
+
+    const anio = hoy.getFullYear();
+
+    const mes = String(hoy.getMonth() + 1).padStart(2, "0");
+
+    const dia = String(hoy.getDate()).padStart(2, "0");
+
+    return `${anio}-${mes}-${dia}`;
+
+}
+
+/*==================================
+ESCUCHAR LISTA DE ESPERA
+==================================*/
+
+export function escucharLista(institucionId, callback) {
+
+    const referencia = collection(
+        db,
+        "instituciones",
+        institucionId,
+        "listas",
+        obtenerFechaActual(),
+        "personas"
+    );
+
+    const consulta = query(
+        referencia,
+        orderBy("turno")
+    );
+
+    return onSnapshot(consulta, (snapshot) => {
+
+        const personas = [];
+
+        snapshot.forEach((doc) => {
+
+            personas.push({
+
+                id: doc.id,
+
+                ...doc.data()
+
+            });
+
+        });
+
+        callback(personas);
+
+    });
+
+}
