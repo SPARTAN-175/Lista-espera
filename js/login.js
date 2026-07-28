@@ -1,12 +1,30 @@
 
 import { iniciarSesion } from "./auth.js";
 
+import { observarSesion } from "./auth.js";
+
 const txtCorreo = document.getElementById("correo");
 const txtPassword = document.getElementById("password");
 
 const btnIngresar = document.getElementById("btnIngresar");
 
 const mensaje = document.getElementById("mensaje");
+
+const ultimoCorreo = localStorage.getItem("ultimoCorreo");
+
+if (ultimoCorreo) {
+    txtCorreo.value = ultimoCorreo;
+}
+
+observarSesion((usuario) => {
+
+    if (usuario) {
+
+        window.location.href = "dashboard.html";
+
+    }
+
+});
 
 
 btnIngresar.addEventListener("click", ingresar);
