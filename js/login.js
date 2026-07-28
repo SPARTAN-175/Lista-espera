@@ -5,6 +5,12 @@ import { observarSesion } from "./auth.js";
 
 import { obtenerUsuario } from "./usuarios.js";
 import { guardarUsuario } from "./sesion.js";
+import {
+    doc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+import { db } from "./firebase.js";
 
 const txtCorreo = document.getElementById("correo");
 const txtPassword = document.getElementById("password");
@@ -12,6 +18,10 @@ const txtPassword = document.getElementById("password");
 const btnIngresar = document.getElementById("btnIngresar");
 
 const mensaje = document.getElementById("mensaje");
+
+const btnEscanearQR = document.getElementById("btnEscanearQR");
+
+let lectorQR = null;
 
 const ultimoCorreo = localStorage.getItem("ultimoCorreo");
 
@@ -124,3 +134,53 @@ switch (usuario.rol) {
     btnIngresar.textContent = "Iniciar sesión";
 
 }
+
+btnEscanearQR.addEventListener("click", abrirEscaner);
+
+async function abrirEscaner() {
+
+    document.getElementById("lectorQR").style.display = "block";
+
+    lectorQR = new Html5Qrcode("lectorQR");
+
+    try {
+
+        await lectorQR.start(
+
+            { facingMode: "environment" },
+
+            {
+                fps: 10,
+                qrbox: 250
+            },
+
+            async (texto) => {
+
+                await lectorQR.stop();
+
+                document.getElementById("lectorQR").style.display = "none";
+
+                alert("Código leído: " + texto);
+
+            },
+
+            () => {}
+
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        mensaje.textContent =
+            "No fue posible abrir la cámara.";
+
+    }
+
+}
+
+
+
+
+
+
