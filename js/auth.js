@@ -6,6 +6,8 @@ import {
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+import { limpiarSesion } from "./sesion.js";
+
 
 export async function iniciarSesion(correo, password) {
 
@@ -22,6 +24,8 @@ export async function iniciarSesion(correo, password) {
 
 
 export async function cerrarSesion() {
+
+    limpiarSesion();
 
     await signOut(auth);
 
