@@ -1,64 +1,39 @@
-// ==================================
-// AUTENTICACIÓN
-// ==================================
-
 import { auth } from "./firebase.js";
 
 import {
-
-    onAuthStateChanged,
-
     signInWithEmailAndPassword,
-
-    signOut
-
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-import { APP } from "./config.js";
+    signOut,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
-// ==================================
-// OBSERVAR SESIÓN
-// ==================================
+export async function iniciarSesion(correo, password) {
 
-export function observarSesion(callback){
+    const credencial = await signInWithEmailAndPassword(
+        auth,
+        correo,
+        password
+    );
 
-    onAuthStateChanged(auth,(usuario)=>{
+    localStorage.setItem("ultimoCorreo", correo);
 
-        APP.usuario = usuario;
+    return credencial.user;
+}
+
+
+export async function cerrarSesion() {
+
+    await signOut(auth);
+
+}
+
+
+export function observarSesion(callback) {
+
+    onAuthStateChanged(auth, (usuario) => {
 
         callback(usuario);
 
     });
-
-}
-
-
-// ==================================
-// INICIAR SESIÓN
-// ==================================
-
-export async function iniciarSesion(correo,password){
-
-    return await signInWithEmailAndPassword(
-
-        auth,
-
-        correo,
-
-        password
-
-    );
-
-}
-
-
-// ==================================
-// CERRAR SESIÓN
-// ==================================
-
-export async function cerrarSesion(){
-
-    await signOut(auth);
 
 }
