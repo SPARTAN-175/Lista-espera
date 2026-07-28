@@ -1,25 +1,47 @@
 import { APP } from "./config.js";
 
-let usuarioActual = null;
+const CLAVE = "motiQueueUsuario";
+
 
 export function guardarUsuario(datos) {
 
-    usuarioActual = datos;
-
     APP.usuario = datos;
 
+    sessionStorage.setItem(
+        CLAVE,
+        JSON.stringify(datos)
+    );
+
 }
+
 
 export function obtenerUsuario() {
 
-    return usuarioActual;
+    if (APP.usuario) {
+
+        return APP.usuario;
+
+    }
+
+    const datos = sessionStorage.getItem(CLAVE);
+
+    if (!datos) {
+
+        return null;
+
+    }
+
+    APP.usuario = JSON.parse(datos);
+
+    return APP.usuario;
 
 }
 
+
 export function limpiarSesion() {
 
-    usuarioActual = null;
-
     APP.usuario = null;
+
+    sessionStorage.removeItem(CLAVE);
 
 }
