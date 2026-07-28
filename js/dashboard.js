@@ -5,6 +5,7 @@ import { obtenerUsuario } from "./sesion.js";
 
 const btnSalir = document.getElementById("btnSalir");
 const bienvenida = document.getElementById("bienvenida");
+const btnVinculacion = document.getElementById("btnVinculacion");
 
 // Verificar sesión
 observarSesion((usuario) => {
@@ -49,3 +50,18 @@ btnSalir.addEventListener("click", async () => {
     }
 
 });
+
+
+
+// Abrir pantalla de vinculación
+btnVinculacion.addEventListener("click", () => {
+
+    window.location.href = "vinculacion.html";
+
+});
+
+
+
+
+
+
