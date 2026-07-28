@@ -160,7 +160,20 @@ async function abrirEscaner() {
 
                 document.getElementById("lectorQR").style.display = "none";
 
-                alert("Código leído: " + texto);
+                const vinculacion = await validarCodigoQR(texto);
+
+if(!vinculacion){
+
+    alert("Este código QR no es válido.");
+
+    return;
+
+}
+
+alert(
+    "Institución:\n\n" +
+    vinculacion.nombreInstitucion
+);
 
             },
 
@@ -176,6 +189,23 @@ async function abrirEscaner() {
             "No fue posible abrir la cámara.";
 
     }
+
+}
+
+
+async function validarCodigoQR(codigo){
+
+    const referencia = doc(db, "vinculaciones", codigo);
+
+    const documento = await getDoc(referencia);
+
+    if(!documento.exists()){
+
+        return null;
+
+    }
+
+    return documento.data();
 
 }
 
