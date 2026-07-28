@@ -1,4 +1,10 @@
 import { db } from "./firebase.js";
+
+import {
+    doc,
+    setDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { obtenerUsuario } from "./sesion.js";
 
 const btnGenerar = document.getElementById("btnGenerar");
