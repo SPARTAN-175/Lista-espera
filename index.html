@@ -61,10 +61,12 @@
 import { db } from "./js/firebase.js";
 
 import {
-    obtenerUsuario,
-    limpiarSesion
+    obtenerUsuario
 } from "./js/sesion.js";
 
+import {
+    cerrarSesion
+} from "./js/auth.js";
 import {
   collection,
   addDoc,
@@ -138,8 +140,9 @@ iniciarEscucha();
 
 
 document
+document
 .getElementById("btnCerrarSesion")
-.addEventListener("click", () => {
+.addEventListener("click", async () => {
 
     if (!confirm("¿Desea cerrar la sesión?")) {
 
@@ -147,7 +150,7 @@ document
 
     }
 
-    limpiarSesion();
+    await cerrarSesion();
 
     window.location.href = "login.html";
 
