@@ -50,6 +50,8 @@
 
 import { db } from "./js/firebase.js";
 
+import { obtenerUsuario } from "./js/sesion.js";
+
 import {
   collection,
   addDoc,
@@ -71,11 +73,12 @@ CONFIGURACIÓN DEL SISTEMA
 
 const CONFIG = {
 
-    institucion: "OST001",
+    institucion: null,
 
     sistema: {}
 
 };
+
 let MODO = "capturista";
 
 let SESION = {
