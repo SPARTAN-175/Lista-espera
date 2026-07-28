@@ -69,7 +69,7 @@ switch (usuario.rol) {
         window.location.href = "dashboard.html";
         break;
 
-    case "licenciado":
+    case "atencion":
     case "capturista":
         window.location.href = "index.html";
         break;
