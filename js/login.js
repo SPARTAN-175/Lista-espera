@@ -3,6 +3,9 @@ import { iniciarSesion } from "./auth.js";
 
 import { observarSesion } from "./auth.js";
 
+import { obtenerUsuario } from "./usuarios.js";
+import { guardarUsuario } from "./sesion.js";
+
 const txtCorreo = document.getElementById("correo");
 const txtPassword = document.getElementById("password");
 
@@ -52,10 +55,16 @@ async function ingresar(){
 
     try{
 
-        await iniciarSesion(correo,password);
+        const firebaseUser = await iniciarSesion(correo, password);
 
-        window.location.href = "dashboard.html";
+// Buscar información del usuario en Firestore
+const usuario = await obtenerUsuario(firebaseUser.uid);
 
+// Guardar la sesión de la aplicación
+guardarUsuario(usuario);
+
+// Entrar al sistema
+window.location.href = "dashboard.html";
     }catch(error){
 
         console.error(error);
