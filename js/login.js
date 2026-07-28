@@ -6,8 +6,10 @@ import { observarSesion } from "./auth.js";
 import { obtenerUsuario } from "./usuarios.js";
 import { guardarUsuario } from "./sesion.js";
 import {
-    doc,
-    getDoc
+    collection,
+    query,
+    where,
+    getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 import { db } from "./firebase.js";
@@ -195,22 +197,23 @@ alert(
 
 async function validarCodigoQR(codigo){
 
-    const referencia = doc(db, "vinculaciones", codigo);
+    const consulta = query(
+        collection(db, "vinculaciones"),
+        where("codigo", "==", codigo),
+        where("activo", "==", true)
+    );
 
-    const documento = await getDoc(referencia);
+    const resultados = await getDocs(consulta);
 
-    if(!documento.exists()){
+    if(resultados.empty){
 
         return null;
 
     }
 
-    return documento.data();
+    return resultados.docs[0].data();
 
 }
-
-
-
 
 
 
