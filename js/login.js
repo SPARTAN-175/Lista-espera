@@ -19,12 +19,24 @@ if (ultimoCorreo) {
     txtCorreo.value = ultimoCorreo;
 }
 
-observarSesion((usuario) => {
+observarSesion(async (firebaseUser) => {
 
-    if (usuario) {
+    if (!firebaseUser) return;
 
-        window.location.href = "dashboard.html";
+    const usuario = await obtenerUsuario(firebaseUser.uid);
 
+    guardarUsuario(usuario);
+
+    switch (usuario.rol) {
+
+        case "administrador":
+            window.location.href = "dashboard.html";
+            break;
+
+        case "atencion":
+        case "capturista":
+            window.location.href = "index.html";
+            break;
     }
 
 });
