@@ -68,6 +68,50 @@ const CONFIG = {
 
 };
 let MODO = "capturista";
+
+let SESION = {
+
+    hospital: null,
+
+    modulo: null,
+
+    nombreHospital: null,
+
+    nombreModulo: null,
+
+    vinculado: false
+
+};
+
+function guardarSesion() {
+
+    localStorage.setItem(
+
+        "sesionCaptura",
+
+        JSON.stringify(SESION)
+
+    );
+
+}
+
+function cargarSesion() {
+
+    const datos = localStorage.getItem("sesionCaptura");
+
+    if (!datos) return;
+
+    SESION = JSON.parse(datos);
+
+}
+
+function cambiarModo(nuevoModo) {
+
+    MODO = nuevoModo;
+
+    iniciarEscucha();
+
+}
     
 /*==================================
 OBTENER FECHA DEL DÍA
@@ -282,6 +326,14 @@ mostrarTicket(
 // 🟢 MARCAR COMO ATENDIDO
 window.atender = async function (id) {
 
+    if (MODO !== "atencion") {
+
+        alert("No tiene permisos para realizar esta acción.");
+
+        return;
+
+    }
+
     await updateDoc(
         obtenerPersonaRef(id),
         {
@@ -293,6 +345,14 @@ window.atender = async function (id) {
 
 // 🟠 MARCAR COMO INCOMPLETO
 window.incompleto = async function (id) {
+
+    if (MODO !== "atencion") {
+
+        alert("No tiene permisos para realizar esta acción.");
+
+        return;
+
+    }
 
     await updateDoc(
         obtenerPersonaRef(id),
