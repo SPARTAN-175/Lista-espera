@@ -48,10 +48,63 @@
 
         <button class="card">⚙️ Configuración</button>
 
+        <button
+    class="card"
+    id="btnQRConsulta">
+
+    📱 Generar QR de Consulta
+
+</button>
+
     </div>
 
 </main>
 
+
+<!-- ========================================= -->
+<!-- MODAL QR CONSULTA -->
+<!-- ========================================= -->
+
+<div id="modalQRConsulta" class="modalQR oculto">
+
+    <div class="panelQR">
+
+        <h2>
+            📱 Consulta de Turnos
+        </h2>
+
+        <p class="descripcionQR">
+            Escanee este código para consultar el avance de la fila.
+        </p>
+
+        <div id="contenedorQR"></div>
+
+        <h3 id="nombreInstitucionQR">
+            Institución
+        </h3>
+
+        <p id="urlConsultaQR"></p>
+
+        <div class="accionesQR">
+
+            <button id="btnDescargarQR">
+                📥 Descargar
+            </button>
+
+            <button id="btnImprimirQR">
+                🖨️ Imprimir
+            </button>
+
+            <button id="btnCerrarQR">
+                Cerrar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+    
 <script type="module" src="js/dashboard.js"></script>
 
 </body>
