@@ -6,6 +6,9 @@ import { obtenerUsuario } from "./sesion.js";
 const btnSalir = document.getElementById("btnSalir");
 const bienvenida = document.getElementById("bienvenida");
 const btnVinculacion = document.getElementById("btnVinculacion");
+const btnQRConsulta = document.getElementById("btnQRConsulta");
+const modalQRConsulta = document.getElementById("modalQRConsulta");
+const btnCerrarQR = document.getElementById("btnCerrarQR");
 
 // Verificar sesión
 observarSesion((usuario) => {
@@ -61,7 +64,25 @@ btnVinculacion.addEventListener("click", () => {
 });
 
 
+// =============================
+// MODAL QR
+// =============================
 
+btnQRConsulta.addEventListener("click", () => {
+
+    const datos = obtenerUsuario();
+
+    console.log(datos);
+
+    modalQRConsulta.classList.remove("oculto");
+
+});
+
+btnCerrarQR.addEventListener("click", () => {
+
+    modalQRConsulta.classList.add("oculto");
+
+});
 
 
 
