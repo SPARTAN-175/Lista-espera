@@ -6,7 +6,14 @@ Función   : Generador de QR de consulta
 =========================================
 */
 
+import { db } from "./firebase.js";
+
 import { obtenerUsuario } from "./sesion.js";
+
+import {
+    doc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 
 /*==================================
@@ -25,20 +32,27 @@ const btnImprimir =
 const qrConsulta =
     document.getElementById("qrConsulta");
 
+const nombreInstitucion =
+    document.getElementById("nombreInstitucion");
+
+const ubicacionInstitucion =
+    document.getElementById("ubicacionInstitucion");
+
+const logoInstitucion =
+    document.getElementById("logoInstitucion");
+
 
 /*==================================
-USUARIO
+VERIFICAR SESIÓN
 ==================================*/
 
 const usuario = obtenerUsuario();
-
 
 if (!usuario) {
 
     alert("La sesión no está disponible.");
 
-    window.location.href =
-        "login.html";
+    window.location.href = "login.html";
 
     throw new Error(
         "Usuario no autenticado."
@@ -47,9 +61,24 @@ if (!usuario) {
 }
 
 
+/*==================================
+OBTENER INSTITUCIÓN
+==================================*/
+
 const institucionId =
     usuario.institucionId;
 
+if (!institucionId) {
+
+    alert(
+        "El usuario no tiene una institución vinculada."
+    );
+
+    throw new Error(
+        "institucionId no encontrado."
+    );
+
+}
 
 console.log(
     "Institución:",
@@ -58,47 +87,145 @@ console.log(
 
 
 /*==================================
-URL DE CONSULTA
+CARGAR INFORMACIÓN
 ==================================*/
 
-const urlConsulta =
-    `${window.location.origin}` +
-    `/Lista-espera/consulta.html` +
-    `?institucion=${institucionId}`;
+async function cargarInstitucion() {
+
+    try {
+
+        const referencia = doc(
+            db,
+            "instituciones",
+            institucionId
+        );
+
+        const documento =
+            await getDoc(referencia);
+
+        if (!documento.exists()) {
+
+            throw new Error(
+                "La institución no existe."
+            );
+
+        }
+
+        const institucion =
+            documento.data();
+
+        console.log(
+            "Datos de institución:",
+            institucion
+        );
 
 
-console.log(
-    "URL de consulta:",
-    urlConsulta
-);
+        /*==============================
+        NOMBRE
+        ==============================*/
+
+        nombreInstitucion.textContent =
+            institucion.nombre ||
+            "Institución";
+
+
+        /*==============================
+        INFORMACIÓN SECUNDARIA
+        ==============================*/
+
+        ubicacionInstitucion.textContent =
+            "Sistema de Lista de Espera";
+
+
+        /*==============================
+        GENERAR QR
+        ==============================*/
+
+        generarQR();
+
+
+    } catch (error) {
+
+        console.error(
+            "Error cargando institución:",
+            error
+        );
+
+        nombreInstitucion.textContent =
+            "Institución no disponible";
+
+        ubicacionInstitucion.textContent =
+            "No fue posible cargar la información.";
+
+    }
+
+}
+
+
+/*==================================
+GENERAR URL
+==================================*/
+
+function obtenerURLConsulta() {
+
+    const url =
+        new URL(
+            "consulta.html",
+            window.location.href
+        );
+
+    url.searchParams.set(
+        "institucion",
+        institucionId
+    );
+
+    return url.href;
+
+}
 
 
 /*==================================
 GENERAR QR
 ==================================*/
 
-new QRCode(
+function generarQR() {
 
-    qrConsulta,
+    const urlConsulta =
+        obtenerURLConsulta();
 
-    {
+    console.log(
+        "URL de consulta:",
+        urlConsulta
+    );
 
-        text: urlConsulta,
 
-        width: 280,
+    qrConsulta.innerHTML = "";
 
-        height: 280,
 
-        colorDark: "#176b3a",
+    new QRCode(
 
-        colorLight: "#ffffff",
+        qrConsulta,
 
-        correctLevel:
-            QRCode.CorrectLevel.H
+        {
 
-    }
+            text: urlConsulta,
 
-);
+            width: 280,
+
+            height: 280,
+
+            colorDark: "#176b3a",
+
+            colorLight: "#ffffff",
+
+            correctLevel:
+                QRCode.CorrectLevel.H
+
+        }
+
+    );
+
+}
 
 
 /*==================================
@@ -144,3 +271,10 @@ btnDescargar.addEventListener(
 
     }
 );
+
+
+/*==================================
+INICIAR
+==================================*/
+
+cargarInstitucion();
