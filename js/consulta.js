@@ -7,7 +7,12 @@ Autor     : Carlos & ChatGPT
 =========================================
 */
 
-import { escucharLista } from "./firebase.js";
+import { db, escucharLista } from "./firebase.js";
+
+import {
+    doc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 /*==================================
 OBTENER INSTITUCIÓN DESDE LA URL
@@ -50,6 +55,21 @@ const nextTurn3 = document.getElementById("nextTurn3");
 const inputBuscar = document.getElementById("buscar");
 
 const resultadoBusqueda = document.getElementById("resultadoBusqueda");
+
+const nombreInstitucion =
+    document.getElementById("nombreInstitucion");
+
+const ubicacionInstitucion =
+    document.getElementById("ubicacionInstitucion");
+
+const nombreInstitucionModal =
+    document.getElementById("nombreInstitucionModal");
+
+const direccionInstitucionModal =
+    document.getElementById("direccionInstitucionModal");
+
+const telefonoInstitucionModal =
+    document.getElementById("telefonoInstitucionModal");
 
 const modal = document.getElementById("infoModal");
 
@@ -245,6 +265,96 @@ modal.addEventListener("click", (e) => {
 
 });
 
+
+
+
+/*==================================
+CARGAR INFORMACIÓN DE INSTITUCIÓN
+==================================*/
+
+async function cargarInstitucion() {
+
+    try {
+
+        const referencia = doc(
+            db,
+            "instituciones",
+            institucionId
+        );
+
+        const documento =
+            await getDoc(referencia);
+
+        if (!documento.exists()) {
+
+            nombreInstitucion.textContent =
+                "Institución no encontrada";
+
+            ubicacionInstitucion.textContent =
+                "";
+
+            return;
+
+        }
+
+        const datos =
+            documento.data();
+
+        console.log(
+            "Institución cargada:",
+            datos
+        );
+
+
+        /*==============================
+        ENCABEZADO
+        ==============================*/
+
+        nombreInstitucion.textContent =
+            datos.nombre || "Institución";
+
+
+        ubicacionInstitucion.textContent =
+            datos.municipio || "";
+
+
+        /*==============================
+        MODAL
+        ==============================*/
+
+        nombreInstitucionModal.textContent =
+            datos.nombre || "Información";
+
+
+        direccionInstitucionModal.textContent =
+            datos.direccion
+                ? "📍 " + datos.direccion
+                : "Dirección no registrada";
+
+
+        telefonoInstitucionModal.textContent =
+            datos.telefono
+                ? "📞 " + datos.telefono
+                : "Teléfono no registrado";
+
+
+    } catch (error) {
+
+        console.error(
+            "Error cargando institución:",
+            error
+        );
+
+        nombreInstitucion.textContent =
+            "No fue posible cargar la institución";
+
+        ubicacionInstitucion.textContent =
+            "";
+
+    }
+
+}
+
 /*==================================
 ESCUCHAR FIRESTORE
 ==================================*/
@@ -266,3 +376,5 @@ escucharLista(institucionId, (personas) => {
     renderSiguientes(pendientes);
 
 });
+
+cargarInstitucion();
