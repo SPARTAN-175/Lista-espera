@@ -867,6 +867,40 @@ btnConfirmarCrear.addEventListener(
 );
 
 
+async function obtenerSiguienteNumero() {
+
+    const referencia =
+        collection(
+            db,
+            "instituciones",
+            institucionId,
+            "usuarios"
+        );
+
+    const consulta =
+        await getDocs(referencia);
+
+    let mayor = 0;
+
+    consulta.forEach((documento) => {
+
+        const datos = documento.data();
+
+        const numero =
+            Number(datos.numeroUsuario) || 0;
+
+        if (numero > mayor) {
+
+            mayor = numero;
+
+        }
+
+    });
+
+    return mayor + 1;
+
+}
+
 async function crearUsuario() {
 
     const nombre =
