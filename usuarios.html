@@ -17,250 +17,285 @@
 
 </head>
 
+
 <body>
 
-<main class="app">
 
-    <!-- =================================
-         ENCABEZADO
-    ================================== -->
+<!-- =================================
+     ENCABEZADO
+================================== -->
 
-    <header class="top-header">
+<header class="top-header">
+
+    <div>
+
+        <h1>MOTI Queue</h1>
+
+        <span>
+            Usuarios y accesos
+        </span>
+
+    </div>
+
+    <button id="btnRegresar">
+
+        ← Dashboard
+
+    </button>
+
+</header>
+
+
+
+<!-- =================================
+     INSTITUCIÓN
+================================== -->
+
+<section class="bienvenida">
+
+    <div>
+
+        <h2 id="nombreInstitucion">
+
+            Cargando institución...
+
+        </h2>
+
+        <p>
+
+            Administra el personal y los dispositivos
+            que tienen acceso al sistema.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =================================
+     RESUMEN
+================================== -->
+
+<section class="resumen">
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            🔐
+        </div>
 
         <div>
 
-            <h1>MOTI Queue</h1>
-
             <span>
-                Usuarios y accesos
+                Atención
             </span>
+
+            <strong id="totalAtencion">
+                0
+            </strong>
+
+            <small id="limiteAtencion">
+                0 permitidos
+            </small>
 
         </div>
 
-        <button id="btnRegresar">
-            ← Dashboard
-        </button>
-
-    </header>
+    </div>
 
 
-    <!-- =================================
-         INSTITUCIÓN
-    ================================== -->
 
-    <section class="bienvenida">
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            📱
+        </div>
 
         <div>
 
-            <h2 id="nombreInstitucion">
-                Cargando institución...
+            <span>
+                Capturistas
+            </span>
+
+            <strong id="totalCapturistas">
+                0
+            </strong>
+
+            <small id="limiteCapturistas">
+                0 permitidos
+            </small>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            🟢
+        </div>
+
+        <div>
+
+            <span>
+                Accesos activos
+            </span>
+
+            <strong id="totalActivos">
+                0
+            </strong>
+
+            <small>
+                actualmente
+            </small>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =================================
+     PERSONAL DE ATENCIÓN
+================================== -->
+
+<section class="panel">
+
+
+    <div class="panel-header">
+
+        <div>
+
+            <h2>
+                🔐 Personal de atención
             </h2>
 
             <p>
-                Administra el personal y los dispositivos
-                que tienen acceso al sistema.
+
+                Personal autorizado para atender
+                o marcar turnos como incompletos.
+
             </p>
 
         </div>
 
-    </section>
+
+        <button
+            id="btnCrearAtencion"
+            class="btn-principal">
+
+            + Crear usuario
+
+        </button>
+
+    </div>
 
 
-    <!-- =================================
-         RESUMEN
-    ================================== -->
 
-    <section class="resumen">
+    <div
+        id="listaAtencion"
+        class="lista">
 
-        <div class="stat-card">
+        <div class="cargando">
 
-            <div class="stat-icon">
-                🔐
-            </div>
+            Cargando usuarios...
 
-            <div>
+        </div>
 
-                <span>
-                    Atención
-                </span>
+    </div>
 
-                <strong id="totalAtencion">
-                    0
-                </strong>
 
-                <small id="limiteAtencion">
-                    0 permitidos
-                </small>
+</section>
 
-            </div>
+
+
+<!-- =================================
+     CAPTURISTAS
+================================== -->
+
+<section class="panel">
+
+
+    <div class="panel-header">
+
+        <div>
+
+            <h2>
+                📱 Capturistas
+            </h2>
+
+            <p>
+
+                Dispositivos vinculados mediante
+                código QR.
+
+            </p>
 
         </div>
 
 
-        <div class="stat-card">
+        <button
+            id="btnVincularCapturista"
+            class="btn-secundario">
 
-            <div class="stat-icon">
-                📱
-            </div>
+            🔗 Vincular capturista
 
-            <div>
+        </button>
 
-                <span>
-                    Capturistas
-                </span>
+    </div>
 
-                <strong id="totalCapturistas">
-                    0
-                </strong>
 
-                <small id="limiteCapturistas">
-                    0 permitidos
-                </small>
 
-            </div>
+    <div
+        id="listaCapturistas"
+        class="lista">
+
+        <div class="cargando">
+
+            Cargando dispositivos...
 
         </div>
 
-
-        <div class="stat-card">
-
-            <div class="stat-icon">
-                🟢
-            </div>
-
-            <div>
-
-                <span>
-                    Accesos activos
-                </span>
-
-                <strong id="totalActivos">
-                    0
-                </strong>
-
-                <small>
-                    actualmente
-                </small>
-
-            </div>
-
-        </div>
-
-    </section>
+    </div>
 
 
-    <!-- =================================
-         PERSONAL DE ATENCIÓN
-    ================================== -->
-
-    <section class="panel">
-
-        <div class="panel-header">
-
-            <div>
-
-                <h2>
-                    🔐 Personal de atención
-                </h2>
-
-                <p>
-                    Personal autorizado para atender
-                    o marcar turnos como incompletos.
-                </p>
-
-            </div>
-
-            <button
-                id="btnCrearAtencion"
-                class="btn-principal">
-
-                + Crear usuario
-
-            </button>
-
-        </div>
+</section>
 
 
-        <div
-            id="listaAtencion"
-            class="lista">
 
-            <div class="cargando">
-                Cargando usuarios...
-            </div>
+<!-- =================================
+     INFORMACIÓN
+================================== -->
 
-        </div>
-
-    </section>
+<section class="nota">
 
 
-    <!-- =================================
-         CAPTURISTAS
-    ================================== -->
+    <strong>
 
-    <section class="panel">
+        ℹ️ Sobre los accesos
 
-        <div class="panel-header">
-
-            <div>
-
-                <h2>
-                    📱 Capturistas
-                </h2>
-
-                <p>
-                    Dispositivos vinculados mediante
-                    código QR.
-                </p>
-
-            </div>
-
-            <button
-                id="btnVincularCapturista"
-                class="btn-secundario">
-
-                🔗 Vincular capturista
-
-            </button>
-
-        </div>
+    </strong>
 
 
-        <div
-            id="listaCapturistas"
-            class="lista">
+    <p>
 
-            <div class="cargando">
-                Cargando dispositivos...
-            </div>
+        Los usuarios de atención utilizan
+        credenciales de acceso. Los capturistas
+        utilizan dispositivos vinculados mediante
+        código QR.
 
-        </div>
-
-    </section>
+    </p>
 
 
-    <!-- =================================
-         INFORMACIÓN
-    ================================== -->
+</section>
 
-    <section class="nota">
-
-        <strong>
-            ℹ️ Sobre los accesos
-        </strong>
-
-        <p>
-
-            Los usuarios de atención utilizan
-            credenciales de acceso. Los capturistas
-            utilizan dispositivos vinculados mediante
-            código QR.
-
-        </p>
-
-    </section>
-
-</main>
 
 
 <!-- =================================
@@ -272,9 +307,12 @@
     class="modal"
     hidden>
 
+
     <div class="modal-content">
 
+
         <div class="modal-header">
+
 
             <div>
 
@@ -283,10 +321,13 @@
                 </h2>
 
                 <p>
+
                     Este usuario podrá atender turnos.
+
                 </p>
 
             </div>
+
 
             <button
                 id="btnCerrarModal"
@@ -296,12 +337,17 @@
 
             </button>
 
+
         </div>
 
 
+
         <label for="txtNombreUsuario">
+
             Nombre
+
         </label>
+
 
         <input
             type="text"
@@ -310,10 +356,13 @@
             autocomplete="off">
 
 
+
         <div
             id="mensajeUsuario"
             class="mensaje">
+
         </div>
+
 
 
         <button
@@ -324,9 +373,11 @@
 
         </button>
 
+
     </div>
 
 </div>
+
 
 
 <!-- =================================
@@ -338,9 +389,12 @@
     class="modal"
     hidden>
 
+
     <div class="modal-content credenciales">
 
+
         <div class="modal-header">
+
 
             <div>
 
@@ -349,12 +403,17 @@
                 </h2>
 
                 <p>
-                    Entrega estas credenciales al personal.
+
+                    Entrega estas credenciales
+                    al personal.
+
                 </p>
 
             </div>
 
+
         </div>
+
 
 
         <div class="credencial-bloque">
@@ -364,10 +423,13 @@
             </span>
 
             <strong id="credencialNombre">
+
                 ---
+
             </strong>
 
         </div>
+
 
 
         <div class="credencial-bloque">
@@ -377,10 +439,13 @@
             </span>
 
             <strong id="credencialUsuario">
+
                 ---
+
             </strong>
 
         </div>
+
 
 
         <div class="credencial-bloque">
@@ -400,6 +465,7 @@
         </div>
 
 
+
         <div class="advertencia-credenciales">
 
             ⚠️ Esta contraseña se mostrará solamente
@@ -409,7 +475,9 @@
         </div>
 
 
+
         <div class="acciones-credenciales">
+
 
             <button
                 id="btnCopiarCredenciales"
@@ -419,6 +487,7 @@
 
             </button>
 
+
             <button
                 id="btnCerrarCredenciales"
                 class="btn-principal">
@@ -427,17 +496,25 @@
 
             </button>
 
+
         </div>
+
 
     </div>
 
 </div>
 
 
+
+<!-- =================================
+     JAVASCRIPT
+================================== -->
+
 <script
     type="module"
     src="js/gestion-usuarios.js">
 </script>
+
 
 </body>
 
