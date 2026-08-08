@@ -7,6 +7,7 @@ const btnSalir = document.getElementById("btnSalir");
 const bienvenida = document.getElementById("bienvenida");
 const btnVinculacion = document.getElementById("btnVinculacion");
 const btnInstituciones = document.getElementById("btnInstituciones");
+const btnHistorial = document.getElementById("btnHistorial");
 const btnQRConsulta = document.getElementById("btnQRConsulta");
 const modalQRConsulta = document.getElementById("modalQRConsulta");
 const btnCerrarQR = document.getElementById("btnCerrarQR");
@@ -69,6 +70,14 @@ btnInstituciones.addEventListener("click", () => {
 
     window.location.href =
         "instituciones.html";
+
+});
+
+// Abrir historial
+btnHistorial.addEventListener("click", () => {
+
+    window.location.href =
+        "historial.html";
 
 });
 
