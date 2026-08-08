@@ -6,6 +6,7 @@ import { obtenerUsuario } from "./sesion.js";
 const btnSalir = document.getElementById("btnSalir");
 const bienvenida = document.getElementById("bienvenida");
 const btnVinculacion = document.getElementById("btnVinculacion");
+const btnInstituciones = document.getElementById("btnInstituciones");
 const btnQRConsulta = document.getElementById("btnQRConsulta");
 const modalQRConsulta = document.getElementById("modalQRConsulta");
 const btnCerrarQR = document.getElementById("btnCerrarQR");
@@ -60,6 +61,14 @@ btnSalir.addEventListener("click", async () => {
 btnVinculacion.addEventListener("click", () => {
 
     window.location.href = "vinculacion.html";
+
+});
+
+// Abrir gestión de institución
+btnInstituciones.addEventListener("click", () => {
+
+    window.location.href =
+        "instituciones.html";
 
 });
 
