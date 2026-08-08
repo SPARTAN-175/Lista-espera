@@ -3,48 +3,82 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-<title>Crear Institución | MOTI Queue</title>
-
-<link rel="stylesheet" href="css/registro-institucion.css">
+    <title>Registrar institución - MOTI Queue</title>
 
 </head>
 
 <body>
 
-<div class="contenedor">
-
     <h1>MOTI Queue</h1>
 
     <p>Crear una nueva institución</p>
 
+
+    <!-- ==============================
+         DATOS DE LA INSTITUCIÓN
+    =============================== -->
+
+    <h2>Datos de la institución</h2>
+
     <input
         type="text"
         id="txtInstitucion"
-        placeholder="Nombre de la institución">
+        placeholder="Nombre de la institución"
+    >
 
     <input
         type="text"
-        id="txtAdministrador"
-        placeholder="Nombre del administrador">
+        id="txtMunicipio"
+        placeholder="Municipio"
+    >
 
     <input
-        type="email"
-        id="txtCorreo"
-        placeholder="Correo electrónico">
-
-    <input
-        type="password"
-        id="txtPassword"
-        placeholder="Contraseña">
+        type="text"
+        id="txtDireccion"
+        placeholder="Dirección"
+    >
 
     <input
         type="tel"
         id="txtTelefono"
-        placeholder="Teléfono (opcional)">
+        placeholder="Teléfono"
+    >
+
+
+    <!-- ==============================
+         DATOS DEL ADMINISTRADOR
+    =============================== -->
+
+    <h2>Datos del administrador</h2>
+
+    <input
+        type="text"
+        id="txtAdministrador"
+        placeholder="Nombre del administrador"
+    >
+
+    <input
+        type="email"
+        id="txtCorreo"
+        placeholder="Correo electrónico"
+    >
+
+    <input
+        type="password"
+        id="txtPassword"
+        placeholder="Contraseña"
+    >
+
+
+    <!-- ==============================
+         CREAR
+    =============================== -->
 
     <button id="btnCrear">
 
@@ -52,7 +86,9 @@
 
     </button>
 
+
     <div id="mensaje"></div>
+
 
     <br>
 
@@ -62,9 +98,16 @@
 
     </a>
 
-</div>
 
-<script type="module" src="js/crear-cuenta.js"></script>
+    <!-- ==============================
+         JAVASCRIPT
+    =============================== -->
+
+    <script
+        type="module"
+        src="js/registro-institucion.js">
+    </script>
+
 </body>
 
 </html>
