@@ -13,13 +13,13 @@ import { obtenerUsuario } from "./sesion.js";
 
 import {
     collection,
-    collectionGroup,
     getDocs,
     query,
     where,
     getDoc,
     doc,
     setDoc,
+    writeBatch,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -992,6 +992,83 @@ async function crearUsuario() {
 const usuarioGenerado =
     await generarUsuarioUnico();
 
+
+
+
+
+
+/*==================================
+GENERAR USUARIO ÚNICO
+==================================*/
+
+async function generarUsuarioUnico() {
+
+    const caracteres =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+    const longitud = 8;
+
+    for (let intento = 0; intento < 20; intento++) {
+
+        const valores =
+            new Uint32Array(longitud);
+
+        crypto.getRandomValues(valores);
+
+        let codigo = "";
+
+        for (
+            let i = 0;
+            i < longitud;
+            i++
+        ) {
+
+            codigo +=
+                caracteres[
+                    valores[i] %
+                    caracteres.length
+                ];
+
+        }
+
+        const usuarioGenerado =
+            `ATN-${codigo}`;
+
+
+        /*
+        ==================================
+        COMPROBAR EXISTENCIA GLOBAL
+        ==================================
+        */
+
+        const referencia =
+            doc(
+                db,
+                "usuariosAcceso",
+                usuarioGenerado
+            );
+
+
+        const documento =
+            await getDoc(referencia);
+
+
+        if (!documento.exists()) {
+
+            return usuarioGenerado;
+
+        }
+
+    }
+
+
+    throw new Error(
+        "No fue posible generar un usuario único."
+    );
+
+}
+
+
         /*
         ==================================
         GENERAR PASSWORD
@@ -1041,46 +1118,107 @@ const usuarioGenerado =
         ==================================
         */
 
-        await setDoc(
-            doc(
-                db,
-                "instituciones",
-                institucionId,
-                "usuarios",
-                uidInterno
-            ),
-            {
+        const batch = writeBatch(db);
 
-                uid:
-                    uidInterno,
 
-                nombre,
+/*
+==================================
+USUARIO DE LA INSTITUCIÓN
+==================================
+*/
 
-                usuario:
-                    usuarioGenerado,
+const referenciaUsuario =
+    doc(
+        db,
+        "instituciones",
+        institucionId,
+        "usuarios",
+        uidInterno
+    );
 
-                numeroUsuario:
-                    numero,
 
-                passwordHash,
+batch.set(
+    referenciaUsuario,
+    {
 
-                passwordSalt:
-                    salt,
+        uid:
+            uidInterno,
 
-                rol:
-                    "atencion",
+        nombre,
 
-                activo:
-                    true,
+        usuario:
+            usuarioGenerado,
 
-                fechaRegistro:
-                    serverTimestamp(),
+        numeroUsuario:
+            numero,
 
-                creadoPor:
-                    usuario.uid
+        passwordHash,
 
-            }
-        );
+        passwordSalt:
+            salt,
+
+        rol:
+            "atencion",
+
+        activo:
+            true,
+
+        fechaRegistro:
+            serverTimestamp(),
+
+        creadoPor:
+            usuario.uid
+
+    }
+);
+
+
+/*
+==================================
+ÍNDICE GLOBAL DE ACCESO
+==================================
+*/
+
+const referenciaAcceso =
+    doc(
+        db,
+        "usuariosAcceso",
+        usuarioGenerado
+    );
+
+
+batch.set(
+    referenciaAcceso,
+    {
+
+        uid:
+            uidInterno,
+
+        institucionId,
+
+        usuario:
+            usuarioGenerado,
+
+        rol:
+            "atencion",
+
+        activo:
+            true,
+
+        fechaCreacion:
+            serverTimestamp()
+
+    }
+);
+
+
+/*
+==================================
+GUARDAR TODO
+==================================
+*/
+
+await batch.commit();
 
 
         /*
