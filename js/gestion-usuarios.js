@@ -1,7 +1,7 @@
 /*
 =========================================
 Proyecto : MOTI Queue
-Archivo  : usuarios.js
+Archivo  : gestion-usuarios.js
 Función  : Administración de usuarios
            y dispositivos de la institución
 =========================================
@@ -16,12 +16,13 @@ import {
     getDocs,
     query,
     where,
-    orderBy
+    getDoc,
+    doc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 
 /*==================================
-ELEMENTOS
+ELEMENTOS HTML
 ==================================*/
 
 const nombreInstitucion =
@@ -65,7 +66,7 @@ const btnCerrarModal =
 
 
 /*==================================
-VERIFICAR USUARIO
+OBTENER SESIÓN
 ==================================*/
 
 const usuario =
@@ -85,7 +86,7 @@ if (!usuario) {
 
 
 /*==================================
-INSTITUCIÓN
+VERIFICAR INSTITUCIÓN
 ==================================*/
 
 const institucionId =
@@ -96,15 +97,22 @@ if (!institucionId) {
 
     document.body.innerHTML = `
 
-        <h2 style="
+        <div style="
             text-align:center;
-            margin-top:50px;
+            margin-top:80px;
+            font-family:Arial;
         ">
 
-            No se encontró la institución
-            asociada a esta cuenta.
+            <h2>
+                No se encontró la institución.
+            </h2>
 
-        </h2>
+            <p>
+                La cuenta no tiene una institución
+                asociada.
+            </p>
+
+        </div>
 
     `;
 
@@ -116,26 +124,24 @@ if (!institucionId) {
 
 
 /*==================================
-CARGAR INFORMACIÓN DE INSTITUCIÓN
+CARGAR INSTITUCIÓN
 ==================================*/
 
 async function cargarInstitucion() {
 
     try {
 
-        const referencia = await import(
-            "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
-        );
+        const referencia =
+            doc(
+                db,
+                "instituciones",
+                institucionId
+            );
+
 
         const documento =
-            await referencia.getDoc(
-
-                referencia.doc(
-                    db,
-                    "instituciones",
-                    institucionId
-                )
-
+            await getDoc(
+                referencia
             );
 
 
@@ -165,6 +171,7 @@ async function cargarInstitucion() {
             error
         );
 
+
         nombreInstitucion.textContent =
             "Institución";
 
@@ -174,7 +181,48 @@ async function cargarInstitucion() {
 
 
 /*==================================
-CARGAR USUARIOS
+CONVERTIR TIMESTAMP A TEXTO
+==================================*/
+
+function formatearFecha(timestamp) {
+
+    if (!timestamp) {
+
+        return "Sin registro";
+
+    }
+
+
+    try {
+
+        const fecha =
+            timestamp.toDate
+                ? timestamp.toDate()
+                : new Date(timestamp);
+
+
+        return fecha.toLocaleString(
+            "es-MX",
+            {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+    } catch {
+
+        return "Sin registro";
+
+    }
+
+}
+
+
+/*==================================
+CARGAR USUARIOS DE ATENCIÓN
 ==================================*/
 
 async function cargarUsuarios() {
@@ -194,29 +242,21 @@ async function cargarUsuarios() {
 
         const referencia =
             collection(
-
                 db,
-
                 "instituciones",
-
                 institucionId,
-
                 "usuarios"
-
             );
 
 
         const consulta =
             query(
-
                 referencia,
-
                 where(
                     "rol",
                     "==",
                     "atencion"
                 )
-
             );
 
 
@@ -226,11 +266,11 @@ async function cargarUsuarios() {
             );
 
 
-        let activos = 0;
-
-
         listaAtencion.innerHTML =
             "";
+
+
+        let activos = 0;
 
 
         if (snapshot.empty) {
@@ -240,7 +280,7 @@ async function cargarUsuarios() {
                 <div class="cargando">
 
                     No hay usuarios de atención
-                    registrados.
+                    registrados todavía.
 
                 </div>
 
@@ -256,7 +296,11 @@ async function cargarUsuarios() {
                     documento.data();
 
 
-                if (datos.activo === true) {
+                const activo =
+                    datos.activo === true;
+
+
+                if (activo) {
 
                     activos++;
 
@@ -264,15 +308,23 @@ async function cargarUsuarios() {
 
 
                 const estadoClase =
-                    datos.activo === true
+                    activo
                         ? "activo"
                         : "inactivo";
 
 
                 const estadoTexto =
-                    datos.activo === true
+                    activo
                         ? "🟢 Activo"
                         : "🔴 Inactivo";
+
+
+                const ultimoAcceso =
+                    datos.ultimoAcceso
+                        ? formatearFecha(
+                            datos.ultimoAcceso
+                        )
+                        : "Sin acceso registrado";
 
 
                 listaAtencion.innerHTML += `
@@ -329,11 +381,8 @@ async function cargarUsuarios() {
 
                             <small>
 
-                                ${
-                                    datos.ultimoAcceso
-                                        ? "Último acceso registrado"
-                                        : "Sin acceso registrado"
-                                }
+                                Último acceso:
+                                ${ultimoAcceso}
 
                             </small>
 
@@ -370,8 +419,8 @@ async function cargarUsuarios() {
         LÍMITE PROVISIONAL
         ==================================
 
-        Después será reemplazado
-        por el plan contratado.
+        Después será sustituido por
+        el límite real del plan.
         */
 
         limiteAtencion.textContent =
@@ -394,11 +443,15 @@ async function cargarUsuarios() {
             <div class="cargando">
 
                 No fue posible cargar
-                los usuarios.
+                los usuarios de atención.
 
             </div>
 
         `;
+
+
+        totalAtencion.textContent =
+            "0";
 
 
         return 0;
@@ -409,7 +462,7 @@ async function cargarUsuarios() {
 
 
 /*==================================
-CARGAR CAPTURISTAS
+CARGAR DISPOSITIVOS CAPTURISTAS
 ==================================*/
 
 async function cargarCapturistas() {
@@ -430,44 +483,48 @@ async function cargarCapturistas() {
         /*
         ==================================
         IMPORTANTE
+
+        La colección REAL de dispositivos
+        está en la raíz de Firestore:
+
+        dispositivos
+
+        NO está dentro de:
+
+        instituciones/{id}/dispositivos
         ==================================
-
-        Aquí usamos la colección
-        "dispositivos".
-
-        Si tu estructura actual
-        utiliza otro nombre,
-        NO la modificamos todavía.
-
-        Primero comprobamos qué existe.
         */
 
 
         const referencia =
             collection(
-
                 db,
-
-                "instituciones",
-
-                institucionId,
-
                 "dispositivos"
+            );
 
+
+        const consulta =
+            query(
+                referencia,
+                where(
+                    "institucionId",
+                    "==",
+                    institucionId
+                )
             );
 
 
         const snapshot =
             await getDocs(
-                referencia
+                consulta
             );
-
-
-        let activos = 0;
 
 
         listaCapturistas.innerHTML =
             "";
+
+
+        let activos = 0;
 
 
         if (snapshot.empty) {
@@ -476,8 +533,8 @@ async function cargarCapturistas() {
 
                 <div class="cargando">
 
-                    No hay dispositivos
-                    vinculados.
+                    No hay capturistas
+                    vinculados todavía.
 
                 </div>
 
@@ -493,29 +550,49 @@ async function cargarCapturistas() {
                     documento.data();
 
 
-                if (
-                    datos.activo === true
-                ) {
+                const activo =
+                    datos.activo === true;
+
+
+                if (activo) {
 
                     activos++;
 
                 }
 
 
-                const conectado =
-                    datos.conectado === true;
+                /*
+                ==================================
+                ESTADO ACTUAL
+
+                Por ahora usamos "activo" como
+                estado del dispositivo.
+
+                Más adelante agregaremos un
+                heartbeat para saber si realmente
+                está conectado en tiempo real.
+                ==================================
+                */
 
 
                 const estadoClase =
-                    conectado
-                        ? "conectado"
-                        : "desconectado";
+                    activo
+                        ? "activo"
+                        : "inactivo";
 
 
                 const estadoTexto =
-                    conectado
-                        ? "🟢 En línea"
-                        : "⚪ Desconectado";
+                    activo
+                        ? "🟢 Activo"
+                        : "🔴 Revocado";
+
+
+                const ultimaConexion =
+                    datos.ultimoAcceso
+                        ? formatearFecha(
+                            datos.ultimoAcceso
+                        )
+                        : "Sin registro";
 
 
                 listaCapturistas.innerHTML += `
@@ -533,18 +610,16 @@ async function cargarCapturistas() {
 
                             <strong>
 
-                                ${
-                                    datos.nombre ||
-                                    "Capturista"
-                                }
+                                Capturista
 
                             </strong>
 
                             <small>
 
+                                Dispositivo:
                                 ${
-                                    datos.moduloNombre ||
-                                    "Módulo sin asignar"
+                                    datos.dispositivoId
+                                    || documento.id
                                 }
 
                             </small>
@@ -572,11 +647,8 @@ async function cargarCapturistas() {
 
                             <small>
 
-                                ${
-                                    datos.ultimaConexion
-                                        ? "Última conexión registrada"
-                                        : "Sin conexión registrada"
-                                }
+                                Última conexión:
+                                ${ultimaConexion}
 
                             </small>
 
@@ -635,6 +707,10 @@ async function cargarCapturistas() {
         `;
 
 
+        totalCapturistas.textContent =
+            "0";
+
+
         return 0;
 
     }
@@ -643,12 +719,12 @@ async function cargarCapturistas() {
 
 
 /*==================================
-ACTUALIZAR TOTAL DE ACCESOS
+ACTUALIZAR RESUMEN
 ==================================*/
 
 async function actualizarTotales() {
 
-    const atencion =
+    const usuariosAtencion =
         await cargarUsuarios();
 
 
@@ -656,14 +732,35 @@ async function actualizarTotales() {
         await cargarCapturistas();
 
 
+    /*
+    ==================================
+    IMPORTANTE
+
+    Por ahora "activos" significa:
+
+    Atención:
+    activo === true
+
+    Capturista:
+    activo === true
+
+    Todavía NO significa "en línea".
+
+    Eso lo implementaremos después
+    con heartbeat.
+    ==================================
+    */
+
+
     totalActivos.textContent =
-        atencion + capturistas;
+        usuariosAtencion +
+        capturistas;
 
 }
 
 
 /*==================================
-REGRESAR
+REGRESAR AL DASHBOARD
 ==================================*/
 
 btnRegresar.addEventListener(
@@ -678,7 +775,7 @@ btnRegresar.addEventListener(
 
 
 /*==================================
-MODAL CREAR
+ABRIR MODAL CREAR USUARIO
 ==================================*/
 
 btnCrearAtencion.addEventListener(
@@ -692,6 +789,10 @@ btnCrearAtencion.addEventListener(
     }
 );
 
+
+/*==================================
+CERRAR MODAL
+==================================*/
 
 btnCerrarModal.addEventListener(
     "click",
@@ -707,7 +808,7 @@ btnCerrarModal.addEventListener(
 
 modalCrear.addEventListener(
     "click",
-    (evento) => {
+    evento => {
 
         if (
             evento.target ===
@@ -740,9 +841,16 @@ btnVincularCapturista.addEventListener(
 
 
 /*==================================
-INICIALIZAR
+INICIAR
 ==================================*/
 
-await cargarInstitucion();
+async function iniciar() {
 
-await actualizarTotales();
+    await cargarInstitucion();
+
+    await actualizarTotales();
+
+}
+
+
+iniciar();
