@@ -19,30 +19,33 @@
 
 <body>
 
-<header class="header">
-
-    <div>
-
-        <h1>MOTI Queue</h1>
-
-        <span>
-            Usuarios y accesos
-        </span>
-
-    </div>
-
-    <button id="btnRegresar">
-        ← Dashboard
-    </button>
-
-</header>
-
-
-<main class="contenedor">
-
+<main class="app">
 
     <!-- =================================
          ENCABEZADO
+    ================================== -->
+
+    <header class="top-header">
+
+        <div>
+
+            <h1>MOTI Queue</h1>
+
+            <span>
+                Usuarios y accesos
+            </span>
+
+        </div>
+
+        <button id="btnRegresar">
+            ← Dashboard
+        </button>
+
+    </header>
+
+
+    <!-- =================================
+         INSTITUCIÓN
     ================================== -->
 
     <section class="bienvenida">
@@ -147,7 +150,7 @@
 
 
     <!-- =================================
-         ATENCIÓN
+         PERSONAL DE ATENCIÓN
     ================================== -->
 
     <section class="panel">
@@ -257,7 +260,6 @@
 
     </section>
 
-
 </main>
 
 
@@ -266,8 +268,9 @@
 ================================== -->
 
 <div
-    id="modalCrear"
-    class="modal">
+    id="modalCrearUsuario"
+    class="modal"
+    hidden>
 
     <div class="modal-content">
 
@@ -303,7 +306,8 @@
         <input
             type="text"
             id="txtNombreUsuario"
-            placeholder="Nombre del usuario">
+            placeholder="Nombre del usuario"
+            autocomplete="off">
 
 
         <div
@@ -319,6 +323,111 @@
             Crear usuario
 
         </button>
+
+    </div>
+
+</div>
+
+
+<!-- =================================
+     MODAL CREDENCIALES
+================================== -->
+
+<div
+    id="modalCredenciales"
+    class="modal"
+    hidden>
+
+    <div class="modal-content credenciales">
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2>
+                    ✅ Usuario creado
+                </h2>
+
+                <p>
+                    Entrega estas credenciales al personal.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="credencial-bloque">
+
+            <span>
+                NOMBRE
+            </span>
+
+            <strong id="credencialNombre">
+                ---
+            </strong>
+
+        </div>
+
+
+        <div class="credencial-bloque">
+
+            <span>
+                USUARIO
+            </span>
+
+            <strong id="credencialUsuario">
+                ---
+            </strong>
+
+        </div>
+
+
+        <div class="credencial-bloque">
+
+            <span>
+                CONTRASEÑA
+            </span>
+
+            <strong
+                id="credencialPassword"
+                class="password">
+
+                ---
+
+            </strong>
+
+        </div>
+
+
+        <div class="advertencia-credenciales">
+
+            ⚠️ Esta contraseña se mostrará solamente
+            en este momento. Guárdala antes de cerrar
+            esta ventana.
+
+        </div>
+
+
+        <div class="acciones-credenciales">
+
+            <button
+                id="btnCopiarCredenciales"
+                class="btn-secundario">
+
+                📋 Copiar credenciales
+
+            </button>
+
+            <button
+                id="btnCerrarCredenciales"
+                class="btn-principal">
+
+                Terminar
+
+            </button>
+
+        </div>
 
     </div>
 
