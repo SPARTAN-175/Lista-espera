@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Historial - MOTI Queue</title>
+
+    <link
+        rel="stylesheet"
+        href="css/historial.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <div>
+
+        <h1>MOTI Queue</h1>
+
+        <span>
+            Historial de turnos
+        </span>
+
+    </div>
+
+    <button id="btnRegresar">
+        ← Dashboard
+    </button>
+
+</header>
+
+
+<main class="contenedor">
+
+
+    <!-- ==============================
+         FILTRO
+    =============================== -->
+
+    <section class="card filtro">
+
+        <div>
+
+            <h2>
+                📅 Consultar historial
+            </h2>
+
+            <p>
+                Selecciona una fecha para consultar
+                los turnos registrados.
+            </p>
+
+        </div>
+
+        <input
+            type="date"
+            id="fechaConsulta">
+
+    </section>
+
+
+    <!-- ==============================
+         ESTADÍSTICAS
+    =============================== -->
+
+    <section class="estadisticas">
+
+        <div class="stat-card">
+
+            <span>
+                Total
+            </span>
+
+            <strong id="total">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card verde">
+
+            <span>
+                Atendidos
+            </span>
+
+            <strong id="atendidos">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card naranja">
+
+            <span>
+                Incompletos
+            </span>
+
+            <strong id="incompletos">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card azul">
+
+            <span>
+                Pendientes
+            </span>
+
+            <strong id="pendientes">
+                0
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==============================
+         LISTA
+    =============================== -->
+
+    <section class="card">
+
+        <div class="titulo-lista">
+
+            <h2>
+                👥 Personas
+            </h2>
+
+            <span id="estadoCarga">
+                Selecciona una fecha
+            </span>
+
+        </div>
+
+
+        <div
+            id="listaHistorial"
+            class="lista-historial">
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<script
+    type="module"
+    src="js/historial.js">
+</script>
+
+</body>
+
+</html>
