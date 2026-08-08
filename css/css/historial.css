@@ -1,0 +1,489 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    font-family:
+        Inter,
+        Arial,
+        sans-serif;
+
+    background: #f4f7f6;
+
+    color: #1f2937;
+}
+
+
+/* =================================
+   HEADER
+================================= */
+
+.header {
+    background: #176b3a;
+
+    color: white;
+
+    padding: 18px 25px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,.12);
+}
+
+.header h1 {
+    margin: 0;
+
+    font-size: 24px;
+}
+
+.header span {
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 13px;
+
+    opacity: .85;
+}
+
+.header button {
+    border: none;
+
+    background: rgba(255,255,255,.15);
+
+    color: white;
+
+    padding: 10px 16px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.header button:hover {
+    background: rgba(255,255,255,.25);
+}
+
+
+/* =================================
+   CONTENEDOR
+================================= */
+
+.contenedor {
+    width: 100%;
+
+    max-width: 1000px;
+
+    margin: 35px auto;
+
+    padding: 0 20px;
+}
+
+
+/* =================================
+   CARD
+================================= */
+
+.card {
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 25px;
+
+    margin-bottom: 22px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.07);
+}
+
+
+/* =================================
+   FILTRO
+================================= */
+
+.filtro {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.filtro h2 {
+    margin: 0;
+
+    color: #176b3a;
+
+    font-size: 21px;
+}
+
+.filtro p {
+    margin:
+        7px 0 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+#fechaConsulta {
+    padding: 12px 14px;
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    color: #374151;
+
+    background: white;
+
+    cursor: pointer;
+
+    outline: none;
+}
+
+#fechaConsulta:focus {
+    border-color: #198754;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(25,135,84,.12);
+}
+
+
+/* =================================
+   ESTADÍSTICAS
+================================= */
+
+.estadisticas {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 22px;
+}
+
+.stat-card {
+    background: white;
+
+    border-radius: 16px;
+
+    padding: 20px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    border-left:
+        5px solid #6b7280;
+
+    box-shadow:
+        0 7px 20px rgba(0,0,0,.06);
+}
+
+.stat-card span {
+    color: #6b7280;
+
+    font-size: 13px;
+
+    font-weight: 500;
+}
+
+.stat-card strong {
+    font-size: 30px;
+
+    color: #374151;
+}
+
+.stat-card.verde {
+    border-left-color: #198754;
+}
+
+.stat-card.verde strong {
+    color: #198754;
+}
+
+.stat-card.naranja {
+    border-left-color: #f59e0b;
+}
+
+.stat-card.naranja strong {
+    color: #d97706;
+}
+
+.stat-card.azul {
+    border-left-color: #2563eb;
+}
+
+.stat-card.azul strong {
+    color: #2563eb;
+}
+
+
+/* =================================
+   TITULO LISTA
+================================= */
+
+.titulo-lista {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 18px;
+}
+
+.titulo-lista h2 {
+    margin: 0;
+
+    color: #176b3a;
+
+    font-size: 21px;
+}
+
+#estadoCarga {
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
+/* =================================
+   LISTA
+================================= */
+
+.lista-historial {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+/* =================================
+   FILA
+================================= */
+
+.historial-row {
+    display: grid;
+
+    grid-template-columns:
+        90px
+        1fr
+        120px
+        130px;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 14px 16px;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    background: #fafafa;
+}
+
+.historial-row:hover {
+    background: #f4faf6;
+}
+
+
+/* =================================
+   TURNO
+================================= */
+
+.historial-turno {
+    font-weight: 700;
+
+    color: #176b3a;
+
+    font-size: 16px;
+}
+
+
+/* =================================
+   NOMBRE
+================================= */
+
+.historial-nombre {
+    font-weight: 500;
+
+    color: #374151;
+}
+
+
+/* =================================
+   HORA
+================================= */
+
+.historial-hora {
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+/* =================================
+   ESTADO
+================================= */
+
+.historial-estado {
+    text-align: center;
+
+    padding:
+        6px 10px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+.estado-atendido {
+    background: #dcfce7;
+
+    color: #15803d;
+}
+
+.estado-incompleto {
+    background: #fef3c7;
+
+    color: #b45309;
+}
+
+.estado-pendiente {
+    background: #dbeafe;
+
+    color: #1d4ed8;
+}
+
+
+/* =================================
+   SIN DATOS
+================================= */
+
+.sin-datos {
+    text-align: center;
+
+    padding: 45px 20px;
+
+    color: #9ca3af;
+
+    font-size: 15px;
+}
+
+
+/* =================================
+   MÓVIL
+================================= */
+
+@media (max-width: 800px) {
+
+    .estadisticas {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .filtro {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    #fechaConsulta {
+        width: 100%;
+    }
+
+    .historial-row {
+        grid-template-columns:
+            75px
+            1fr
+            100px;
+    }
+
+    .historial-hora {
+        display: none;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .header {
+        padding: 16px;
+    }
+
+    .header h1 {
+        font-size: 20px;
+    }
+
+    .contenedor {
+        margin-top: 20px;
+
+        padding:
+            0 12px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .estadisticas {
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-card strong {
+        font-size: 25px;
+    }
+
+    .historial-row {
+        grid-template-columns:
+            65px
+            1fr;
+
+        gap: 8px;
+    }
+
+    .historial-estado {
+        grid-column: 2;
+
+        justify-self: start;
+    }
+
+}
