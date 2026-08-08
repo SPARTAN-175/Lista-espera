@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Institución - MOTI Queue</title>
+
+    <link
+        rel="stylesheet"
+        href="css/instituciones.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <div>
+
+        <h1>MOTI Queue</h1>
+
+        <span>
+            Información de la institución
+        </span>
+
+    </div>
+
+    <button id="btnRegresar">
+        ← Dashboard
+    </button>
+
+</header>
+
+
+<main class="contenedor">
+
+    <section class="card">
+
+        <h2>
+            🏢 Datos de la institución
+        </h2>
+
+        <p class="descripcion">
+
+            Esta información aparecerá en el
+            portal de consulta y en los materiales
+            impresos de MOTI Queue.
+
+        </p>
+
+
+        <label for="txtNombre">
+            Nombre de la institución
+        </label>
+
+        <input
+            type="text"
+            id="txtNombre"
+            placeholder="Nombre de la institución">
+
+
+        <label for="txtMunicipio">
+            Municipio
+        </label>
+
+        <input
+            type="text"
+            id="txtMunicipio"
+            placeholder="Municipio">
+
+
+        <label for="txtDireccion">
+            Dirección
+        </label>
+
+        <input
+            type="text"
+            id="txtDireccion"
+            placeholder="Dirección">
+
+
+        <label for="txtTelefono">
+            Teléfono
+        </label>
+
+        <input
+            type="tel"
+            id="txtTelefono"
+            placeholder="Teléfono">
+
+
+        <button
+            id="btnGuardar"
+            class="btn-principal">
+
+            💾 Guardar cambios
+
+        </button>
+
+
+        <div
+            id="mensaje"
+            class="mensaje">
+        </div>
+
+    </section>
+
+
+    <section class="card acciones-card">
+
+        <h2>
+            📱 Consulta de turnos
+        </h2>
+
+        <p class="descripcion">
+
+            Genera el código QR que podrán escanear
+            los ciudadanos para consultar el avance
+            de la fila.
+
+        </p>
+
+        <button
+            id="btnQR"
+            class="btn-secundario">
+
+            📱 Generar QR de consulta
+
+        </button>
+
+    </section>
+
+</main>
+
+
+<script
+    type="module"
+    src="js/instituciones.js">
+</script>
+
+</body>
+
+</html>
