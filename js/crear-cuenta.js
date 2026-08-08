@@ -2,65 +2,114 @@ import { registrarUsuario } from "./registro.js";
 
 const btnCrear = document.getElementById("btnCrear");
 
-const txtInstitucion = document.getElementById("txtInstitucion");
-const txtAdministrador = document.getElementById("txtAdministrador");
-const txtCorreo = document.getElementById("txtCorreo");
-const txtPassword = document.getElementById("txtPassword");
-const txtTelefono = document.getElementById("txtTelefono");
+const txtInstitucion =
+    document.getElementById("txtInstitucion");
 
-const mensaje = document.getElementById("mensaje");
+const txtMunicipio =
+    document.getElementById("txtMunicipio");
 
+const txtDireccion =
+    document.getElementById("txtDireccion");
+
+const txtAdministrador =
+    document.getElementById("txtAdministrador");
+
+const txtCorreo =
+    document.getElementById("txtCorreo");
+
+const txtPassword =
+    document.getElementById("txtPassword");
+
+const txtTelefono =
+    document.getElementById("txtTelefono");
+
+const mensaje =
+    document.getElementById("mensaje");
+
+
+/*==================================
+CREAR INSTITUCIÓN
+==================================*/
 
 btnCrear.addEventListener("click", async () => {
 
     mensaje.textContent = "";
 
+
+    /*==============================
+    VALIDAR CAMPOS
+    ==============================*/
+
     if (
         txtInstitucion.value.trim() === "" ||
+        txtMunicipio.value.trim() === "" ||
+        txtDireccion.value.trim() === "" ||
         txtAdministrador.value.trim() === "" ||
         txtCorreo.value.trim() === "" ||
         txtPassword.value.trim() === ""
     ) {
 
-        mensaje.textContent = "Completa todos los campos obligatorios.";
+        mensaje.textContent =
+            "Completa todos los campos obligatorios.";
 
         return;
 
     }
 
+
     btnCrear.disabled = true;
 
-    mensaje.textContent = "Creando cuenta...";
+    mensaje.textContent =
+        "Creando cuenta...";
+
 
     try {
 
         await registrarUsuario({
 
-            institucion: txtInstitucion.value.trim(),
+            institucion:
+                txtInstitucion.value.trim(),
 
-            administrador: txtAdministrador.value.trim(),
+            municipio:
+                txtMunicipio.value.trim(),
 
-            correo: txtCorreo.value.trim(),
+            direccion:
+                txtDireccion.value.trim(),
 
-            password: txtPassword.value,
+            administrador:
+                txtAdministrador.value.trim(),
 
-            telefono: txtTelefono.value.trim()
+            correo:
+                txtCorreo.value.trim(),
+
+            password:
+                txtPassword.value,
+
+            telefono:
+                txtTelefono.value.trim()
 
         });
 
-        mensaje.textContent = "¡Cuenta creada correctamente!";
+
+        mensaje.textContent =
+            "¡Institución creada correctamente!";
+
 
         setTimeout(() => {
 
-            window.location.href = "dashboard.html";
+            window.location.href =
+                "dashboard.html";
 
         }, 1000);
+
 
     } catch (error) {
 
         console.error(error);
 
-        mensaje.textContent = error.message;
+        mensaje.textContent =
+            error.message ||
+            "No fue posible crear la institución.";
 
         btnCrear.disabled = false;
 
