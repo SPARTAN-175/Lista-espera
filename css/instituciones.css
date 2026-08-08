@@ -1,0 +1,304 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    font-family:
+        Inter,
+        Arial,
+        sans-serif;
+
+    background: #f4f7f6;
+
+    color: #1f2937;
+}
+
+
+/* =================================
+   HEADER
+================================= */
+
+.header {
+    background: #176b3a;
+
+    color: white;
+
+    padding: 18px 25px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,.12);
+}
+
+.header h1 {
+    margin: 0;
+
+    font-size: 24px;
+}
+
+.header span {
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 13px;
+
+    opacity: .85;
+}
+
+.header button {
+    border: none;
+
+    background: rgba(255,255,255,.15);
+
+    color: white;
+
+    padding: 10px 16px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.header button:hover {
+    background: rgba(255,255,255,.25);
+}
+
+
+/* =================================
+   CONTENEDOR
+================================= */
+
+.contenedor {
+    width: 100%;
+
+    max-width: 850px;
+
+    margin: 35px auto;
+
+    padding: 0 20px;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 22px;
+}
+
+
+/* =================================
+   CARD
+================================= */
+
+.card {
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 28px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.08);
+}
+
+.card h2 {
+    margin:
+        0 0 10px;
+
+    color: #176b3a;
+
+    font-size: 21px;
+}
+
+.descripcion {
+    color: #6b7280;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    margin:
+        0 0 24px;
+}
+
+
+/* =================================
+   FORMULARIO
+================================= */
+
+label {
+    display: block;
+
+    margin-top: 16px;
+
+    margin-bottom: 6px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #374151;
+}
+
+input {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    background: #fff;
+
+    transition:
+        border-color .2s,
+        box-shadow .2s;
+}
+
+input:focus {
+    border-color: #198754;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(25,135,84,.12);
+}
+
+
+/* =================================
+   BOTONES
+================================= */
+
+.btn-principal,
+.btn-secundario {
+    width: 100%;
+
+    border: none;
+
+    border-radius: 11px;
+
+    padding: 13px 18px;
+
+    margin-top: 22px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform .15s,
+        opacity .15s;
+}
+
+.btn-principal {
+    background: #198754;
+
+    color: white;
+}
+
+.btn-secundario {
+    background: #176b3a;
+
+    color: white;
+}
+
+.btn-principal:hover,
+.btn-secundario:hover {
+    opacity: .92;
+
+    transform:
+        translateY(-1px);
+}
+
+.btn-principal:disabled {
+    opacity: .6;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =================================
+   MENSAJE
+================================= */
+
+.mensaje {
+    min-height: 22px;
+
+    margin-top: 15px;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    font-weight: 500;
+}
+
+
+/* =================================
+   CARD QR
+================================= */
+
+.acciones-card {
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+
+/* =================================
+   RESPONSIVE
+================================= */
+
+@media (max-width: 700px) {
+
+    .header {
+        padding: 16px;
+
+        gap: 15px;
+    }
+
+    .header h1 {
+        font-size: 20px;
+    }
+
+    .header span {
+        font-size: 12px;
+    }
+
+    .contenedor {
+        grid-template-columns: 1fr;
+
+        margin-top: 20px;
+
+        padding:
+            0 15px;
+    }
+
+    .card {
+        padding: 22px;
+    }
+
+}
