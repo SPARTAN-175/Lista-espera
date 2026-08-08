@@ -8,6 +8,7 @@ const bienvenida = document.getElementById("bienvenida");
 const btnVinculacion = document.getElementById("btnVinculacion");
 const btnInstituciones = document.getElementById("btnInstituciones");
 const btnHistorial = document.getElementById("btnHistorial");
+const btnUsuarios =  document.getElementById("btnUsuarios");
 const btnQRConsulta = document.getElementById("btnQRConsulta");
 const modalQRConsulta = document.getElementById("modalQRConsulta");
 const btnCerrarQR = document.getElementById("btnCerrarQR");
@@ -78,6 +79,13 @@ btnHistorial.addEventListener("click", () => {
 
     window.location.href =
         "historial.html";
+
+});
+
+// Abrir administración de usuarios
+btnUsuarios.addEventListener("click", () => {
+
+    window.location.href = "usuarios.html";
 
 });
 
