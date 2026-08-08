@@ -79,6 +79,68 @@ body {
 
 
 /* =================================
+   COMPATIBILIDAD CON TOP-HEADER
+================================= */
+
+.top-header {
+    background: #176b3a;
+
+    color: white;
+
+    padding: 18px 25px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,.12);
+}
+
+.top-header h1 {
+    margin: 0;
+
+    font-size: 24px;
+}
+
+.top-header span {
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 13px;
+
+    opacity: .85;
+}
+
+.top-header button {
+    border: none;
+
+    background:
+        rgba(255,255,255,.15);
+
+    color: white;
+
+    padding: 10px 16px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.top-header button:hover {
+    background:
+        rgba(255,255,255,.25);
+}
+
+
+/* =================================
    CONTENEDOR
 ================================= */
 
@@ -98,13 +160,21 @@ body {
 ================================= */
 
 .bienvenida {
+    width: 100%;
+
+    max-width: 1050px;
+
+    margin: 35px auto 22px;
+
+    padding: 0 20px;
+}
+
+.bienvenida > div {
     background: white;
 
     border-radius: 18px;
 
     padding: 25px;
-
-    margin-bottom: 22px;
 
     box-shadow:
         0 8px 25px rgba(0,0,0,.06);
@@ -133,14 +203,22 @@ body {
 ================================= */
 
 .resumen {
+    width: 100%;
+
+    max-width: 1050px;
+
+    margin:
+        0 auto 22px;
+
+    padding:
+        0 20px;
+
     display: grid;
 
     grid-template-columns:
         repeat(3, 1fr);
 
     gap: 16px;
-
-    margin-bottom: 22px;
 }
 
 .stat-card {
@@ -214,13 +292,18 @@ body {
 ================================= */
 
 .panel {
+    width: 100%;
+
+    max-width: 1050px;
+
+    margin:
+        0 auto 22px;
+
     background: white;
 
     border-radius: 18px;
 
     padding: 25px;
-
-    margin-bottom: 22px;
 
     box-shadow:
         0 8px 25px rgba(0,0,0,.06);
@@ -301,6 +384,15 @@ body {
         translateY(-1px);
 }
 
+.btn-principal:disabled,
+.btn-secundario:disabled {
+    opacity: .55;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
 
 /* =================================
    LISTA
@@ -322,6 +414,28 @@ body {
     color: #9ca3af;
 
     font-size: 14px;
+}
+
+.vacio {
+    text-align: center;
+
+    padding: 30px;
+
+    color: #6b7280;
+}
+
+.vacio strong {
+    display: block;
+
+    color: #374151;
+
+    margin-bottom: 5px;
+}
+
+.vacio p {
+    margin: 0;
+
+    font-size: 13px;
 }
 
 
@@ -501,6 +615,13 @@ body {
 ================================= */
 
 .nota {
+    width: 100%;
+
+    max-width: 1050px;
+
+    margin:
+        0 auto 30px;
+
     background: #eef6f1;
 
     border:
@@ -509,8 +630,6 @@ body {
     border-radius: 14px;
 
     padding: 17px 20px;
-
-    margin-bottom: 30px;
 
     color: #375a46;
 }
@@ -533,6 +652,18 @@ body {
    MODAL
 ================================= */
 
+/*
+   IMPORTANTE:
+
+   El JavaScript utiliza:
+
+   modal.hidden = false
+
+   Por eso debemos permitir que
+   el modal se muestre cuando
+   NO tiene el atributo hidden.
+*/
+
 .modal {
     position: fixed;
 
@@ -540,8 +671,6 @@ body {
 
     background:
         rgba(0,0,0,.45);
-
-    display: none;
 
     align-items: center;
 
@@ -552,9 +681,24 @@ body {
     z-index: 1000;
 }
 
-.modal.show {
+
+/* Cuando hidden = true */
+
+.modal[hidden] {
+    display: none;
+}
+
+
+/* Cuando hidden = false */
+
+.modal:not([hidden]) {
     display: flex;
 }
+
+
+/* =================================
+   CONTENIDO MODAL
+================================= */
 
 .modal-content {
     width: 100%;
@@ -570,7 +714,40 @@ body {
     box-shadow:
         0 20px 50px
         rgba(0,0,0,.2);
+
+    animation:
+        aparecerModal .18s ease-out;
 }
+
+
+@keyframes aparecerModal {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(8px)
+            scale(.98);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+/* =================================
+   ENCABEZADO MODAL
+================================= */
 
 .modal-header {
     display: flex;
@@ -617,6 +794,12 @@ body {
     font-size: 22px;
 
     cursor: pointer;
+}
+
+.btn-cerrar:hover {
+    background: #e5e7eb;
+
+    color: #374151;
 }
 
 
@@ -675,6 +858,97 @@ body {
     text-align: center;
 }
 
+.mensaje.error {
+    color: #b91c1c;
+}
+
+.mensaje.info {
+    color: #176b3a;
+}
+
+
+/* =================================
+   CREDENCIALES
+================================= */
+
+.credencial-bloque {
+    background: #f4f7f6;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    padding: 13px 15px;
+
+    margin-bottom: 10px;
+}
+
+.credencial-bloque span {
+    display: block;
+
+    color: #9ca3af;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: .7px;
+
+    margin-bottom: 4px;
+}
+
+.credencial-bloque strong {
+    display: block;
+
+    color: #176b3a;
+
+    font-size: 17px;
+
+    word-break: break-word;
+}
+
+.credencial-bloque .password {
+    font-family:
+        Consolas,
+        monospace;
+
+    letter-spacing: 1px;
+
+    color: #111827;
+}
+
+.advertencia-credenciales {
+    background: #fff7ed;
+
+    border:
+        1px solid #fed7aa;
+
+    color: #9a3412;
+
+    border-radius: 10px;
+
+    padding: 12px;
+
+    margin-top: 15px;
+
+    font-size: 12px;
+
+    line-height: 1.45;
+}
+
+.acciones-credenciales {
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 18px;
+}
+
+.acciones-credenciales button {
+    flex: 1;
+}
+
 
 /* =================================
    RESPONSIVE
@@ -698,13 +972,16 @@ body {
     .usuario-row .estado,
     .dispositivo-row .estado {
         grid-column: 2;
+
         justify-self: start;
     }
 
     .usuario-row .acciones,
     .dispositivo-row .acciones {
         grid-column: 3;
-        grid-row: 1 / span 2;
+
+        grid-row:
+            1 / span 2;
     }
 
 }
@@ -712,11 +989,13 @@ body {
 
 @media (max-width: 600px) {
 
-    .header {
+    .header,
+    .top-header {
         padding: 16px;
     }
 
-    .header h1 {
+    .header h1,
+    .top-header h1 {
         font-size: 20px;
     }
 
@@ -727,9 +1006,27 @@ body {
             0 12px;
     }
 
-    .panel,
     .bienvenida {
+        margin-top: 20px;
+
+        padding:
+            0 12px;
+    }
+
+    .resumen {
+        padding:
+            0 12px;
+    }
+
+    .panel {
         padding: 18px;
+
+        border-radius: 16px;
+    }
+
+    .nota {
+        margin:
+            0 12px 30px;
     }
 
     .panel-header {
@@ -762,6 +1059,10 @@ body {
 
     .acciones {
         justify-content: flex-start;
+    }
+
+    .acciones-credenciales {
+        flex-direction: column;
     }
 
 }
