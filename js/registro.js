@@ -11,30 +11,79 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 
-export async function registrarUsuario(datos){
+/*==================================
+REGISTRAR INSTITUCIÓN Y ADMINISTRADOR
+==================================*/
 
-    const credencial = await createUserWithEmailAndPassword(
-        auth,
-        datos.correo,
-        datos.password
-    );
+export async function registrarUsuario(datos) {
 
-    const uid = credencial.user.uid;
+    /*==================================
+    CREAR CUENTA EN FIREBASE AUTH
+    ==================================*/
 
-    const institucionId = crypto.randomUUID();
+    const credencial =
+        await createUserWithEmailAndPassword(
+            auth,
+            datos.correo,
+            datos.password
+        );
+
+
+    const uid =
+        credencial.user.uid;
+
+
+    /*==================================
+    GENERAR ID DE INSTITUCIÓN
+    ==================================*/
+
+    const institucionId =
+        crypto.randomUUID();
+
+
+    /*==================================
+    GUARDAR INSTITUCIÓN
+    ==================================*/
 
     await setDoc(
-        doc(db,"instituciones",institucionId),
+
+        doc(
+            db,
+            "instituciones",
+            institucionId
+        ),
+
         {
 
-            nombre: datos.institucion,
-            fechaRegistro: serverTimestamp(),
-            activa: true
+            nombre:
+                datos.institucion,
+
+            municipio:
+                datos.municipio,
+
+            direccion:
+                datos.direccion,
+
+            telefono:
+                datos.telefono,
+
+            fechaRegistro:
+                serverTimestamp(),
+
+            activa:
+                true
 
         }
+
     );
 
+
+    /*==================================
+    GUARDAR ADMINISTRADOR
+    ==================================*/
+
     await setDoc(
+
         doc(
             db,
             "instituciones",
@@ -42,24 +91,37 @@ export async function registrarUsuario(datos){
             "usuarios",
             uid
         ),
+
         {
 
             uid,
 
-            nombre: datos.administrador,
+            nombre:
+                datos.administrador,
 
-            correo: datos.correo,
+            correo:
+                datos.correo,
 
-            telefono: datos.telefono,
+            telefono:
+                datos.telefono,
 
-            rol: "administrador",
+            rol:
+                "administrador",
 
-            activo: true,
+            activo:
+                true,
 
-            fechaRegistro: serverTimestamp()
+            fechaRegistro:
+                serverTimestamp()
 
         }
+
     );
+
+
+    /*==================================
+    DEVOLVER DATOS
+    ==================================*/
 
     return {
 
