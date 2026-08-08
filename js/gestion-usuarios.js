@@ -13,6 +13,7 @@ import { obtenerUsuario } from "./sesion.js";
 
 import {
     collection,
+    collectionGroup,
     getDocs,
     query,
     where,
@@ -952,12 +953,10 @@ async function crearUsuario() {
         */
 
         const numero =
-            await obtenerSiguienteNumero();
+    await obtenerSiguienteNumero();
 
-
-        const usuarioGenerado =
-            `ATN-${String(numero).padStart(3, "0")}`;
-
+const usuarioGenerado =
+    await generarUsuarioUnico();
 
         /*
         ==================================
@@ -1120,121 +1119,90 @@ async function crearUsuario() {
 
 
 /*==================================
-OBTENER SIGUIENTE NÚMERO
+GENERAR USUARIO ÚNICO
 ==================================*/
 
-async function obtenerSiguienteNumero() {
-
-    const referencia =
-        collection(
-            db,
-            "instituciones",
-            institucionId,
-            "usuarios"
-        );
-
-
-    const consulta =
-        query(
-            referencia,
-            where(
-                "rol",
-                "==",
-                "atencion"
-            )
-        );
-
-
-    const snapshot =
-        await getDocs(
-            consulta
-        );
-
-
-    let mayor =
-        0;
-
-
-    snapshot.forEach(
-        documento => {
-
-            const datos =
-                documento.data();
-
-
-            const numero =
-                Number(
-                    datos.numeroUsuario ||
-                    0
-                );
-
-
-            if (
-                numero > mayor
-            ) {
-
-                mayor =
-                    numero;
-
-            }
-
-        }
-    );
-
-
-    return mayor + 1;
-
-}
-
-
-/*==================================
-GENERAR CONTRASEÑA
-==================================*/
-
-function generarPassword() {
+async function generarUsuarioUnico() {
 
     const caracteres =
-        "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
-
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
     const longitud =
-        12;
+        8;
+
+    let intentos = 0;
+
+    while (intentos < 20) {
+
+        intentos++;
+
+        const valores =
+            new Uint32Array(longitud);
+
+        crypto.getRandomValues(valores);
+
+        let codigo = "";
+
+        for (
+            let i = 0;
+            i < longitud;
+            i++
+        ) {
+
+            codigo +=
+                caracteres[
+                    valores[i] %
+                    caracteres.length
+                ];
+
+        }
+
+        const usuarioGenerado =
+            `ATN-${codigo}`;
 
 
-    const valores =
-        new Uint32Array(
-            longitud
-        );
+        /*
+        ==================================
+        COMPROBAR EXISTENCIA GLOBAL
+        ==================================
+        */
+
+        const referencia =
+            collectionGroup(
+                db,
+                "usuarios"
+            );
 
 
-    crypto.getRandomValues(
-        valores
-    );
+        const consulta =
+            query(
+                referencia,
+                where(
+                    "usuario",
+                    "==",
+                    usuarioGenerado
+                )
+            );
 
 
-    let password =
-        "";
+        const resultado =
+            await getDocs(consulta);
 
 
-    for (
-        let i = 0;
-        i < longitud;
-        i++
-    ) {
+        if (resultado.empty) {
 
-        password +=
-            caracteres[
-                valores[i] %
-                caracteres.length
-            ];
+            return usuarioGenerado;
+
+        }
 
     }
 
 
-    return password;
+    throw new Error(
+        "No fue posible generar un usuario único. Inténtalo nuevamente."
+    );
 
 }
-
 
 /*==================================
 GENERAR SALT
