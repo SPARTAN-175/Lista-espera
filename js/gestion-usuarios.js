@@ -17,7 +17,9 @@ import {
     query,
     where,
     getDoc,
-    doc
+    doc,
+    setDoc,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 
@@ -58,11 +60,48 @@ const btnCrearAtencion =
 const btnVincularCapturista =
     document.getElementById("btnVincularCapturista");
 
-const modalCrear =
-    document.getElementById("modalCrear");
+
+/*==================================
+MODAL CREAR USUARIO
+==================================*/
+
+const modalCrearUsuario =
+    document.getElementById("modalCrearUsuario");
 
 const btnCerrarModal =
     document.getElementById("btnCerrarModal");
+
+const txtNombreUsuario =
+    document.getElementById("txtNombreUsuario");
+
+const mensajeUsuario =
+    document.getElementById("mensajeUsuario");
+
+const btnConfirmarCrear =
+    document.getElementById("btnConfirmarCrear");
+
+
+/*==================================
+MODAL CREDENCIALES
+==================================*/
+
+const modalCredenciales =
+    document.getElementById("modalCredenciales");
+
+const credencialNombre =
+    document.getElementById("credencialNombre");
+
+const credencialUsuario =
+    document.getElementById("credencialUsuario");
+
+const credencialPassword =
+    document.getElementById("credencialPassword");
+
+const btnCopiarCredenciales =
+    document.getElementById("btnCopiarCredenciales");
+
+const btnCerrarCredenciales =
+    document.getElementById("btnCerrarCredenciales");
 
 
 /*==================================
@@ -124,6 +163,15 @@ if (!institucionId) {
 
 
 /*==================================
+LÍMITES PROVISIONALES
+==================================*/
+
+const LIMITE_ATENCION = 5;
+
+const LIMITE_CAPTURISTAS = 5;
+
+
+/*==================================
 CARGAR INSTITUCIÓN
 ==================================*/
 
@@ -164,6 +212,14 @@ async function cargarInstitucion() {
             "Institución";
 
 
+        limiteAtencion.textContent =
+            `${LIMITE_ATENCION} permitidos`;
+
+
+        limiteCapturistas.textContent =
+            `${LIMITE_CAPTURISTAS} permitidos`;
+
+
     } catch (error) {
 
         console.error(
@@ -181,7 +237,7 @@ async function cargarInstitucion() {
 
 
 /*==================================
-CONVERTIR TIMESTAMP A TEXTO
+FORMATEAR FECHA
 ==================================*/
 
 function formatearFecha(timestamp) {
@@ -277,10 +333,16 @@ async function cargarUsuarios() {
 
             listaAtencion.innerHTML = `
 
-                <div class="cargando">
+                <div class="vacio">
 
-                    No hay usuarios de atención
-                    registrados todavía.
+                    <strong>
+                        No hay usuarios de atención
+                    </strong>
+
+                    <p>
+                        Crea el primer usuario para
+                        comenzar a utilizar el sistema.
+                    </p>
 
                 </div>
 
@@ -332,30 +394,29 @@ async function cargarUsuarios() {
                     <div class="usuario-row">
 
                         <div class="usuario-icon">
-
                             🔐
-
                         </div>
 
 
                         <div class="usuario-info">
 
                             <strong>
-
                                 ${
-                                    datos.nombre ||
-                                    "Sin nombre"
+                                    escapeHTML(
+                                        datos.nombre ||
+                                        "Sin nombre"
+                                    )
                                 }
-
                             </strong>
 
                             <small>
-
                                 ${
-                                    datos.correo ||
-                                    "Sin correo"
+                                    escapeHTML(
+                                        datos.usuario ||
+                                        datos.correo ||
+                                        "Sin usuario"
+                                    )
                                 }
-
                             </small>
 
                         </div>
@@ -393,7 +454,7 @@ async function cargarUsuarios() {
 
                             <button
                                 class="btn-accion"
-                                disabled
+                                data-uid="${documento.id}"
                             >
 
                                 Gestionar
@@ -410,21 +471,42 @@ async function cargarUsuarios() {
         );
 
 
-        totalAtencion.textContent =
-            activos;
-
-
         /*
         ==================================
-        LÍMITE PROVISIONAL
+        ACTIVAR BOTONES GESTIONAR
         ==================================
-
-        Después será sustituido por
-        el límite real del plan.
         */
 
-        limiteAtencion.textContent =
-            "5 permitidos";
+        const botonesGestionar =
+            listaAtencion.querySelectorAll(
+                ".btn-accion"
+            );
+
+
+        botonesGestionar.forEach(
+            boton => {
+
+                boton.addEventListener(
+                    "click",
+                    () => {
+
+                        const uid =
+                            boton.dataset.uid;
+
+
+                        gestionarUsuario(
+                            uid
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        totalAtencion.textContent =
+            activos;
 
 
         return activos;
@@ -462,7 +544,22 @@ async function cargarUsuarios() {
 
 
 /*==================================
-CARGAR DISPOSITIVOS CAPTURISTAS
+GESTIONAR USUARIO
+==================================*/
+
+function gestionarUsuario(uid) {
+
+    alert(
+        "Usuario seleccionado:\n\n" +
+        uid +
+        "\n\nLa gestión avanzada la conectaremos en el siguiente paso."
+    );
+
+}
+
+
+/*==================================
+CARGAR CAPTURISTAS
 ==================================*/
 
 async function cargarCapturistas() {
@@ -478,22 +575,6 @@ async function cargarCapturistas() {
             </div>
 
         `;
-
-
-        /*
-        ==================================
-        IMPORTANTE
-
-        La colección REAL de dispositivos
-        está en la raíz de Firestore:
-
-        dispositivos
-
-        NO está dentro de:
-
-        instituciones/{id}/dispositivos
-        ==================================
-        */
 
 
         const referencia =
@@ -531,10 +612,16 @@ async function cargarCapturistas() {
 
             listaCapturistas.innerHTML = `
 
-                <div class="cargando">
+                <div class="vacio">
 
-                    No hay capturistas
-                    vinculados todavía.
+                    <strong>
+                        No hay capturistas vinculados
+                    </strong>
+
+                    <p>
+                        Los dispositivos vinculados
+                        aparecerán aquí.
+                    </p>
 
                 </div>
 
@@ -559,20 +646,6 @@ async function cargarCapturistas() {
                     activos++;
 
                 }
-
-
-                /*
-                ==================================
-                ESTADO ACTUAL
-
-                Por ahora usamos "activo" como
-                estado del dispositivo.
-
-                Más adelante agregaremos un
-                heartbeat para saber si realmente
-                está conectado en tiempo real.
-                ==================================
-                */
 
 
                 const estadoClase =
@@ -600,26 +673,24 @@ async function cargarCapturistas() {
                     <div class="dispositivo-row">
 
                         <div class="dispositivo-icon">
-
                             📱
-
                         </div>
 
 
                         <div class="dispositivo-info">
 
                             <strong>
-
                                 Capturista
-
                             </strong>
 
                             <small>
 
                                 Dispositivo:
                                 ${
-                                    datos.dispositivoId
-                                    || documento.id
+                                    escapeHTML(
+                                        datos.dispositivoId ||
+                                        documento.id
+                                    )
                                 }
 
                             </small>
@@ -680,10 +751,6 @@ async function cargarCapturistas() {
             activos;
 
 
-        limiteCapturistas.textContent =
-            "5 permitidos";
-
-
         return activos;
 
 
@@ -719,7 +786,7 @@ async function cargarCapturistas() {
 
 
 /*==================================
-ACTUALIZAR RESUMEN
+ACTUALIZAR TOTALES
 ==================================*/
 
 async function actualizarTotales() {
@@ -732,26 +799,6 @@ async function actualizarTotales() {
         await cargarCapturistas();
 
 
-    /*
-    ==================================
-    IMPORTANTE
-
-    Por ahora "activos" significa:
-
-    Atención:
-    activo === true
-
-    Capturista:
-    activo === true
-
-    Todavía NO significa "en línea".
-
-    Eso lo implementaremos después
-    con heartbeat.
-    ==================================
-    */
-
-
     totalActivos.textContent =
         usuariosAtencion +
         capturistas;
@@ -760,7 +807,719 @@ async function actualizarTotales() {
 
 
 /*==================================
-REGRESAR AL DASHBOARD
+ABRIR MODAL CREAR
+==================================*/
+
+btnCrearAtencion.addEventListener(
+    "click",
+    () => {
+
+        txtNombreUsuario.value =
+            "";
+
+        mensajeUsuario.textContent =
+            "";
+
+        mensajeUsuario.className =
+            "mensaje";
+
+
+        modalCrearUsuario.hidden =
+            false;
+
+
+        setTimeout(
+            () => {
+
+                txtNombreUsuario.focus();
+
+            },
+            100
+        );
+
+    }
+);
+
+
+/*==================================
+CERRAR MODAL CREAR
+==================================*/
+
+btnCerrarModal.addEventListener(
+    "click",
+    () => {
+
+        modalCrearUsuario.hidden =
+            true;
+
+    }
+);
+
+
+/*==================================
+CREAR USUARIO
+==================================*/
+
+btnConfirmarCrear.addEventListener(
+    "click",
+    crearUsuario
+);
+
+
+async function crearUsuario() {
+
+    const nombre =
+        txtNombreUsuario.value.trim();
+
+
+    if (!nombre) {
+
+        mostrarMensaje(
+            "Escribe el nombre del usuario.",
+            "error"
+        );
+
+        txtNombreUsuario.focus();
+
+        return;
+
+    }
+
+
+    btnConfirmarCrear.disabled =
+        true;
+
+
+    btnConfirmarCrear.textContent =
+        "Creando...";
+
+
+    try {
+
+        /*
+        ==================================
+        COMPROBAR LÍMITE
+        ==================================
+        */
+
+        const referencia =
+            collection(
+                db,
+                "instituciones",
+                institucionId,
+                "usuarios"
+            );
+
+
+        const consulta =
+            query(
+                referencia,
+                where(
+                    "rol",
+                    "==",
+                    "atencion"
+                ),
+                where(
+                    "activo",
+                    "==",
+                    true
+                )
+            );
+
+
+        const existentes =
+            await getDocs(
+                consulta
+            );
+
+
+        if (
+            existentes.size >=
+            LIMITE_ATENCION
+        ) {
+
+            throw new Error(
+                `La institución ya tiene ${LIMITE_ATENCION} usuarios de atención activos.`
+            );
+
+        }
+
+
+        /*
+        ==================================
+        GENERAR USUARIO
+        ==================================
+        */
+
+        const numero =
+            await obtenerSiguienteNumero();
+
+
+        const usuarioGenerado =
+            `ATN-${String(numero).padStart(3, "0")}`;
+
+
+        /*
+        ==================================
+        GENERAR PASSWORD
+        ==================================
+        */
+
+        const password =
+            generarPassword();
+
+
+        /*
+        ==================================
+        GENERAR SALT
+        ==================================
+        */
+
+        const salt =
+            generarSalt();
+
+
+        /*
+        ==================================
+        GENERAR HASH
+        ==================================
+        */
+
+        const passwordHash =
+            await generarHash(
+                password,
+                salt
+            );
+
+
+        /*
+        ==================================
+        ID INTERNO
+        ==================================
+        */
+
+        const uidInterno =
+            crypto.randomUUID();
+
+
+        /*
+        ==================================
+        GUARDAR USUARIO
+        ==================================
+        */
+
+        await setDoc(
+            doc(
+                db,
+                "instituciones",
+                institucionId,
+                "usuarios",
+                uidInterno
+            ),
+            {
+
+                uid:
+                    uidInterno,
+
+                nombre,
+
+                usuario:
+                    usuarioGenerado,
+
+                numeroUsuario:
+                    numero,
+
+                passwordHash,
+
+                passwordSalt:
+                    salt,
+
+                rol:
+                    "atencion",
+
+                activo:
+                    true,
+
+                fechaRegistro:
+                    serverTimestamp(),
+
+                creadoPor:
+                    usuario.uid
+
+            }
+        );
+
+
+        /*
+        ==================================
+        CERRAR MODAL
+        ==================================
+        */
+
+        modalCrearUsuario.hidden =
+            true;
+
+
+        /*
+        ==================================
+        MOSTRAR CREDENCIALES
+        ==================================
+        */
+
+        credencialNombre.textContent =
+            nombre;
+
+
+        credencialUsuario.textContent =
+            usuarioGenerado;
+
+
+        credencialPassword.textContent =
+            password;
+
+
+        modalCredenciales.hidden =
+            false;
+
+
+        /*
+        ==================================
+        ACTUALIZAR LISTA
+        ==================================
+        */
+
+        await cargarUsuarios();
+
+
+    } catch (error) {
+
+        console.error(
+            "Error creando usuario:",
+            error
+        );
+
+
+        mostrarMensaje(
+            error.message ||
+            "No fue posible crear el usuario.",
+            "error"
+        );
+
+
+    } finally {
+
+        btnConfirmarCrear.disabled =
+            false;
+
+        btnConfirmarCrear.textContent =
+            "Crear usuario";
+
+    }
+
+}
+
+
+/*==================================
+OBTENER SIGUIENTE NÚMERO
+==================================*/
+
+async function obtenerSiguienteNumero() {
+
+    const referencia =
+        collection(
+            db,
+            "instituciones",
+            institucionId,
+            "usuarios"
+        );
+
+
+    const consulta =
+        query(
+            referencia,
+            where(
+                "rol",
+                "==",
+                "atencion"
+            )
+        );
+
+
+    const snapshot =
+        await getDocs(
+            consulta
+        );
+
+
+    let mayor =
+        0;
+
+
+    snapshot.forEach(
+        documento => {
+
+            const datos =
+                documento.data();
+
+
+            const numero =
+                Number(
+                    datos.numeroUsuario ||
+                    0
+                );
+
+
+            if (
+                numero > mayor
+            ) {
+
+                mayor =
+                    numero;
+
+            }
+
+        }
+    );
+
+
+    return mayor + 1;
+
+}
+
+
+/*==================================
+GENERAR CONTRASEÑA
+==================================*/
+
+function generarPassword() {
+
+    const caracteres =
+        "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+
+
+    const longitud =
+        12;
+
+
+    const valores =
+        new Uint32Array(
+            longitud
+        );
+
+
+    crypto.getRandomValues(
+        valores
+    );
+
+
+    let password =
+        "";
+
+
+    for (
+        let i = 0;
+        i < longitud;
+        i++
+    ) {
+
+        password +=
+            caracteres[
+                valores[i] %
+                caracteres.length
+            ];
+
+    }
+
+
+    return password;
+
+}
+
+
+/*==================================
+GENERAR SALT
+==================================*/
+
+function generarSalt() {
+
+    const valores =
+        new Uint8Array(
+            16
+        );
+
+
+    crypto.getRandomValues(
+        valores
+    );
+
+
+    return Array
+        .from(valores)
+        .map(
+            numero =>
+                numero
+                    .toString(16)
+                    .padStart(
+                        2,
+                        "0"
+                    )
+        )
+        .join("");
+
+}
+
+
+/*==================================
+GENERAR HASH PBKDF2
+==================================*/
+
+async function generarHash(
+    password,
+    salt
+) {
+
+    const encoder =
+        new TextEncoder();
+
+
+    const datos =
+        encoder.encode(
+            password
+        );
+
+
+    const clave =
+        await crypto.subtle.importKey(
+            "raw",
+            datos,
+            "PBKDF2",
+            false,
+            [
+                "deriveBits"
+            ]
+        );
+
+
+    const saltBytes =
+        hexToBytes(
+            salt
+        );
+
+
+    const bits =
+        await crypto.subtle.deriveBits(
+            {
+                name:
+                    "PBKDF2",
+
+                salt:
+                    saltBytes,
+
+                iterations:
+                    150000,
+
+                hash:
+                    "SHA-256"
+
+            },
+            clave,
+            256
+        );
+
+
+    return bytesToHex(
+        new Uint8Array(
+            bits
+        )
+    );
+
+}
+
+
+/*==================================
+HEX → BYTES
+==================================*/
+
+function hexToBytes(
+    hex
+) {
+
+    const resultado =
+        new Uint8Array(
+            hex.length / 2
+        );
+
+
+    for (
+        let i = 0;
+        i < resultado.length;
+        i++
+    ) {
+
+        resultado[i] =
+            parseInt(
+                hex.substr(
+                    i * 2,
+                    2
+                ),
+                16
+            );
+
+    }
+
+
+    return resultado;
+
+}
+
+
+/*==================================
+BYTES → HEX
+==================================*/
+
+function bytesToHex(
+    bytes
+) {
+
+    return Array
+        .from(bytes)
+        .map(
+            byte =>
+                byte
+                    .toString(16)
+                    .padStart(
+                        2,
+                        "0"
+                    )
+        )
+        .join("");
+
+}
+
+
+/*==================================
+COPIAR CREDENCIALES
+==================================*/
+
+btnCopiarCredenciales.addEventListener(
+    "click",
+    async () => {
+
+        const texto =
+            `MOTI Queue\n\n` +
+            `Nombre: ${
+                credencialNombre.textContent
+            }\n` +
+            `Usuario: ${
+                credencialUsuario.textContent
+            }\n` +
+            `Contraseña: ${
+                credencialPassword.textContent
+            }`;
+
+
+        try {
+
+            await navigator.clipboard.writeText(
+                texto
+            );
+
+
+            btnCopiarCredenciales.textContent =
+                "✓ Copiado";
+
+
+            setTimeout(
+                () => {
+
+                    btnCopiarCredenciales.textContent =
+                        "📋 Copiar credenciales";
+
+                },
+                2000
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+
+
+            alert(
+                "No fue posible copiar las credenciales."
+            );
+
+        }
+
+    }
+);
+
+
+/*==================================
+CERRAR CREDENCIALES
+==================================*/
+
+btnCerrarCredenciales.addEventListener(
+    "click",
+    () => {
+
+        modalCredenciales.hidden =
+            true;
+
+
+        credencialPassword.textContent =
+            "---";
+
+    }
+);
+
+
+/*==================================
+MENSAJE
+==================================*/
+
+function mostrarMensaje(
+    texto,
+    tipo
+) {
+
+    mensajeUsuario.textContent =
+        texto;
+
+
+    mensajeUsuario.className =
+        `mensaje ${tipo}`;
+
+}
+
+
+/*==================================
+ESCAPAR HTML
+==================================*/
+
+function escapeHTML(
+    texto
+) {
+
+    const elemento =
+        document.createElement(
+            "div"
+        );
+
+
+    elemento.textContent =
+        texto;
+
+
+    return elemento.innerHTML;
+
+}
+
+
+/*==================================
+NAVEGACIÓN
 ==================================*/
 
 btnRegresar.addEventListener(
@@ -773,61 +1532,6 @@ btnRegresar.addEventListener(
     }
 );
 
-
-/*==================================
-ABRIR MODAL CREAR USUARIO
-==================================*/
-
-btnCrearAtencion.addEventListener(
-    "click",
-    () => {
-
-        modalCrear.classList.add(
-            "show"
-        );
-
-    }
-);
-
-
-/*==================================
-CERRAR MODAL
-==================================*/
-
-btnCerrarModal.addEventListener(
-    "click",
-    () => {
-
-        modalCrear.classList.remove(
-            "show"
-        );
-
-    }
-);
-
-
-modalCrear.addEventListener(
-    "click",
-    evento => {
-
-        if (
-            evento.target ===
-            modalCrear
-        ) {
-
-            modalCrear.classList.remove(
-                "show"
-            );
-
-        }
-
-    }
-);
-
-
-/*==================================
-VINCULAR CAPTURISTA
-==================================*/
 
 btnVincularCapturista.addEventListener(
     "click",
