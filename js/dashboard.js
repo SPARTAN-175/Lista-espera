@@ -64,25 +64,15 @@ btnVinculacion.addEventListener("click", () => {
 });
 
 
-// =============================
-// MODAL QR
-// =============================
-
+// Abrir generador de QR
 btnQRConsulta.addEventListener("click", () => {
 
-    const datos = obtenerUsuario();
-
-    console.log(datos);
-
-    modalQRConsulta.classList.remove("oculto");
+    window.location.href =
+        "qr-consulta.html";
 
 });
 
-btnCerrarQR.addEventListener("click", () => {
 
-    modalQRConsulta.classList.add("oculto");
-
-});
 
 
 
