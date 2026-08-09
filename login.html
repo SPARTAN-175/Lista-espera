@@ -1,156 +1,199 @@
-<div class="login-container">
+<!DOCTYPE html>
+<html lang="es">
 
-    <div class="login-card">
+<head>
 
-        <img
-            src="img/logo.png"
-            class="logo" 
-            alt="MOTI Queue">
+    <meta charset="UTF-8">
 
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-        <h1>
-            MOTI Queue
-        </h1>
+    <title>MOTI Queue</title>
 
+    <link
+        rel="stylesheet"
+        href="css/login.css">
 
-        <p class="subtitulo">
-            Sistema Inteligente de Gestión de Turnos
-        </p>
-
-
-        <!-- =================================
-             ACCESO PERSONAL
-        ================================== -->
-
-        <div class="login-form">
-
-            <label for="correo">
-                Correo electrónico o usuario
-            </label>
+</head>
 
 
-            <input
-                type="text"
-                id="correo"
-                placeholder="Correo o ATN-XXXXXXXX"
-                autocomplete="username">
+<body>
+
+    <div class="login-container">
+
+        <div class="login-card">
+
+            <img
+                src="img/logo.png"
+                class="logo"
+                alt="MOTI Queue">
 
 
-            <label for="password">
-                Contraseña
-            </label>
+            <h1>
+                MOTI Queue
+            </h1>
 
 
-            <div class="password-container">
+            <p class="subtitulo">
+                Sistema Inteligente de Gestión de Turnos
+            </p>
+
+
+            <!-- =================================
+                 ACCESO PERSONAL
+            ================================== -->
+
+            <div class="login-form">
+
+                <label for="correo">
+                    Correo electrónico o usuario
+                </label>
+
 
                 <input
-                    type="password"
-                    id="password"
-                    placeholder="Contraseña"
-                    autocomplete="current-password">
+                    type="text"
+                    id="correo"
+                    placeholder="Correo o ATN-XXXXXXXX"
+                    autocomplete="username">
+
+
+                <label for="password">
+                    Contraseña
+                </label>
+
+
+                <div class="password-container">
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Contraseña"
+                        autocomplete="current-password">
+
+
+                    <button
+                        type="button"
+                        id="btnMostrarPassword"
+                        class="btn-password"
+                        aria-label="Mostrar contraseña">
+
+                        👁
+
+                    </button>
+
+                </div>
+
+
+                <button
+                    id="btnIngresar"
+                    class="btn-principal">
+
+                    Iniciar sesión
+
+                </button>
 
 
                 <button
                     type="button"
-                    id="btnMostrarPassword"
-                    class="btn-password"
-                    aria-label="Mostrar contraseña">
+                    id="btnRecuperarPassword"
+                    class="btn-recuperar">
 
-                    👁
+                    ¿Olvidaste tu contraseña?
 
                 </button>
 
             </div>
 
 
-            <button
-                id="btnIngresar"
-                class="btn-principal">
+            <!-- =================================
+                 SEPARADOR
+            ================================== -->
 
-                Iniciar sesión
+            <div class="separador">
 
-            </button>
+                <span>
+                    o
+                </span>
 
-
-            <button
-                type="button"
-                id="btnRecuperarPassword"
-                class="btn-recuperar">
-
-                ¿Olvidaste tu contraseña?
-
-            </button>
-
-        </div>
-
-
-        <!-- =================================
-             SEPARADOR
-        ================================== -->
-
-        <div class="separador">
-
-            <span>
-                o
-            </span>
-
-        </div>
-
-
-        <!-- =================================
-             ACCESO CAPTURISTA
-        ================================== -->
-
-        <div class="acceso-qr">
-
-            <div class="qr-icono">
-                ▣
             </div>
 
 
-            <h2>
-                Acceso con dispositivo
-            </h2>
+            <!-- =================================
+                 ACCESO CAPTURISTA
+            ================================== -->
+
+            <div class="acceso-qr">
+
+                <div class="qr-icono">
+                    ▣
+                </div>
 
 
-            <p>
-                Escanea el código QR proporcionado
-                por el administrador.
-            </p>
+                <h2>
+                    Acceso con dispositivo
+                </h2>
 
 
-            <button
-                id="btnEscanearQR"
-                class="btn-qr">
-
-                Escanear código QR
-
-            </button>
-
-        </div>
+                <p>
+                    Escanea el código QR proporcionado
+                    por el administrador.
+                </p>
 
 
-        <!-- =================================
-             LECTOR QR
-        ================================== -->
+                <button
+                    id="btnEscanearQR"
+                    class="btn-qr">
 
-        <div
-            id="lectorQR"
-            class="lector-qr">
+                    Escanear código QR
 
-        </div>
+                </button>
+
+            </div>
 
 
-        <!-- =================================
-             MENSAJE
-        ================================== -->
+            <!-- =================================
+                 LECTOR QR
+            ================================== -->
 
-        <div
-            id="mensaje"
-            class="mensaje">
+            <div
+                id="lectorQR"
+                class="lector-qr">
+
+            </div>
+
+
+            <!-- =================================
+                 MENSAJE
+            ================================== -->
+
+            <div
+                id="mensaje"
+                class="mensaje">
+
+            </div>
 
         </div>
 
     </div>
 
-</div>
+
+    <!-- =================================
+         LIBRERÍA QR
+    ================================== -->
+
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
+
+    <!-- =================================
+         LOGIN
+    ================================== -->
+
+    <script
+        type="module"
+        src="js/login.js">
+    </script>
+
+</body>
+
+</html>
