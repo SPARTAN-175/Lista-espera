@@ -1,124 +1,756 @@
+/* =========================================
+   RESET
+========================================= */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
-}
+* {
 
-body{
+    margin: 0;
+    padding: 0;
 
-    background:#f5f7fb;
+    box-sizing: border-box;
 
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    min-height:100vh;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
 }
 
-.login-container{
 
-    width:90%;
-    max-width:420px;
+/* =========================================
+   BODY
+========================================= */
 
-    background:white;
+body {
 
-    border-radius:20px;
+    min-height: 100vh;
 
-    padding:35px;
+    display: flex;
 
-    box-shadow:0 10px 30px rgba(0,0,0,.12);
+    justify-content: center;
 
-    text-align:center;
+    align-items: center;
 
-}
+    padding: 25px;
 
-.logo{
-
-    width:140px;
-
-    margin-bottom:20px;
-
-}
-
-h1{
-
-    color:#0b8f3c;
-
-    margin-bottom:8px;
+    background:
+        linear-gradient(
+            135deg,
+            #f4faf6 0%,
+            #eef7f1 50%,
+            #f5f7fb 100%
+        );
 
 }
 
-p{
 
-    color:#666;
+/* =========================================
+   CONTENEDOR
+========================================= */
 
-    margin-bottom:30px;
+.login-container {
 
-}
+    width: 100%;
 
-input{
-
-    width:100%;
-
-    padding:15px;
-
-    margin-bottom:15px;
-
-    border-radius:12px;
-
-    border:1px solid #d9d9d9;
-
-    font-size:16px;
+    max-width: 460px;
 
 }
 
-input:focus{
 
-    outline:none;
+/* =========================================
+   TARJETA
+========================================= */
 
-    border-color:#0b8f3c;
+.login-card {
+
+    position: relative;
+
+    background: #ffffff;
+
+    border-radius: 24px;
+
+    padding: 38px 38px 32px;
+
+    text-align: center;
+
+    box-shadow:
+        0 20px 50px rgba(
+            0,
+            0,
+            0,
+            .10
+        );
+
+    border:
+        1px solid
+        rgba(
+            11,
+            143,
+            60,
+            .08
+        );
 
 }
 
-button{
 
-    width:100%;
+/* =========================================
+   DETALLE SUPERIOR VERDE
+========================================= */
 
-    padding:15px;
+.login-card::before {
 
-    border:none;
+    content: "";
 
-    border-radius:12px;
+    position: absolute;
 
-    background:#0b8f3c;
+    top: 0;
+    left: 0;
+    right: 0;
 
-    color:white;
+    height: 6px;
 
-    font-size:16px;
+    border-radius:
+        24px
+        24px
+        0
+        0;
 
-    cursor:pointer;
-
-    transition:.3s;
+    background:
+        linear-gradient(
+            90deg,
+            #087332,
+            #0b8f3c,
+            #20a957
+        );
 
 }
 
-button:hover{
 
-    background:#087332;
+/* =========================================
+   LOGO
+========================================= */
+
+.logo {
+
+    width: 125px;
+
+    height: auto;
+
+    margin-top: 5px;
+
+    margin-bottom: 14px;
 
 }
 
-#mensaje{
 
-    margin-top:20px;
+/* =========================================
+   TÍTULO
+========================================= */
 
-    color:#d32f2f;
+h1 {
 
-    font-size:14px;
+    color: #0b8f3c;
+
+    font-size: 29px;
+
+    font-weight: 700;
+
+    margin-bottom: 7px;
+
+}
+
+
+/* =========================================
+   SUBTÍTULO
+========================================= */
+
+.subtitulo {
+
+    color: #707070;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    margin-bottom: 28px;
+
+}
+
+
+/* =========================================
+   FORMULARIO
+========================================= */
+
+.login-form {
+
+    text-align: left;
+
+}
+
+
+/* =========================================
+   LABELS
+========================================= */
+
+.login-form label {
+
+    display: block;
+
+    color: #3e3e3e;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    margin-bottom: 7px;
+
+}
+
+
+/* =========================================
+   INPUTS
+========================================= */
+
+input {
+
+    width: 100%;
+
+    height: 52px;
+
+    padding:
+        0
+        15px;
+
+    margin-bottom: 17px;
+
+    border:
+        1px solid
+        #dfe3e0;
+
+    border-radius: 13px;
+
+    background: #fafcfb;
+
+    color: #222;
+
+    font-size: 15px;
+
+    transition:
+        border-color .2s,
+        box-shadow .2s,
+        background .2s;
+
+}
+
+
+input::placeholder {
+
+    color: #9b9b9b;
+
+}
+
+
+input:focus {
+
+    outline: none;
+
+    background: #ffffff;
+
+    border-color:
+        #0b8f3c;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(
+            11,
+            143,
+            60,
+            .09
+        );
+
+}
+
+
+/* =========================================
+   CONTRASEÑA
+========================================= */
+
+.password-container {
+
+    position: relative;
+
+}
+
+
+.password-container input {
+
+    padding-right: 52px;
+
+}
+
+
+.btn-password {
+
+    position: absolute;
+
+    right: 7px;
+
+    top: 5px;
+
+    width: 42px;
+
+    height: 42px;
+
+    padding: 0;
+
+    background: transparent;
+
+    color: #777;
+
+    border-radius: 10px;
+
+    font-size: 17px;
+
+}
+
+
+.btn-password:hover {
+
+    background:
+        #eef7f1;
+
+    color:
+        #0b8f3c;
+
+}
+
+
+/* =========================================
+   BOTÓN PRINCIPAL
+========================================= */
+
+.btn-principal {
+
+    width: 100%;
+
+    height: 52px;
+
+    margin-top: 3px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0b8f3c,
+            #087332
+        );
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 7px 18px
+        rgba(
+            11,
+            143,
+            60,
+            .20
+        );
+
+    transition:
+        transform .2s,
+        box-shadow .2s,
+        opacity .2s;
+
+}
+
+
+.btn-principal:hover {
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 10px 22px
+        rgba(
+            11,
+            143,
+            60,
+            .27
+        );
+
+}
+
+
+.btn-principal:active {
+
+    transform:
+        translateY(0);
+
+}
+
+
+.btn-principal:disabled {
+
+    opacity: .65;
+
+    cursor:
+        not-allowed;
+
+    transform:
+        none;
+
+}
+
+
+/* =========================================
+   RECUPERAR CONTRASEÑA
+========================================= */
+
+.btn-recuperar {
+
+    width: auto;
+
+    margin:
+        15px auto 0;
+
+    padding: 5px 8px;
+
+    border: none;
+
+    background: transparent;
+
+    color:
+        #0b8f3c;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+}
+
+
+.btn-recuperar:hover {
+
+    text-decoration:
+        underline;
+
+    background:
+        transparent;
+
+}
+
+
+/* =========================================
+   SEPARADOR
+========================================= */
+
+.separador {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    margin:
+        27px 0 24px;
+
+    color: #a1a1a1;
+
+    font-size: 12px;
+
+}
+
+
+.separador::before,
+.separador::after {
+
+    content: "";
+
+    flex: 1;
+
+    height: 1px;
+
+    background:
+        #e5e9e6;
+
+}
+
+
+.separador span {
+
+    width: 25px;
+
+    height: 25px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 50%;
+
+    background:
+        #f5f7f6;
+
+}
+
+
+/* =========================================
+   ACCESO QR
+========================================= */
+
+.acceso-qr {
+
+    padding:
+        21px 18px 19px;
+
+    border:
+        1px solid
+        #e1ebe4;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f8fcf9,
+            #f2f8f4
+        );
+
+}
+
+
+/* =========================================
+   ICONO QR
+========================================= */
+
+.qr-icono {
+
+    width: 46px;
+
+    height: 46px;
+
+    margin:
+        0 auto 11px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 13px;
+
+    background:
+        #e2f3e8;
+
+    color:
+        #0b8f3c;
+
+    font-size: 26px;
+
+    font-weight: bold;
+
+}
+
+
+/* =========================================
+   TÍTULO QR
+========================================= */
+
+.acceso-qr h2 {
+
+    color: #303530;
+
+    font-size: 16px;
+
+    margin-bottom: 7px;
+
+}
+
+
+/* =========================================
+   TEXTO QR
+========================================= */
+
+.acceso-qr p {
+
+    max-width: 300px;
+
+    margin:
+        0 auto 16px;
+
+    color: #777;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+}
+
+
+/* =========================================
+   BOTÓN QR
+========================================= */
+
+.btn-qr {
+
+    width: 100%;
+
+    height: 46px;
+
+    border:
+        1px solid
+        #0b8f3c;
+
+    border-radius: 12px;
+
+    background:
+        #ffffff;
+
+    color:
+        #0b8f3c;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background .2s,
+        color .2s,
+        transform .2s;
+
+}
+
+
+.btn-qr:hover {
+
+    background:
+        #0b8f3c;
+
+    color:
+        #ffffff;
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+/* =========================================
+   LECTOR QR
+========================================= */
+
+.lector-qr {
+
+    display: none;
+
+    width: 100%;
+
+    margin-top: 20px;
+
+    padding: 12px;
+
+    border-radius: 18px;
+
+    background:
+        #111;
+
+    overflow: hidden;
+
+}
+
+
+/* =========================================
+   MENSAJE
+========================================= */
+
+.mensaje {
+
+    min-height: 20px;
+
+    margin-top: 17px;
+
+    color:
+        #d32f2f;
+
+    font-size: 13px;
+
+    line-height: 1.4;
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (
+    max-width: 500px
+) {
+
+    body {
+
+        padding:
+            15px;
+
+        align-items:
+            flex-start;
+
+        padding-top:
+            30px;
+
+    }
+
+
+    .login-card {
+
+        padding:
+            34px 23px 25px;
+
+        border-radius:
+            20px;
+
+    }
+
+
+    .login-card::before {
+
+        border-radius:
+            20px
+            20px
+            0
+            0;
+
+    }
+
+
+    .logo {
+
+        width:
+            110px;
+
+    }
+
+
+    h1 {
+
+        font-size:
+            26px;
+
+    }
 
 }
