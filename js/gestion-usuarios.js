@@ -472,11 +472,9 @@ async function cargarUsuarios() {
         );
 
 
-        /*
-        ==================================
+        /*==================================
         ACTIVAR BOTONES GESTIONAR
-        ==================================
-        */
+        ==================================*/
 
         const botonesGestionar =
             listaAtencion.querySelectorAll(
@@ -878,28 +876,40 @@ async function obtenerSiguienteNumero() {
         );
 
     const consulta =
-        await getDocs(referencia);
+        await getDocs(
+            referencia
+        );
 
     let mayor = 0;
 
-    consulta.forEach((documento) => {
+    consulta.forEach(
+        documento => {
 
-        const datos = documento.data();
+            const datos =
+                documento.data();
 
-        const numero =
-            Number(datos.numeroUsuario) || 0;
+            const numero =
+                Number(
+                    datos.numeroUsuario
+                ) || 0;
 
-        if (numero > mayor) {
 
-            mayor = numero;
+            if (numero > mayor) {
+
+                mayor = numero;
+
+            }
 
         }
-
-    });
+    );
 
     return mayor + 1;
 
 }
+
+/*==================================
+CREAR USUARIO
+==================================*/
 
 async function crearUsuario() {
 
@@ -907,14 +917,17 @@ async function crearUsuario() {
         txtNombreUsuario.value.trim();
 
 
+    mensajeUsuario.textContent =
+        "";
+
+
     if (!nombre) {
 
-        mostrarMensaje(
-            "Escribe el nombre del usuario.",
-            "error"
-        );
+        mensajeUsuario.textContent =
+            "Escribe el nombre del usuario.";
 
-        txtNombreUsuario.focus();
+        mensajeUsuario.className =
+            "mensaje error";
 
         return;
 
@@ -924,16 +937,15 @@ async function crearUsuario() {
     btnConfirmarCrear.disabled =
         true;
 
-
     btnConfirmarCrear.textContent =
-        "Creando...";
+        "Creando usuario...";
 
 
     try {
 
         /*
         ==================================
-        COMPROBAR LÍMITE
+        VERIFICAR LÍMITE
         ==================================
         */
 
@@ -953,28 +965,27 @@ async function crearUsuario() {
                     "rol",
                     "==",
                     "atencion"
-                ),
-                where(
-                    "activo",
-                    "==",
-                    true
                 )
             );
 
 
-        const existentes =
+        const snapshot =
             await getDocs(
                 consulta
             );
 
 
+        const cantidadUsuarios =
+            snapshot.size;
+
+
         if (
-            existentes.size >=
+            cantidadUsuarios >=
             LIMITE_ATENCION
         ) {
 
             throw new Error(
-                `La institución ya tiene ${LIMITE_ATENCION} usuarios de atención activos.`
+                "limite-atencion"
             );
 
         }
@@ -982,118 +993,25 @@ async function crearUsuario() {
 
         /*
         ==================================
-        GENERAR USUARIO
+        GENERAR DATOS
         ==================================
         */
 
         const numero =
-    await obtenerSiguienteNumero();
+            await obtenerSiguienteNumero();
 
-const usuarioGenerado =
-    await generarUsuarioUnico();
-
-
-
-
-
-
-/*==================================
-GENERAR USUARIO ÚNICO
-==================================*/
-
-async function generarUsuarioUnico() {
-
-    const caracteres =
-        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-    const longitud = 8;
-
-    for (let intento = 0; intento < 20; intento++) {
-
-        const valores =
-            new Uint32Array(longitud);
-
-        crypto.getRandomValues(valores);
-
-        let codigo = "";
-
-        for (
-            let i = 0;
-            i < longitud;
-            i++
-        ) {
-
-            codigo +=
-                caracteres[
-                    valores[i] %
-                    caracteres.length
-                ];
-
-        }
 
         const usuarioGenerado =
-            `ATN-${codigo}`;
+            await generarUsuarioUnico();
 
-
-        /*
-        ==================================
-        COMPROBAR EXISTENCIA GLOBAL
-        ==================================
-        */
-
-        const referencia =
-            doc(
-                db,
-                "usuariosAcceso",
-                usuarioGenerado
-            );
-
-
-        const documento =
-            await getDoc(referencia);
-
-
-        if (!documento.exists()) {
-
-            return usuarioGenerado;
-
-        }
-
-    }
-
-
-    throw new Error(
-        "No fue posible generar un usuario único."
-    );
-
-}
-
-
-        /*
-        ==================================
-        GENERAR PASSWORD
-        ==================================
-        */
 
         const password =
             generarPassword();
 
 
-        /*
-        ==================================
-        GENERAR SALT
-        ==================================
-        */
-
         const salt =
             generarSalt();
 
-
-        /*
-        ==================================
-        GENERAR HASH
-        ==================================
-        */
 
         const passwordHash =
             await generarHash(
@@ -1104,7 +1022,7 @@ async function generarUsuarioUnico() {
 
         /*
         ==================================
-        ID INTERNO
+        CREAR UID INTERNO
         ==================================
         */
 
@@ -1114,121 +1032,112 @@ async function generarUsuarioUnico() {
 
         /*
         ==================================
-        GUARDAR USUARIO
+        CREAR BATCH
         ==================================
         */
 
-        const batch = writeBatch(db);
-
-
-/*
-==================================
-USUARIO DE LA INSTITUCIÓN
-==================================
-*/
-
-const referenciaUsuario =
-    doc(
-        db,
-        "instituciones",
-        institucionId,
-        "usuarios",
-        uidInterno
-    );
-
-
-batch.set(
-    referenciaUsuario,
-    {
-
-        uid:
-            uidInterno,
-
-        nombre,
-
-        usuario:
-            usuarioGenerado,
-
-        numeroUsuario:
-            numero,
-
-        passwordHash,
-
-        passwordSalt:
-            salt,
-
-        rol:
-            "atencion",
-
-        activo:
-            true,
-
-        fechaRegistro:
-            serverTimestamp(),
-
-        creadoPor:
-            usuario.uid
-
-    }
-);
-
-
-/*
-==================================
-ÍNDICE GLOBAL DE ACCESO
-==================================
-*/
-
-const referenciaAcceso =
-    doc(
-        db,
-        "usuariosAcceso",
-        usuarioGenerado
-    );
-
-
-batch.set(
-    referenciaAcceso,
-    {
-
-        uid:
-            uidInterno,
-
-        institucionId,
-
-        usuario:
-            usuarioGenerado,
-
-        rol:
-            "atencion",
-
-        activo:
-            true,
-
-        fechaCreacion:
-            serverTimestamp()
-
-    }
-);
-
-
-/*
-==================================
-GUARDAR TODO
-==================================
-*/
-
-await batch.commit();
+        const batch =
+            writeBatch(db);
 
 
         /*
         ==================================
-        CERRAR MODAL
+        DOCUMENTO DEL USUARIO
         ==================================
         */
 
-        modalCrearUsuario.hidden =
-            true;
+        const referenciaUsuario =
+            doc(
+                db,
+                "instituciones",
+                institucionId,
+                "usuarios",
+                uidInterno
+            );
+
+
+        batch.set(
+            referenciaUsuario,
+            {
+
+                uid:
+                    uidInterno,
+
+                nombre,
+
+                usuario:
+                    usuarioGenerado,
+
+                numeroUsuario:
+                    numero,
+
+                passwordHash,
+
+                passwordSalt:
+                    salt,
+
+                rol:
+                    "atencion",
+
+                activo:
+                    true,
+
+                fechaRegistro:
+                    serverTimestamp(),
+
+                creadoPor:
+                    usuario.uid
+
+            }
+        );
+
+
+        /*
+        ==================================
+        ÍNDICE GLOBAL DE ACCESO
+        ==================================
+        */
+
+        const referenciaAcceso =
+            doc(
+                db,
+                "usuariosAcceso",
+                usuarioGenerado
+            );
+
+
+        batch.set(
+            referenciaAcceso,
+            {
+
+                uid:
+                    uidInterno,
+
+                institucionId,
+
+                usuario:
+                    usuarioGenerado,
+
+                rol:
+                    "atencion",
+
+                activo:
+                    true,
+
+                fechaCreacion:
+                    serverTimestamp()
+
+            }
+        );
+
+
+        /*
+        ==================================
+        GUARDAR TODO
+        ==================================
+        */
+
+        await batch.commit();
 
 
         /*
@@ -1249,17 +1158,21 @@ await batch.commit();
             password;
 
 
+        modalCrearUsuario.hidden =
+            true;
+
+
         modalCredenciales.hidden =
             false;
 
 
         /*
         ==================================
-        ACTUALIZAR LISTA
+        RECARGAR LISTA
         ==================================
         */
 
-        await cargarUsuarios();
+        await actualizarTotales();
 
 
     } catch (error) {
@@ -1270,11 +1183,24 @@ await batch.commit();
         );
 
 
-        mostrarMensaje(
-            error.message ||
-            "No fue posible crear el usuario.",
-            "error"
-        );
+        if (
+            error.message ===
+            "limite-atencion"
+        ) {
+
+            mensajeUsuario.textContent =
+                "Has alcanzado el límite de usuarios de atención.";
+
+        } else {
+
+            mensajeUsuario.textContent =
+                "No fue posible crear el usuario.";
+
+        }
+
+
+        mensajeUsuario.className =
+            "mensaje error";
 
 
     } finally {
@@ -1299,21 +1225,31 @@ async function generarUsuarioUnico() {
     const caracteres =
         "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
+
     const longitud =
         8;
 
-    let intentos = 0;
 
-    while (intentos < 20) {
-
-        intentos++;
+    for (
+        let intento = 0;
+        intento < 20;
+        intento++
+    ) {
 
         const valores =
-            new Uint32Array(longitud);
+            new Uint32Array(
+                longitud
+            );
 
-        crypto.getRandomValues(valores);
 
-        let codigo = "";
+        crypto.getRandomValues(
+            valores
+        );
+
+
+        let codigo =
+            "";
+
 
         for (
             let i = 0;
@@ -1329,6 +1265,7 @@ async function generarUsuarioUnico() {
 
         }
 
+
         const usuarioGenerado =
             `ATN-${codigo}`;
 
@@ -1340,28 +1277,22 @@ async function generarUsuarioUnico() {
         */
 
         const referencia =
-            collectionGroup(
+            doc(
                 db,
-                "usuarios"
+                "usuariosAcceso",
+                usuarioGenerado
             );
 
 
-        const consulta =
-            query(
-                referencia,
-                where(
-                    "usuario",
-                    "==",
-                    usuarioGenerado
-                )
+        const documento =
+            await getDoc(
+                referencia
             );
 
 
-        const resultado =
-            await getDocs(consulta);
-
-
-        if (resultado.empty) {
+        if (
+            !documento.exists()
+        ) {
 
             return usuarioGenerado;
 
@@ -1371,10 +1302,60 @@ async function generarUsuarioUnico() {
 
 
     throw new Error(
-        "No fue posible generar un usuario único. Inténtalo nuevamente."
+        "No fue posible generar un usuario único."
     );
 
 }
+
+
+/*==================================
+GENERAR CONTRASEÑA
+==================================*/
+
+function generarPassword() {
+
+    const caracteres =
+        "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%";
+
+
+    const longitud =
+        12;
+
+
+    const valores =
+        new Uint32Array(
+            longitud
+        );
+
+
+    crypto.getRandomValues(
+        valores
+    );
+
+
+    let password =
+        "";
+
+
+    for (
+        let i = 0;
+        i < longitud;
+        i++
+    ) {
+
+        password +=
+            caracteres[
+                valores[i] %
+                caracteres.length
+            ];
+
+    }
+
+
+    return password;
+
+}
+
 
 /*==================================
 GENERAR SALT
@@ -1393,16 +1374,14 @@ function generarSalt() {
     );
 
 
-    return Array
-        .from(valores)
+    return Array.from(
+        valores
+    )
         .map(
             numero =>
                 numero
                     .toString(16)
-                    .padStart(
-                        2,
-                        "0"
-                    )
+                    .padStart(2, "0")
         )
         .join("");
 
@@ -1410,7 +1389,7 @@ function generarSalt() {
 
 
 /*==================================
-GENERAR HASH PBKDF2
+GENERAR HASH
 ==================================*/
 
 async function generarHash(
@@ -1422,33 +1401,41 @@ async function generarHash(
         new TextEncoder();
 
 
-    const datos =
+    const passwordBytes =
         encoder.encode(
             password
         );
 
 
-    const clave =
-        await crypto.subtle.importKey(
-            "raw",
-            datos,
-            "PBKDF2",
-            false,
-            [
-                "deriveBits"
-            ]
+    const saltBytes =
+        encoder.encode(
+            salt
         );
 
 
-    const saltBytes =
-        hexToBytes(
-            salt
+    const keyMaterial =
+        await crypto.subtle.importKey(
+
+            "raw",
+
+            passwordBytes,
+
+            "PBKDF2",
+
+            false,
+
+            [
+                "deriveBits"
+            ]
+
         );
 
 
     const bits =
         await crypto.subtle.deriveBits(
+
             {
+
                 name:
                     "PBKDF2",
 
@@ -1462,27 +1449,39 @@ async function generarHash(
                     "SHA-256"
 
             },
-            clave,
+
+            keyMaterial,
+
             256
+
         );
 
 
-    return bytesToHex(
+    return Array.from(
         new Uint8Array(
             bits
         )
-    );
+    )
+        .map(
+            numero =>
+                numero
+                    .toString(16)
+                    .padStart(2, "0")
+        )
+        .join("");
 
 }
+
+
+
+
 
 
 /*==================================
 HEX → BYTES
 ==================================*/
 
-function hexToBytes(
-    hex
-) {
+function hexToBytes(hex) {
 
     const resultado =
         new Uint8Array(
@@ -1517,9 +1516,7 @@ function hexToBytes(
 BYTES → HEX
 ==================================*/
 
-function bytesToHex(
-    bytes
-) {
+function bytesToHex(bytes) {
 
     return Array
         .from(bytes)
@@ -1583,6 +1580,7 @@ btnCopiarCredenciales.addEventListener(
         } catch (error) {
 
             console.error(
+                "Error copiando credenciales:",
                 error
             );
 
@@ -1598,7 +1596,7 @@ btnCopiarCredenciales.addEventListener(
 
 
 /*==================================
-CERRAR CREDENCIALES
+CERRAR MODAL CREDENCIALES
 ==================================*/
 
 btnCerrarCredenciales.addEventListener(
@@ -1609,6 +1607,12 @@ btnCerrarCredenciales.addEventListener(
             true;
 
 
+        /*
+        ==================================
+        BORRAR PASSWORD DE PANTALLA
+        ==================================
+        */
+
         credencialPassword.textContent =
             "---";
 
@@ -1617,7 +1621,7 @@ btnCerrarCredenciales.addEventListener(
 
 
 /*==================================
-MENSAJE
+MENSAJES
 ==================================*/
 
 function mostrarMensaje(
@@ -1659,7 +1663,7 @@ function escapeHTML(
 
 
 /*==================================
-NAVEGACIÓN
+NAVEGACIÓN — DASHBOARD
 ==================================*/
 
 btnRegresar.addEventListener(
@@ -1673,6 +1677,10 @@ btnRegresar.addEventListener(
 );
 
 
+/*==================================
+VINCULAR CAPTURISTA
+==================================*/
+
 btnVincularCapturista.addEventListener(
     "click",
     () => {
@@ -1685,16 +1693,29 @@ btnVincularCapturista.addEventListener(
 
 
 /*==================================
-INICIAR
+INICIAR PÁGINA
 ==================================*/
 
 async function iniciar() {
 
-    await cargarInstitucion();
+    try {
 
-    await actualizarTotales();
+        await cargarInstitucion();
+
+        await actualizarTotales();
+
+    } catch (error) {
+
+        console.error(
+            "Error iniciando gestión de usuarios:",
+            error
+        );
+
+    }
 
 }
 
 
 iniciar();
+
+
