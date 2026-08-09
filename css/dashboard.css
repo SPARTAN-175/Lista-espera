@@ -3,33 +3,32 @@
 ========================================= */
 
 * {
-
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    font-family: Arial, Helvetica, sans-serif;
 }
 
+
+/* =========================================
+   VARIABLES MOTI
+========================================= */
 
 :root {
 
     --verde: #0b8f3c;
     --verde-oscuro: #087332;
+    --verde-profundo: #075d2a;
+
     --verde-claro: #eaf7ee;
 
-    --fondo: #f5f7f8;
-
+    --fondo: #f5f7f6;
     --blanco: #ffffff;
 
     --texto: #202724;
     --texto-secundario: #737b76;
 
-    --borde: #e4ebe7;
+    --borde: #e3e9e5;
 
 }
 
@@ -70,15 +69,13 @@ body {
 
 .sidebar {
 
-    width: 255px;
-
-    min-height: 100vh;
-
     position: fixed;
 
-    left: 0;
     top: 0;
+    left: 0;
     bottom: 0;
+
+    width: 255px;
 
     display: flex;
 
@@ -89,8 +86,8 @@ body {
     background:
         linear-gradient(
             180deg,
-            #087c36,
-            #06652c
+            var(--verde),
+            var(--verde-profundo)
         );
 
     color: white;
@@ -113,7 +110,7 @@ body {
     gap: 11px;
 
     padding:
-        3px 8px 28px;
+        2px 8px 28px;
 
 }
 
@@ -124,13 +121,13 @@ body {
 
     height: 46px;
 
-    padding: 5px;
-
     object-fit: contain;
 
     background: white;
 
     border-radius: 12px;
+
+    padding: 5px;
 
 }
 
@@ -148,6 +145,8 @@ body {
 
     font-size: 17px;
 
+    font-weight: 700;
+
 }
 
 
@@ -155,15 +154,10 @@ body {
 
     margin-top: 3px;
 
-    font-size: 10px;
-
     color:
-        rgba(
-            255,
-            255,
-            255,
-            .65
-        );
+        rgba(255,255,255,.65);
+
+    font-size: 10px;
 
 }
 
@@ -175,21 +169,16 @@ body {
 .menu-titulo {
 
     padding:
-        0 11px 8px;
+        0 11px 9px;
+
+    color:
+        rgba(255,255,255,.45);
 
     font-size: 9px;
 
     font-weight: bold;
 
     letter-spacing: 1px;
-
-    color:
-        rgba(
-            255,
-            255,
-            255,
-            .45
-        );
 
 }
 
@@ -232,12 +221,7 @@ body {
         transparent;
 
     color:
-        rgba(
-            255,
-            255,
-            255,
-            .76
-        );
+        rgba(255,255,255,.76);
 
     font-size: 12px;
 
@@ -246,7 +230,9 @@ body {
     cursor: pointer;
 
     transition:
-        .2s ease;
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
 
 }
 
@@ -254,12 +240,7 @@ body {
 .item-menu:hover {
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .10
-        );
+        rgba(255,255,255,.10);
 
     color: white;
 
@@ -269,12 +250,7 @@ body {
 .item-menu.activo {
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .15
-        );
+        rgba(255,255,255,.16);
 
     color: white;
 
@@ -285,7 +261,13 @@ body {
 
     width: 24px;
 
-    text-align: center;
+    min-width: 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
 
     font-size: 16px;
 
@@ -304,12 +286,7 @@ body {
 
     border-top:
         1px solid
-        rgba(
-            255,
-            255,
-            255,
-            .12
-        );
+        rgba(255,255,255,.12);
 
 }
 
@@ -326,12 +303,7 @@ body {
         7px 9px 13px;
 
     color:
-        rgba(
-            255,
-            255,
-            255,
-            .70
-        );
+        rgba(255,255,255,.70);
 
     font-size: 10px;
 
@@ -344,6 +316,8 @@ body {
 
     height: 7px;
 
+    flex-shrink: 0;
+
     border-radius: 50%;
 
     background:
@@ -351,12 +325,7 @@ body {
 
     box-shadow:
         0 0 0 4px
-        rgba(
-            85,
-            220,
-            132,
-            .12
-        );
+        rgba(85,220,132,.12);
 
 }
 
@@ -369,34 +338,19 @@ body {
 
     border:
         1px solid
-        rgba(
-            255,
-            255,
-            255,
-            .13
-        );
+        rgba(255,255,255,.13);
 
     border-radius: 9px;
 
     background:
-        rgba(
-            0,
-            0,
-            0,
-            .08
-        );
+        rgba(0,0,0,.08);
 
     color:
-        rgba(
-            255,
-            255,
-            255,
-            .80
-        );
-
-    cursor: pointer;
+        rgba(255,255,255,.80);
 
     font-size: 11px;
+
+    cursor: pointer;
 
     transition:
         .2s ease;
@@ -407,12 +361,7 @@ body {
 .btn-salir:hover {
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            .10
-        );
+        rgba(255,255,255,.10);
 
     color: white;
 
@@ -426,13 +375,11 @@ body {
 .contenido {
 
     width:
-        calc(
-            100% - 255px
-        );
-
-    margin-left: 255px;
+        calc(100% - 255px);
 
     min-height: 100vh;
+
+    margin-left: 255px;
 
 }
 
@@ -454,7 +401,8 @@ body {
     padding:
         0 40px;
 
-    background: white;
+    background:
+        white;
 
     border-bottom:
         1px solid
@@ -463,12 +411,31 @@ body {
 }
 
 
+/* =========================================
+   MARCA MÓVIL
+========================================= */
+
 .marca-movil {
 
     display: none;
 
 }
 
+
+.marca-movil img {
+
+    width: 32px;
+
+    height: 32px;
+
+    object-fit: contain;
+
+}
+
+
+/* =========================================
+   PERFIL
+========================================= */
 
 .perfil {
 
@@ -483,9 +450,9 @@ body {
 
 .avatar {
 
-    width: 37px;
+    width: 38px;
 
-    height: 37px;
+    height: 38px;
 
     display: flex;
 
@@ -493,7 +460,7 @@ body {
 
     justify-content: center;
 
-    border-radius: 10px;
+    border-radius: 11px;
 
     background:
         var(--verde-claro);
@@ -546,10 +513,10 @@ body {
 
     max-width: 1050px;
 
-    margin: auto;
+    margin: 0 auto;
 
     padding:
-        40px;
+        42px 40px 30px;
 
 }
 
@@ -560,7 +527,8 @@ body {
 
 .bienvenida {
 
-    padding-bottom: 28px;
+    padding-bottom:
+        30px;
 
 }
 
@@ -585,6 +553,8 @@ body {
 
     font-size: 29px;
 
+    line-height: 1.2;
+
 }
 
 
@@ -601,12 +571,13 @@ body {
 
 
 /* =========================================
-   TÍTULO
+   TÍTULO SECCIÓN
 ========================================= */
 
 .titulo-seccion {
 
-    margin-bottom: 15px;
+    margin-bottom:
+        15px;
 
 }
 
@@ -643,10 +614,7 @@ body {
     display: grid;
 
     grid-template-columns:
-        repeat(
-            2,
-            1fr
-        );
+        repeat(2, 1fr);
 
     gap: 14px;
 
@@ -654,14 +622,16 @@ body {
 
 
 /* =========================================
-   TARJETA
+   TARJETAS
 ========================================= */
 
 .funcion {
 
-    min-height: 125px;
-
     position: relative;
+
+    width: 100%;
+
+    min-height: 125px;
 
     display: flex;
 
@@ -679,23 +649,23 @@ body {
     border-radius: 16px;
 
     background:
-        white;
+        var(--blanco);
+
+    color:
+        var(--texto);
 
     text-align: left;
 
     cursor: pointer;
 
     box-shadow:
-        0 5px 18px
-        rgba(
-            0,
-            0,
-            0,
-            .035
-        );
+        0 4px 18px
+        rgba(0,0,0,.035);
 
     transition:
-        .2s ease;
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
 
 }
 
@@ -703,19 +673,22 @@ body {
 .funcion:hover {
 
     transform:
-        translateY(-2px);
+        translateY(-3px);
 
     border-color:
-        #cce5d5;
+        #cce4d4;
 
     box-shadow:
-        0 12px 25px
-        rgba(
-            0,
-            0,
-            0,
-            .07
-        );
+        0 12px 28px
+        rgba(0,0,0,.07);
+
+}
+
+
+.funcion:active {
+
+    transform:
+        translateY(-1px);
 
 }
 
@@ -736,11 +709,11 @@ body {
 
 .funcion-icono {
 
-    width: 51px;
+    width: 52px;
 
-    height: 51px;
+    height: 52px;
 
-    flex-shrink: 0;
+    min-width: 52px;
 
     display: flex;
 
@@ -759,16 +732,12 @@ body {
 
     background: #e8f6ed;
 
-    color: #0b8f3c;
-
 }
 
 
 .azul {
 
     background: #eaf3ff;
-
-    color: #2879c7;
 
 }
 
@@ -777,16 +746,12 @@ body {
 
     background: #fff1e4;
 
-    color: #e47b20;
-
 }
 
 
 .morado {
 
     background: #f0ebff;
-
-    color: #7255c8;
 
 }
 
@@ -795,16 +760,16 @@ body {
 
     background: #e5f8f6;
 
-    color: #139a91;
-
 }
 
 
 /* =========================================
-   TEXTO
+   TEXTO TARJETAS
 ========================================= */
 
 .funcion-texto {
+
+    min-width: 0;
 
     padding-right: 25px;
 
@@ -814,6 +779,8 @@ body {
 .funcion-texto h3 {
 
     font-size: 14px;
+
+    font-weight: 700;
 
 }
 
@@ -831,6 +798,10 @@ body {
 
 }
 
+
+/* =========================================
+   FLECHA
+========================================= */
 
 .flecha {
 
@@ -894,6 +865,8 @@ body {
 
     height: 36px;
 
+    min-width: 36px;
+
     display: flex;
 
     align-items: center;
@@ -907,6 +880,8 @@ body {
 
     color:
         var(--verde);
+
+    font-size: 15px;
 
     font-weight: bold;
 
@@ -941,6 +916,8 @@ footer {
     display: flex;
 
     justify-content: space-between;
+
+    gap: 15px;
 
     padding:
         0 40px 25px;
@@ -977,9 +954,7 @@ footer strong {
     .contenido {
 
         width:
-            calc(
-                100% - 220px
-            );
+            calc(100% - 220px);
 
         margin-left: 220px;
 
@@ -989,7 +964,7 @@ footer strong {
     .contenido-principal {
 
         padding:
-            30px 24px;
+            32px 24px 25px;
 
     }
 
@@ -1026,14 +1001,6 @@ footer strong {
 
 @media (max-width: 600px) {
 
-    body {
-
-        background:
-            #f5f7f8;
-
-    }
-
-
     .dashboard {
 
         display: block;
@@ -1041,7 +1008,9 @@ footer strong {
     }
 
 
-    /* SIDEBAR */
+    /* -------------------------------------
+       SIDEBAR
+    ------------------------------------- */
 
     .sidebar {
 
@@ -1101,10 +1070,7 @@ footer strong {
         display: grid;
 
         grid-template-columns:
-            repeat(
-                2,
-                1fr
-            );
+            repeat(2, 1fr);
 
         gap: 5px;
 
@@ -1115,10 +1081,10 @@ footer strong {
 
         height: 40px;
 
-        font-size: 10px;
-
         padding:
             0 8px;
+
+        font-size: 10px;
 
     }
 
@@ -1126,6 +1092,8 @@ footer strong {
     .icono {
 
         width: 20px;
+
+        min-width: 20px;
 
         font-size: 14px;
 
@@ -1155,7 +1123,9 @@ footer strong {
     }
 
 
-    /* CONTENIDO */
+    /* -------------------------------------
+       CONTENIDO
+    ------------------------------------- */
 
     .contenido {
 
@@ -1166,9 +1136,13 @@ footer strong {
     }
 
 
+    /* -------------------------------------
+       HEADER
+    ------------------------------------- */
+
     .header {
 
-        height: 60px;
+        height: 58px;
 
         justify-content:
             space-between;
@@ -1186,17 +1160,6 @@ footer strong {
         align-items: center;
 
         gap: 7px;
-
-    }
-
-
-    .marca-movil img {
-
-        width: 30px;
-
-        height: 30px;
-
-        object-fit: contain;
 
     }
 
@@ -1227,12 +1190,14 @@ footer strong {
     }
 
 
-    /* PRINCIPAL */
+    /* -------------------------------------
+       CONTENIDO PRINCIPAL
+    ------------------------------------- */
 
     .contenido-principal {
 
         padding:
-            25px 14px 30px;
+            27px 14px 25px;
 
     }
 
@@ -1241,6 +1206,13 @@ footer strong {
 
         padding-bottom:
             25px;
+
+    }
+
+
+    .bienvenida > span {
+
+        font-size: 8px;
 
     }
 
@@ -1254,6 +1226,8 @@ footer strong {
 
     .bienvenida p {
 
+        max-width: 320px;
+
         font-size: 11px;
 
         line-height: 1.5;
@@ -1263,7 +1237,8 @@ footer strong {
 
     .titulo-seccion {
 
-        margin-bottom: 12px;
+        margin-bottom:
+            12px;
 
     }
 
@@ -1275,7 +1250,9 @@ footer strong {
     }
 
 
-    /* TARJETAS */
+    /* -------------------------------------
+       FUNCIONES
+    ------------------------------------- */
 
     .funciones {
 
@@ -1289,8 +1266,6 @@ footer strong {
 
 
     .funcion {
-
-        width: 100%;
 
         min-height: 92px;
 
@@ -1317,6 +1292,8 @@ footer strong {
 
         height: 43px;
 
+        min-width: 43px;
+
         border-radius: 12px;
 
         font-size: 18px;
@@ -1326,7 +1303,7 @@ footer strong {
 
     .funcion-texto {
 
-        padding-right: 22px;
+        padding-right: 20px;
 
     }
 
@@ -1344,6 +1321,8 @@ footer strong {
 
         font-size: 9px;
 
+        line-height: 1.4;
+
     }
 
 
@@ -1356,12 +1335,43 @@ footer strong {
     }
 
 
+    .funcion:hover .flecha {
+
+        right: 10px;
+
+    }
+
+
+    /* -------------------------------------
+       SISTEMA
+    ------------------------------------- */
+
     .mensaje-sistema {
 
         margin-top: 12px;
 
         padding:
             13px;
+
+        border-radius: 13px;
+
+    }
+
+
+    .mensaje-icono {
+
+        width: 33px;
+
+        height: 33px;
+
+        min-width: 33px;
+
+    }
+
+
+    .mensaje-sistema strong {
+
+        font-size: 10px;
 
     }
 
@@ -1373,6 +1383,10 @@ footer strong {
     }
 
 
+    /* -------------------------------------
+       FOOTER
+    ------------------------------------- */
+
     footer {
 
         padding:
@@ -1381,6 +1395,8 @@ footer strong {
         flex-direction: column;
 
         gap: 4px;
+
+        font-size: 8px;
 
     }
 
@@ -1401,6 +1417,13 @@ footer strong {
     }
 
 
+    .bienvenida h1 {
+
+        font-size: 21px;
+
+    }
+
+
     .funcion {
 
         min-height: 86px;
@@ -1416,6 +1439,8 @@ footer strong {
         width: 39px;
 
         height: 39px;
+
+        min-width: 39px;
 
         font-size: 16px;
 
