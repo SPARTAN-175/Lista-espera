@@ -1,6 +1,7 @@
 import {
     iniciarSesion,
     iniciarSesionAtencion,
+    recuperarPassword,
     observarSesion
 } from "./auth.js";
 
@@ -41,6 +42,16 @@ const mensaje =
 
 const btnEscanearQR =
     document.getElementById("btnEscanearQR");
+
+const btnMostrarPassword =
+    document.getElementById(
+        "btnMostrarPassword"
+    );
+
+const btnRecuperarPassword =
+    document.getElementById(
+        "btnRecuperarPassword"
+    );
 
 
 let lectorQR = null;
@@ -160,6 +171,233 @@ btnIngresar.addEventListener(
     ingresar
 );
 
+/*==================================
+MOSTRAR / OCULTAR CONTRASEÑA
+==================================*/
+
+btnMostrarPassword.addEventListener(
+    "click",
+    () => {
+
+        const mostrando =
+            txtPassword.type === "text";
+
+
+        if (mostrando) {
+
+            txtPassword.type =
+                "password";
+
+            btnMostrarPassword.textContent =
+                "👁";
+
+            btnMostrarPassword.setAttribute(
+                "aria-label",
+                "Mostrar contraseña"
+            );
+
+        } else {
+
+            txtPassword.type =
+                "text";
+
+            btnMostrarPassword.textContent =
+                "🙈";
+
+            btnMostrarPassword.setAttribute(
+                "aria-label",
+                "Ocultar contraseña"
+            );
+
+        }
+
+    }
+);
+
+/*==================================
+RECUPERAR CONTRASEÑA
+==================================*/
+
+btnRecuperarPassword.addEventListener(
+    "click",
+    recuperar
+);
+
+
+async function recuperar() {
+
+    mensaje.textContent = "";
+
+
+    const identificador =
+        txtCorreo.value.trim();
+
+
+    if (
+        identificador === ""
+    ) {
+
+        mensaje.textContent =
+            "Escribe primero tu correo electrónico.";
+
+        txtCorreo.focus();
+
+        return;
+
+    }
+
+
+    /*
+    ==================================
+    ATENCIÓN
+    ==================================
+    */
+
+    const esUsuarioAtencion =
+        /^ATN-[A-Z0-9]{8}$/i.test(
+            identificador
+        );
+
+
+    if (esUsuarioAtencion) {
+
+        mensaje.style.color =
+            "#b26a00";
+
+        mensaje.textContent =
+            "Las contraseñas del personal de atención " +
+            "son administradas por el administrador " +
+            "de la institución.";
+
+        return;
+
+    }
+
+
+    /*
+    ==================================
+    ADMINISTRADOR
+    ==================================
+    */
+
+    const correo =
+        identificador;
+
+
+    if (
+        !correo.includes("@")
+    ) {
+
+        mensaje.style.color =
+            "#d32f2f";
+
+        mensaje.textContent =
+            "Escribe un correo electrónico válido.";
+
+        txtCorreo.focus();
+
+        return;
+
+    }
+
+
+    btnRecuperarPassword.disabled =
+        true;
+
+
+    btnRecuperarPassword.textContent =
+        "Enviando...";
+
+
+    try {
+
+        await recuperarPassword(
+            correo
+        );
+
+
+        mensaje.style.color =
+            "#0b8f3c";
+
+        mensaje.textContent =
+            "Si existe una cuenta asociada a este " +
+            "correo, recibirás instrucciones para " +
+            "restablecer tu contraseña.";
+
+    } catch (error) {
+
+        console.error(
+            "Error recuperando contraseña:",
+            error
+        );
+
+
+        switch (
+            error.code
+        ) {
+
+            case "auth/invalid-email":
+
+                mensaje.style.color =
+                    "#d32f2f";
+
+                mensaje.textContent =
+                    "El correo electrónico no es válido.";
+
+                break;
+
+
+            case "auth/user-not-found":
+
+                /*
+                No revelamos si el correo existe.
+                */
+
+                mensaje.style.color =
+                    "#0b8f3c";
+
+                mensaje.textContent =
+                    "Si existe una cuenta asociada a este " +
+                    "correo, recibirás instrucciones para " +
+                    "restablecer tu contraseña.";
+
+                break;
+
+
+            case "auth/too-many-requests":
+
+                mensaje.style.color =
+                    "#d32f2f";
+
+                mensaje.textContent =
+                    "Se realizaron demasiadas solicitudes. " +
+                    "Intenta nuevamente más tarde.";
+
+                break;
+
+
+            default:
+
+                mensaje.style.color =
+                    "#d32f2f";
+
+                mensaje.textContent =
+                    "No fue posible enviar el correo de recuperación.";
+
+        }
+
+    } finally {
+
+        btnRecuperarPassword.disabled =
+            false;
+
+
+        btnRecuperarPassword.textContent =
+            "¿Olvidaste tu contraseña?";
+
+    }
+
+}
 
 /*==================================
 INGRESAR
