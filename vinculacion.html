@@ -3,103 +3,204 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-<title>Vinculación de capturistas</title>
+    <title>Vincular capturista - MOTI Queue</title>
 
-<link rel="stylesheet" href="css/dashboard.css">
-
-<style>
-
-.contenedorQR{
-
-    max-width:500px;
-
-    margin:40px auto;
-
-    background:white;
-
-    padding:25px;
-
-    border-radius:15px;
-
-    text-align:center;
-
-}
-
-#qrcode{
-
-    margin:25px auto;
-
-    width:250px;
-
-}
-
-.codigo{
-
-    font-size:22px;
-
-    font-weight:bold;
-
-    margin:20px 0;
-
-}
-
-</style>
+    <link
+        rel="stylesheet"
+        href="css/vinculacion.css">
 
 </head>
 
+
 <body>
 
-<header class="header">
 
-<h1>Vinculación de capturistas</h1>
+    <!-- =================================
+         ENCABEZADO
+    ================================== -->
 
-<button onclick="history.back()">
+    <header class="top-header">
 
-← Regresar
+        <div class="marca">
 
-</button>
+            <img
+                src="img/logo.png"
+                alt="MOTI Queue">
 
-</header>
+            <div>
 
-<div class="contenedorQR">
+                <h1>
+                    MOTI Queue
+                </h1>
 
-<h2>
+                <span>
+                    Vinculación de capturistas
+                </span>
 
-Autorizar nuevo dispositivo
+            </div>
 
-</h2>
+        </div>
 
-<p>
 
-Genera un código QR para que un capturista pueda vincular su dispositivo.
+        <button
+            id="btnRegresar"
+            class="btn-regresar"
+            type="button">
 
-</p>
+            ← Dashboard
 
-<div id="qrcode"></div>
+        </button>
 
-<div
-id="codigo"
-class="codigo">
+    </header>
 
-Sin generar
 
-</div>
 
-<button id="btnGenerar">
+    <!-- =================================
+         CONTENIDO
+    ================================== -->
 
-Generar nuevo código
+    <main class="contenido">
 
-</button>
 
-</div>
+        <section class="encabezado-pagina">
 
-<script type="module" src="js/vinculacion.js"></script>
+            <span>
+                DISPOSITIVOS
+            </span>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+            <h2>
+                Vincular capturista
+            </h2>
+
+            <p>
+                Autoriza un nuevo dispositivo para que
+                pueda acceder al sistema de turnos.
+            </p>
+
+        </section>
+
+
+
+        <!-- =================================
+             TARJETA QR
+        ================================== -->
+
+        <section class="contenedorQR">
+
+
+            <div class="icono-vinculacion">
+                🔗
+            </div>
+
+
+            <h3>
+                Autorizar nuevo dispositivo
+            </h3>
+
+
+            <p class="descripcion">
+
+                Genera un código QR para que el
+                capturista pueda vincular su dispositivo
+                de forma segura.
+
+            </p>
+
+
+            <div
+                id="qrcode"
+                class="qr">
+
+            </div>
+
+
+            <div class="codigo-contenedor">
+
+                <span>
+                    CÓDIGO DE VINCULACIÓN
+                </span>
+
+
+                <strong
+                    id="codigo"
+                    class="codigo">
+
+                    Sin generar
+
+                </strong>
+
+            </div>
+
+
+            <button
+                id="btnGenerar"
+                class="btn-generar"
+                type="button">
+
+                Generar nuevo código
+
+            </button>
+
+
+            <div class="nota">
+
+                <span class="nota-icono">
+                    ℹ
+                </span>
+
+                <p>
+                    El capturista deberá escanear este
+                    código desde la pantalla de acceso
+                    de su dispositivo.
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =================================
+         JAVASCRIPT
+    ================================== -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+    </script>
+
+
+    <script
+        type="module"
+        src="js/vinculacion.js">
+    </script>
+
+
+    <script>
+
+        document
+            .getElementById("btnRegresar")
+            .addEventListener(
+                "click",
+                () => {
+
+                    window.location.href =
+                        "dashboard.html";
+
+                }
+            );
+
+    </script>
+
 
 </body>
 
