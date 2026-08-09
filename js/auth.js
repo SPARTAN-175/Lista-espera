@@ -2,6 +2,7 @@ import { auth, db } from "./firebase.js";
 
 import {
     signInWithEmailAndPassword,
+    sendPasswordResetEmail,
     signOut,
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -342,6 +343,21 @@ async function generarHashVerificacion(
 
 }
 
+
+/*==================================
+RECUPERAR CONTRASEÑA ADMINISTRADOR
+==================================*/
+
+export async function recuperarPassword(
+    correo
+) {
+
+    await sendPasswordResetEmail(
+        auth,
+        correo
+    );
+
+}
 
 /*==================================
 CERRAR SESIÓN
