@@ -303,6 +303,14 @@ input:focus {
 
     padding: 0;
 
+    margin: 0;
+
+    border: none !important;
+
+    outline: none;
+
+    box-shadow: none;
+
     background: transparent;
 
     color: #777;
@@ -310,6 +318,35 @@ input:focus {
     border-radius: 10px;
 
     font-size: 17px;
+
+    cursor: pointer;
+
+}
+
+
+.btn-password:hover {
+
+    background: #eef7f1;
+
+    color: #0b8f3c;
+
+    border: none !important;
+
+    outline: none;
+
+    box-shadow: none;
+
+}
+
+
+.btn-password:focus,
+.btn-password:active {
+
+    border: none !important;
+
+    outline: none;
+
+    box-shadow: none;
 
 }
 
