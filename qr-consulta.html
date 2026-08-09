@@ -11,9 +11,11 @@
 
     <meta
         name="theme-color"
-        content="#198754">
+        content="#0b8f3c">
 
-    <title>QR de Consulta - MOTI Queue</title>
+    <title>
+        QR de Consulta - MOTI Queue
+    </title>
 
     <link
         rel="stylesheet"
@@ -21,199 +23,317 @@
 
 </head>
 
+
 <body>
 
-<main class="pagina">
 
     <!-- =================================
-         BOTÓN REGRESAR
+         ENCABEZADO MOTI
     ================================== -->
 
-    <button
-        id="btnRegresar"
-        class="btn-regresar">
-
-        ← Regresar al Dashboard
-
-    </button>
+    <header class="top-header">
 
 
-    <!-- =================================
-         CARTEL
-    ================================== -->
+        <div class="marca">
 
-    <section
-        id="cartelQR"
-        class="cartel">
+            <img
+                src="img/logo.png"
+                alt="MOTI Queue">
 
-        <!-- ENCABEZADO -->
+            <div>
 
-        <header class="encabezado">
-
-            <div
-                id="logoInstitucion"
-                class="logo-institucion">
-
-                🪪
-
-            </div>
-
-            <div class="informacion-institucion">
-
-                <h1 id="nombreInstitucion">
-
-                    Cargando...
-
+                <h1>
+                    MOTI Queue
                 </h1>
 
-                <p id="ubicacionInstitucion">
-
-                    Cargando información...
-
-                </p>
-
-            </div>
-
-        </header>
-
-
-        <!-- TITULO -->
-
-        <div class="titulo">
-
-            <h2>
-
-                CONSULTE SU TURNO
-
-            </h2>
-
-            <p>
-
-                Escanee el código QR para consultar
-                el avance de la fila en tiempo real.
-
-            </p>
-
-        </div>
-
-
-        <!-- QR -->
-
-        <div class="contenedor-qr">
-
-            <div id="qrConsulta"></div>
-
-        </div>
-
-
-        <!-- INSTRUCCIONES -->
-
-        <div class="instrucciones">
-
-            <div class="paso">
-
-                <span>1</span>
-
-                <p>
-
-                    Abra la cámara de su teléfono.
-
-                </p>
-
-            </div>
-
-            <div class="paso">
-
-                <span>2</span>
-
-                <p>
-
-                    Apunte al código QR.
-
-                </p>
-
-            </div>
-
-            <div class="paso">
-
-                <span>3</span>
-
-                <p>
-
-                    Consulte su posición en la fila.
-
-                </p>
+                <span>
+                    Código QR de consulta
+                </span>
 
             </div>
 
         </div>
 
 
-        <!-- PIE -->
+        <button
+            id="btnRegresar"
+            class="btn-regresar"
+            type="button">
 
-        <footer>
+            ← Dashboard
 
-            <strong>
+        </button>
 
-                MOTI Queue
 
-            </strong>
+    </header>
 
-            <span>
-
-                Sistema Inteligente de Gestión de Turnos
-
-            </span>
-
-        </footer>
-
-    </section>
 
 
     <!-- =================================
-         ACCIONES
+         CONTENIDO
     ================================== -->
 
-    <section class="acciones">
-
-        <button
-            id="btnDescargar"
-            class="btn principal">
-
-            📥 Descargar
-
-        </button>
-
-        <button
-            id="btnImprimir"
-            class="btn">
-
-            🖨️ Imprimir
-
-        </button>
-
-    </section>
-
-</main>
+    <main class="contenido">
 
 
-<!-- =================================
-     LIBRERÍA QR
-================================== -->
-
-<script
-    src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
-</script>
+        <section
+            id="cartelQR"
+            class="cartel">
 
 
-<!-- =================================
-     JAVASCRIPT
-================================== -->
+            <!-- =================================
+                 INSTITUCIÓN
+            ================================== -->
 
-<script
-    type="module"
-    src="js/qr-consulta.js">
-</script>
+            <header class="encabezado">
+
+
+                <div
+                    id="logoInstitucion"
+                    class="logo-institucion">
+
+                    🪪
+
+                </div>
+
+
+                <div class="informacion-institucion">
+
+                    <span class="etiqueta">
+                        INSTITUCIÓN
+                    </span>
+
+
+                    <h2 id="nombreInstitucion">
+
+                        Cargando...
+
+                    </h2>
+
+
+                    <p id="ubicacionInstitucion">
+
+                        Cargando información...
+
+                    </p>
+
+                </div>
+
+
+            </header>
+
+
+
+            <!-- =================================
+                 TÍTULO
+            ================================== -->
+
+            <div class="titulo">
+
+
+                <span class="etiqueta">
+                    CONSULTA PÚBLICA
+                </span>
+
+
+                <h3>
+                    Consulte su turno
+                </h3>
+
+
+                <p>
+
+                    Escanee el código QR con la cámara
+                    de su teléfono para consultar el
+                    avance de la fila en tiempo real.
+
+                </p>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 QR
+            ================================== -->
+
+            <div class="qr-area">
+
+
+                <div class="qr-marco">
+
+                    <div
+                        id="qrConsulta"
+                        class="qr">
+
+                    </div>
+
+                </div>
+
+
+                <p class="texto-qr">
+
+                    Escanee este código para consultar
+
+                </p>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 INSTRUCCIONES
+            ================================== -->
+
+            <div class="instrucciones">
+
+
+                <div class="paso">
+
+                    <span>
+                        1
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Abra la cámara
+                        </strong>
+
+                        <p>
+                            Utilice la cámara de su teléfono.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="paso">
+
+                    <span>
+                        2
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Escanee el código
+                        </strong>
+
+                        <p>
+                            Apunte al código QR.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="paso">
+
+                    <span>
+                        3
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Consulte su posición
+                        </strong>
+
+                        <p>
+                            Vea el avance de la fila.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 PIE DEL CARTEL
+            ================================== -->
+
+            <footer>
+
+                <strong>
+                    MOTI Queue
+                </strong>
+
+                <span>
+                    Sistema Inteligente de Gestión de Turnos
+                </span>
+
+            </footer>
+
+
+        </section>
+
+
+
+        <!-- =================================
+             ACCIONES
+        ================================== -->
+
+        <section class="acciones">
+
+
+            <button
+                id="btnDescargar"
+                class="btn btn-principal"
+                type="button">
+
+                <span>
+                    ↓
+                </span>
+
+                Descargar
+
+            </button>
+
+
+            <button
+                id="btnImprimir"
+                class="btn btn-secundario"
+                type="button">
+
+                <span>
+                    ⎙
+                </span>
+
+                Imprimir
+
+            </button>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =================================
+         QR CODE
+    ================================== -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+    </script>
+
+
+    <script
+        type="module"
+        src="js/qr-consulta.js">
+    </script>
+
 
 </body>
 
