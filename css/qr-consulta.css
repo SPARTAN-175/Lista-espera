@@ -1,94 +1,252 @@
+/* =========================================
+   RESET
+========================================= */
+
 * {
+
+    margin: 0;
+    padding: 0;
 
     box-sizing: border-box;
 
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
 }
+
+
+:root {
+
+    --verde: #0b8f3c;
+
+    --verde-oscuro: #087332;
+
+    --verde-claro: #eaf7ee;
+
+    --fondo: #f5f7f6;
+
+    --blanco: #ffffff;
+
+    --texto: #202724;
+
+    --gris: #737b76;
+
+    --gris-claro: #9aa19d;
+
+    --borde: #e3e9e5;
+
+}
+
+
+/* =========================================
+   BODY
+========================================= */
 
 body {
 
-    margin: 0;
-
-    font-family:
-        Inter,
-        Arial,
-        sans-serif;
+    min-height: 100vh;
 
     background:
-        #eef5f0;
+        var(--fondo);
 
     color:
-        #1f2937;
+        var(--texto);
 
 }
 
-.pagina {
 
-    min-height: 100vh;
+/* =========================================
+   ENCABEZADO VERDE MOTI
+========================================= */
 
-    padding: 25px;
+.top-header {
+
+    width: 100%;
+
+    min-height: 76px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        12px 38px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--verde),
+            var(--verde-oscuro)
+        );
+
+    color: white;
+
+    box-shadow:
+        0 3px 15px
+        rgba(0,0,0,.12);
+
+}
+
+
+/* =========================================
+   MARCA
+========================================= */
+
+.marca {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+
+.marca img {
+
+    width: 46px;
+
+    height: 46px;
+
+    padding: 5px;
+
+    object-fit: contain;
+
+    background: white;
+
+    border-radius: 12px;
+
+}
+
+
+.marca div {
 
     display: flex;
 
     flex-direction: column;
 
-    align-items: center;
+}
+
+
+.marca h1 {
+
+    font-size: 18px;
+
+    line-height: 1;
 
 }
 
 
-/* =================================
+.marca span {
+
+    margin-top: 5px;
+
+    color:
+        rgba(255,255,255,.72);
+
+    font-size: 10px;
+
+}
+
+
+/* =========================================
    REGRESAR
-================================= */
+========================================= */
 
 .btn-regresar {
 
-    align-self: flex-start;
+    min-height: 38px;
 
-    border: none;
+    padding:
+        0 15px;
 
-    background: transparent;
+    border:
+        1px solid
+        rgba(255,255,255,.25);
 
-    color: #198754;
+    border-radius: 9px;
 
-    font-size: 15px;
+    background:
+        rgba(255,255,255,.10);
 
-    font-weight: 600;
+    color: white;
+
+    font-size: 11px;
 
     cursor: pointer;
 
-    margin-bottom: 20px;
+    transition:
+        .2s ease;
 
 }
 
 
-/* =================================
+.btn-regresar:hover {
+
+    background:
+        rgba(255,255,255,.20);
+
+    border-color:
+        rgba(255,255,255,.40);
+
+}
+
+
+/* =========================================
+   CONTENIDO
+========================================= */
+
+.contenido {
+
+    width: 100%;
+
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    padding:
+        38px 25px 45px;
+
+}
+
+
+/* =========================================
    CARTEL
-================================= */
+========================================= */
 
 .cartel {
 
     width: 100%;
 
-    max-width: 700px;
+    padding:
+        32px;
 
-    background: white;
+    background:
+        var(--blanco);
 
-    border-radius: 24px;
+    border:
+        1px solid
+        var(--borde);
 
-    padding: 45px;
+    border-radius: 20px;
 
     box-shadow:
-        0 20px 50px
-        rgba(0,0,0,.12);
+        0 10px 35px
+        rgba(0,0,0,.055);
 
     text-align: center;
 
 }
 
 
-/* =================================
-   ENCABEZADO
-================================= */
+/* =========================================
+   ENCABEZADO INSTITUCIÓN
+========================================= */
 
 .encabezado {
 
@@ -98,25 +256,25 @@ body {
 
     justify-content: center;
 
-    gap: 20px;
+    gap: 16px;
+
+    padding-bottom:
+        25px;
 
     border-bottom:
-        1px solid #e5e7eb;
-
-    padding-bottom: 25px;
+        1px solid
+        var(--borde);
 
 }
 
+
 .logo-institucion {
 
-    width: 85px;
+    width: 70px;
 
-    height: 85px;
+    height: 70px;
 
-    border-radius: 20px;
-
-    background:
-        #eaf7ef;
+    min-width: 70px;
 
     display: flex;
 
@@ -124,11 +282,20 @@ body {
 
     justify-content: center;
 
-    font-size: 42px;
-
     overflow: hidden;
 
+    border-radius: 17px;
+
+    background:
+        var(--verde-claro);
+
+    color:
+        var(--verde);
+
+    font-size: 34px;
+
 }
+
 
 .logo-institucion img {
 
@@ -140,101 +307,179 @@ body {
 
 }
 
+
 .informacion-institucion {
 
     text-align: left;
 
 }
 
-.informacion-institucion h1 {
 
-    margin: 0;
+.etiqueta {
 
-    color: #176b3a;
+    display: block;
 
-    font-size: 27px;
+    color:
+        var(--verde);
+
+    font-size: 8px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
 
 }
+
+
+.informacion-institucion h2 {
+
+    margin-top: 5px;
+
+    color:
+        var(--texto);
+
+    font-size: 23px;
+
+}
+
 
 .informacion-institucion p {
 
-    margin: 6px 0 0;
+    margin-top: 5px;
 
-    color: #6b7280;
+    color:
+        var(--gris);
+
+    font-size: 10px;
 
 }
 
 
-/* =================================
-   TITULO
-================================= */
+/* =========================================
+   TÍTULO
+========================================= */
 
 .titulo {
 
-    margin-top: 35px;
+    margin-top:
+        28px;
 
 }
 
-.titulo h2 {
 
-    margin: 0;
+.titulo h3 {
 
-    color: #176b3a;
+    margin-top: 6px;
 
-    font-size: 34px;
+    color:
+        var(--verde-oscuro);
 
-    letter-spacing: .5px;
+    font-size: 30px;
+
+    text-transform: uppercase;
 
 }
+
 
 .titulo p {
 
     max-width: 500px;
 
     margin:
-        12px auto 0;
+        9px auto 0;
 
-    color: #6b7280;
+    color:
+        var(--gris);
 
-    line-height: 1.5;
+    font-size: 11px;
 
-    font-size: 17px;
+    line-height: 1.6;
 
 }
 
 
-/* =================================
-   QR
-================================= */
+/* =========================================
+   ÁREA QR
+========================================= */
 
-.contenedor-qr {
+.qr-area {
+
+    margin-top:
+        25px;
+
+}
+
+
+.qr-marco {
+
+    width: 320px;
+
+    height: 320px;
+
+    margin: 0 auto;
 
     display: flex;
 
+    align-items: center;
+
     justify-content: center;
-
-    margin: 35px 0;
-
-}
-
-#qrConsulta {
-
-    background: white;
 
     padding: 18px;
 
-    border-radius: 18px;
+    background:
+        white;
+
+    border:
+        1px solid
+        #dce5df;
+
+    border-radius: 20px;
 
     box-shadow:
         0 8px 25px
-        rgba(0,0,0,.10);
+        rgba(0,0,0,.07);
 
 }
 
 
-/* =================================
+.qr {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+#qrConsulta img,
+#qrConsulta canvas {
+
+    display: block;
+
+    max-width: 100%;
+
+    height: auto;
+
+}
+
+
+.texto-qr {
+
+    margin-top: 10px;
+
+    color:
+        var(--gris-claro);
+
+    font-size: 9px;
+
+}
+
+
+/* =========================================
    INSTRUCCIONES
-================================= */
+========================================= */
 
 .instrucciones {
 
@@ -243,30 +488,47 @@ body {
     grid-template-columns:
         repeat(3, 1fr);
 
-    gap: 15px;
+    gap: 10px;
 
-    margin-top: 20px;
+    margin-top: 25px;
 
 }
+
 
 .paso {
 
+    min-height: 78px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding:
+        12px;
+
+    border:
+        1px solid
+        #e1ece4;
+
+    border-radius: 12px;
+
     background:
-        #f3faf5;
+        #f5fbf7;
 
-    border-radius: 15px;
-
-    padding: 15px;
+    text-align: left;
 
 }
 
-.paso span {
 
-    width: 32px;
+.paso > span {
 
-    height: 32px;
+    width: 28px;
 
-    margin: auto;
+    height: 28px;
+
+    min-width: 28px;
 
     display: flex;
 
@@ -277,67 +539,88 @@ body {
     border-radius: 50%;
 
     background:
-        #198754;
+        var(--verde);
 
     color: white;
+
+    font-size: 10px;
 
     font-weight: bold;
 
 }
 
-.paso p {
 
-    margin:
-        10px 0 0;
+.paso strong {
 
-    font-size: 14px;
+    display: block;
 
-    color: #4b5563;
+    font-size: 10px;
 
 }
 
 
-/* =================================
-   FOOTER
-================================= */
+.paso p {
+
+    margin-top: 3px;
+
+    color:
+        var(--gris);
+
+    font-size: 8px;
+
+    line-height: 1.4;
+
+}
+
+
+/* =========================================
+   FOOTER DEL CARTEL
+========================================= */
 
 footer {
 
-    margin-top: 35px;
+    margin-top:
+        25px;
 
-    padding-top: 20px;
+    padding-top:
+        17px;
 
     border-top:
-        1px solid #e5e7eb;
+        1px solid
+        var(--borde);
 
     display: flex;
 
     flex-direction: column;
 
-    gap: 5px;
+    gap: 4px;
 
 }
+
 
 footer strong {
 
-    color: #198754;
+    color:
+        var(--verde);
 
-    font-size: 18px;
+    font-size: 14px;
 
 }
+
 
 footer span {
 
-    color: #9ca3af;
+    color:
+        var(--gris-claro);
 
-    font-size: 13px;
+    font-size: 8px;
 
 }
 
 
-/* =================================
+/* =========================================
    ACCIONES
-================================= */
+========================================= */
 
 .acciones {
 
@@ -345,72 +628,308 @@ footer span {
 
     justify-content: center;
 
-    gap: 15px;
+    gap: 10px;
 
-    margin-top: 25px;
+    margin-top:
+        18px;
 
 }
+
 
 .btn {
 
-    border: none;
+    min-width: 145px;
 
-    border-radius: 12px;
+    min-height: 42px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
 
     padding:
-        13px 22px;
+        0 18px;
 
-    background: #374151;
+    border-radius: 10px;
 
-    color: white;
+    font-size: 10px;
 
-    font-size: 15px;
-
-    font-weight: 600;
+    font-weight: bold;
 
     cursor: pointer;
 
+    transition:
+        .2s ease;
+
 }
 
-.btn.principal {
+
+.btn span {
+
+    font-size: 15px;
+
+}
+
+
+.btn-principal {
+
+    border:
+        1px solid
+        var(--verde);
 
     background:
-        #198754;
+        var(--verde);
 
-}
-
-.btn:hover {
-
-    opacity: .9;
+    color: white;
 
 }
 
 
-/* =================================
-   MÓVIL
-================================= */
+.btn-principal:hover {
 
-@media (max-width: 600px) {
+    background:
+        var(--verde-oscuro);
 
-    .pagina {
+}
 
-        padding: 15px;
+
+.btn-secundario {
+
+    border:
+        1px solid
+        var(--borde);
+
+    background:
+        white;
+
+    color:
+        var(--texto);
+
+}
+
+
+.btn-secundario:hover {
+
+    border-color:
+        #bcd5c4;
+
+    background:
+        #f5faf7;
+
+}
+
+
+/* =========================================
+   MODO IMPRESIÓN
+========================================= */
+
+@media print {
+
+    body {
+
+        background: white;
 
     }
+
+
+    .top-header,
+    .acciones {
+
+        display: none;
+
+    }
+
+
+    .contenido {
+
+        max-width: none;
+
+        padding: 0;
+
+    }
+
 
     .cartel {
 
-        padding: 25px 18px;
+        border: none;
 
-        border-radius: 18px;
+        box-shadow: none;
+
+        border-radius: 0;
 
     }
+
+
+    .qr-marco {
+
+        box-shadow: none;
+
+    }
+
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 700px) {
+
+    .top-header {
+
+        padding:
+            11px 18px;
+
+    }
+
+
+    .contenido {
+
+        padding:
+            28px 15px 35px;
+
+    }
+
+
+    .cartel {
+
+        padding:
+            25px 18px;
+
+    }
+
+
+    .qr-marco {
+
+        width: 290px;
+
+        height: 290px;
+
+    }
+
+
+    .instrucciones {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .paso {
+
+        min-height: 58px;
+
+    }
+
+}
+
+
+/* =========================================
+   MÓVIL
+========================================= */
+
+@media (max-width: 500px) {
+
+    .top-header {
+
+        min-height: 68px;
+
+        padding:
+            10px 13px;
+
+    }
+
+
+    .marca {
+
+        gap: 8px;
+
+    }
+
+
+    .marca img {
+
+        width: 39px;
+
+        height: 39px;
+
+        border-radius: 10px;
+
+    }
+
+
+    .marca h1 {
+
+        font-size: 15px;
+
+    }
+
+
+    .marca span {
+
+        font-size: 8px;
+
+    }
+
+
+    .btn-regresar {
+
+        min-height: 35px;
+
+        padding:
+            0 10px;
+
+        font-size: 9px;
+
+    }
+
+
+    .contenido {
+
+        padding:
+            22px 10px 30px;
+
+    }
+
+
+    .cartel {
+
+        padding:
+            22px 13px;
+
+        border-radius: 17px;
+
+    }
+
 
     .encabezado {
 
         flex-direction: column;
 
+        gap: 10px;
+
+        padding-bottom:
+            20px;
+
     }
+
+
+    .logo-institucion {
+
+        width: 60px;
+
+        height: 60px;
+
+        min-width: 60px;
+
+        border-radius: 15px;
+
+    }
+
 
     .informacion-institucion {
 
@@ -418,33 +937,135 @@ footer span {
 
     }
 
-    .informacion-institucion h1 {
 
-        font-size: 23px;
+    .informacion-institucion h2 {
+
+        font-size: 19px;
+
+    }
+
+
+    .titulo {
+
+        margin-top:
+            22px;
 
     }
 
-    .titulo h2 {
 
-        font-size: 28px;
+    .titulo h3 {
+
+        font-size: 24px;
 
     }
+
+
+    .titulo p {
+
+        font-size: 10px;
+
+    }
+
+
+    .qr-marco {
+
+        width: 250px;
+
+        height: 250px;
+
+        padding: 12px;
+
+        border-radius: 16px;
+
+    }
+
 
     .instrucciones {
 
-        grid-template-columns: 1fr;
+        gap: 7px;
+
+        margin-top: 20px;
 
     }
+
+
+    .paso {
+
+        min-height: 54px;
+
+        padding: 10px;
+
+    }
+
+
+    .paso > span {
+
+        width: 25px;
+
+        height: 25px;
+
+        min-width: 25px;
+
+    }
+
 
     .acciones {
 
         flex-direction: column;
 
+        gap: 8px;
+
+        margin-top: 12px;
+
     }
+
 
     .btn {
 
         width: 100%;
+
+        min-height: 43px;
+
+    }
+
+}
+
+
+/* =========================================
+   CELULARES PEQUEÑOS
+========================================= */
+
+@media (max-width: 360px) {
+
+    .marca span {
+
+        display: none;
+
+    }
+
+
+    .btn-regresar {
+
+        padding:
+            0 8px;
+
+        font-size: 8px;
+
+    }
+
+
+    .titulo h3 {
+
+        font-size: 21px;
+
+    }
+
+
+    .qr-marco {
+
+        width: 220px;
+
+        height: 220px;
 
     }
 
