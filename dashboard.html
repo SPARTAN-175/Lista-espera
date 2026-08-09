@@ -4,123 +4,652 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MOTI Queue</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="css/dashboard.css">
+    <title>MOTI Queue | Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="css/dashboard.css">
 
 </head>
 
+
 <body>
 
-<header class="header">
 
-    <h1>MOTI Queue</h1>
+    <!-- =========================================
+         CONTENEDOR PRINCIPAL
+    ========================================== -->
 
-    <button id="btnSalir">
-        Cerrar sesión
-    </button>
+    <div class="dashboard">
 
-</header>
 
-<main class="contenedor">
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
 
-    <h2 id="bienvenida">
-        Bienvenido
-    </h2>
+        <aside class="sidebar">
 
-    <div class="menu">
 
-<button class="card"id="btnInstituciones">
-    🏢 Instituciones  
-</button>
+            <!-- LOGO -->
 
-<button class="card" id="btnUsuarios">
+            <div class="brand">
 
-    👥 Usuarios
+                <img
+                    src="img/logo.png"
+                    alt="MOTI Queue">
 
-</button>
+                <div>
 
-        <button class="card">📍 Módulos</button>
+                    <strong>
+                        MOTI Queue
+                    </strong>
 
-<button
-    class="card"
-    id="btnVinculacion">
+                    <span>
+                        Gestión de turnos
+                    </span>
 
-    🔗 Vincular capturistas
+                </div>
 
-</button>
+            </div>
 
-<button
-    class="card"
-    id="btnHistorial">
 
-    📚 Historial
+            <!-- NAVEGACIÓN -->
 
-</button>
+            <nav class="sidebar-nav">
 
-<button
-    class="card"
-    id="btnQRConsulta">
 
-    📱 Generar QR de Consulta
+                <div class="nav-title">
+                    PRINCIPAL
+                </div>
 
-</button>
+
+                <button
+                    class="nav-item activo">
+
+                    <span class="nav-icon">
+                        ⌂
+                    </span>
+
+                    <span>
+                        Dashboard
+                    </span>
+
+                </button>
+
+
+                <div class="nav-title">
+                    ADMINISTRACIÓN
+                </div>
+
+
+                <button
+                    class="nav-item"
+                    id="btnInstituciones">
+
+                    <span class="nav-icon">
+                        🏢
+                    </span>
+
+                    <span>
+                        Institución
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    id="btnUsuarios">
+
+                    <span class="nav-icon">
+                        👥
+                    </span>
+
+                    <span>
+                        Usuarios y accesos
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    id="btnVinculacion">
+
+                    <span class="nav-icon">
+                        🔗
+                    </span>
+
+                    <span>
+                        Vincular capturista
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    id="btnHistorial">
+
+                    <span class="nav-icon">
+                        ◷
+                    </span>
+
+                    <span>
+                        Historial
+                    </span>
+
+                </button>
+
+
+                <div class="nav-title">
+                    HERRAMIENTAS
+                </div>
+
+
+                <button
+                    class="nav-item"
+                    id="btnQRConsulta">
+
+                    <span class="nav-icon">
+                        ▣
+                    </span>
+
+                    <span>
+                        QR de consulta
+                    </span>
+
+                </button>
+
+
+            </nav>
+
+
+            <!-- PARTE INFERIOR -->
+
+            <div class="sidebar-bottom">
+
+
+                <div class="sidebar-info">
+
+                    <span class="info-dot"></span>
+
+                    <div>
+
+                        <strong>
+                            Sistema activo
+                        </strong>
+
+                        <small>
+                            Todo funcionando correctamente
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="btnSalir"
+                    class="btn-salir">
+
+                    <span>
+                        ⇥
+                    </span>
+
+                    Cerrar sesión
+
+                </button>
+
+            </div>
+
+
+        </aside>
+
+
+        <!-- =====================================
+             CONTENIDO
+        ====================================== -->
+
+        <main class="main">
+
+
+            <!-- HEADER -->
+
+            <header class="topbar">
+
+
+                <div class="topbar-mobile-brand">
+
+                    <img
+                        src="img/logo.png"
+                        alt="MOTI Queue">
+
+                    <strong>
+                        MOTI Queue
+                    </strong>
+
+                </div>
+
+
+                <div class="topbar-right">
+
+                    <div class="admin-badge">
+
+                        <div class="admin-avatar">
+                            A
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Administrador
+                            </strong>
+
+                            <span>
+                                Panel de control
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- =================================
+                 CONTENIDO PRINCIPAL
+            ================================== -->
+
+            <section class="contenido">
+
+
+                <!-- BIENVENIDA -->
+
+                <div class="bienvenida-box">
+
+
+                    <div>
+
+                        <span class="eyebrow">
+                            PANEL DE ADMINISTRACIÓN
+                        </span>
+
+
+                        <h1 id="bienvenida">
+                            Bienvenido
+                        </h1>
+
+
+                        <p>
+                            Administra tu institución,
+                            personal y dispositivos
+                            desde un solo lugar.
+                        </p>
+
+                    </div>
+
+
+                    <div class="bienvenida-decoration">
+
+                        <div class="decoration-circle circle-one"></div>
+
+                        <div class="decoration-circle circle-two"></div>
+
+                        <div class="decoration-icon">
+                            ✓
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================
+                     ESTADÍSTICAS
+                ================================== -->
+
+                <div class="stats-grid">
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon verde">
+                            👥
+                        </div>
+
+                        <div class="stat-info">
+
+                            <span>
+                                Personal
+                            </span>
+
+                            <strong>
+                                Atención
+                            </strong>
+
+                            <small>
+                                Gestiona tus usuarios
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon azul">
+                            📱
+                        </div>
+
+                        <div class="stat-info">
+
+                            <span>
+                                Dispositivos
+                            </span>
+
+                            <strong>
+                                Capturistas
+                            </strong>
+
+                            <small>
+                                Administra los accesos
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon morado">
+                            📚
+                        </div>
+
+                        <div class="stat-info">
+
+                            <span>
+                                Información
+                            </span>
+
+                            <strong>
+                                Historial
+                            </strong>
+
+                            <small>
+                                Consulta la actividad
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =================================
+                     ACCESOS RÁPIDOS
+                ================================== -->
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span>
+                            ACCESOS RÁPIDOS
+                        </span>
+
+                        <h2>
+                            ¿Qué deseas hacer?
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="menu">
+
+
+                    <!-- INSTITUCIÓN -->
+
+                    <button
+                        class="card"
+                        id="btnInstituciones">
+
+                        <div class="card-icon verde">
+                            🏢
+                        </div>
+
+                        <div class="card-content">
+
+                            <h3>
+                                Institución
+                            </h3>
+
+                            <p>
+                                Consulta y administra
+                                la información de tu institución.
+                            </p>
+
+                        </div>
+
+                        <span class="card-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <!-- USUARIOS -->
+
+                    <button
+                        class="card"
+                        id="btnUsuarios">
+
+                        <div class="card-icon azul">
+                            👥
+                        </div>
+
+                        <div class="card-content">
+
+                            <h3>
+                                Usuarios y accesos
+                            </h3>
+
+                            <p>
+                                Administra personal de atención
+                                y dispositivos vinculados.
+                            </p>
+
+                        </div>
+
+                        <span class="card-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <!-- VINCULACIÓN -->
+
+                    <button
+                        class="card"
+                        id="btnVinculacion">
+
+                        <div class="card-icon naranja">
+                            🔗
+                        </div>
+
+                        <div class="card-content">
+
+                            <h3>
+                                Vincular capturista
+                            </h3>
+
+                            <p>
+                                Genera un código QR para
+                                vincular un nuevo dispositivo.
+                            </p>
+
+                        </div>
+
+                        <span class="card-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <!-- HISTORIAL -->
+
+                    <button
+                        class="card"
+                        id="btnHistorial">
+
+                        <div class="card-icon morado">
+                            📚
+                        </div>
+
+                        <div class="card-content">
+
+                            <h3>
+                                Historial
+                            </h3>
+
+                            <p>
+                                Consulta el historial
+                                de turnos y actividad.
+                            </p>
+
+                        </div>
+
+                        <span class="card-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <!-- QR CONSULTA -->
+
+                    <button
+                        class="card"
+                        id="btnQRConsulta">
+
+                        <div class="card-icon turquesa">
+                            ▣
+                        </div>
+
+                        <div class="card-content">
+
+                            <h3>
+                                QR de consulta
+                            </h3>
+
+                            <p>
+                                Genera el código para que
+                                los pacientes consulten la fila.
+                            </p>
+
+                        </div>
+
+                        <span class="card-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                </div>
+
+
+                <!-- =================================
+                     INFORMACIÓN DEL SISTEMA
+                ================================== -->
+
+                <section class="info-panel">
+
+
+                    <div class="info-panel-icon">
+                        ✓
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            MOTI QUEUE
+                        </span>
+
+                        <h3>
+                            Sistema de gestión de turnos
+                        </h3>
+
+                        <p>
+                            Desde este panel puedes administrar
+                            los accesos y herramientas de tu institución.
+                        </p>
+
+                    </div>
+
+
+                    <div class="estado-sistema">
+
+                        <span class="info-dot"></span>
+
+                        Sistema activo
+
+                    </div>
+
+
+                </section>
+
+
+            </section>
+
+
+            <!-- FOOTER -->
+
+            <footer class="footer">
+
+                <span>
+                    MOTI Queue
+                </span>
+
+                <span>
+                    Sistema Inteligente de Gestión de Turnos
+                </span>
+
+            </footer>
+
+
+        </main>
+
 
     </div>
 
-</main>
 
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
 
-<!-- ========================================= -->
-<!-- MODAL QR CONSULTA -->
-<!-- ========================================= -->
-
-<div id="modalQRConsulta" class="modalQR oculto">
-
-    <div class="panelQR">
-
-        <h2>
-            📱 Consulta de Turnos
-        </h2>
-
-        <p class="descripcionQR">
-            Escanee este código para consultar el avance de la fila.
-        </p>
-
-        <div id="contenedorQR"></div>
-
-        <h3 id="nombreInstitucionQR">
-            Institución
-        </h3>
-
-        <p id="urlConsultaQR"></p>
-
-        <div class="accionesQR">
-
-            <button id="btnDescargarQR">
-                📥 Descargar
-            </button>
-
-            <button id="btnImprimirQR">
-                🖨️ Imprimir
-            </button>
-
-            <button id="btnCerrarQR">
-                Cerrar
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<script type="module" src="js/dashboard.js"></script>
+    <script
+        type="module"
+        src="js/dashboard.js">
+    </script>
 
 
 </body>
+
 </html>
