@@ -257,17 +257,124 @@ btnImprimir.addEventListener(
 );
 
 
-/*==================================
-DESCARGAR
+/*==================================*
+*DESCARGAR PDF*
 ==================================*/
 
 btnDescargar.addEventListener(
     "click",
-    () => {
+    async () => {
 
-        alert(
-            "La descarga se activará en el siguiente paso."
-        );
+        try {
+
+            btnDescargar.disabled = true;
+
+            btnDescargar.innerHTML =
+                "Generando PDF...";
+
+
+            const elemento =
+                document.getElementById("cartelQR");
+
+
+            const canvas =
+                await html2canvas(
+                    elemento,
+                    {
+                        scale: 2,
+                        useCORS: true,
+                        backgroundColor: "#ffffff"
+                    }
+                );
+
+
+            const imagen =
+                canvas.toDataURL(
+                    "image/png"
+                );
+
+
+            const {
+                jsPDF
+            } = window.jspdf;
+
+
+            const pdf =
+                new jsPDF({
+                    orientation: "portrait",
+                    unit: "mm",
+                    format: "a4"
+                });
+
+
+            const anchoPagina = 210;
+
+            const margen = 10;
+
+            const ancho =
+                anchoPagina -
+                (margen * 2);
+
+
+            const proporcion =
+                canvas.height /
+                canvas.width;
+
+
+            const alto =
+                ancho *
+                proporcion;
+
+
+            pdf.addImage(
+                imagen,
+                "PNG",
+                margen,
+                margen,
+                ancho,
+                alto
+            );
+
+
+            const nombre =
+                nombreInstitucion.textContent
+                    .trim()
+                    .replace(
+                        /[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]/g,
+                        ""
+                    )
+                    .replace(
+                        /\s+/g,
+                        "-"
+                    );
+
+
+            pdf.save(
+                `MOTI-Queue-QR-${nombre}.pdf`
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Error generando PDF:",
+                error
+            );
+
+
+            alert(
+                "No fue posible generar el PDF."
+            );
+
+
+        } finally {
+
+            btnDescargar.disabled = false;
+
+            btnDescargar.innerHTML =
+                "<span>↓</span> Descargar";
+
+        }
 
     }
 );
