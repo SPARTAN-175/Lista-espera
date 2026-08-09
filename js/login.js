@@ -1,10 +1,12 @@
-
-import { iniciarSesion } from "./auth.js";
-
-import { observarSesion } from "./auth.js";
+import {
+    iniciarSesion,
+    iniciarSesionAtencion,
+    observarSesion
+} from "./auth.js";
 
 import { obtenerUsuario } from "./usuarios.js";
 import { guardarUsuario } from "./sesion.js";
+
 import {
     collection,
     query,
@@ -15,204 +17,583 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 import { db } from "./firebase.js";
-import { guardarDispositivo } from "./dispositivo.js";
 
-const txtCorreo = document.getElementById("correo");
-const txtPassword = document.getElementById("password");
+import {
+    guardarDispositivo
+} from "./dispositivo.js";
 
-const btnIngresar = document.getElementById("btnIngresar");
 
-const mensaje = document.getElementById("mensaje");
+/*==================================
+ELEMENTOS
+==================================*/
 
-const btnEscanearQR = document.getElementById("btnEscanearQR");
+const txtCorreo =
+    document.getElementById("correo");
+
+const txtPassword =
+    document.getElementById("password");
+
+const btnIngresar =
+    document.getElementById("btnIngresar");
+
+const mensaje =
+    document.getElementById("mensaje");
+
+const btnEscanearQR =
+    document.getElementById("btnEscanearQR");
+
 
 let lectorQR = null;
 
 
+/*==================================
+ID DEL DISPOSITIVO
+==================================*/
 
+const CLAVE_DISPOSITIVO =
+    "motiQueueDispositivo";
 
-const CLAVE_DISPOSITIVO = "motiQueueDispositivo";
 
 function obtenerIdDispositivo() {
 
-    let id = localStorage.getItem(CLAVE_DISPOSITIVO);
+    let id =
+        localStorage.getItem(
+            CLAVE_DISPOSITIVO
+        );
+
 
     if (!id) {
 
-        id = crypto.randomUUID();
+        id =
+            crypto.randomUUID();
 
-        localStorage.setItem(CLAVE_DISPOSITIVO, id);
+        localStorage.setItem(
+            CLAVE_DISPOSITIVO,
+            id
+        );
 
     }
+
 
     return id;
 
 }
 
 
+/*==================================
+ÚLTIMO CORREO ADMINISTRADOR
+==================================*/
 
-const ultimoCorreo = localStorage.getItem("ultimoCorreo");
+const ultimoCorreo =
+    localStorage.getItem(
+        "ultimoCorreo"
+    );
+
 
 if (ultimoCorreo) {
-    txtCorreo.value = ultimoCorreo;
+
+    txtCorreo.value =
+        ultimoCorreo;
+
 }
 
-observarSesion(async (firebaseUser) => {
 
-    if (!firebaseUser) return;
+/*==================================
+OBSERVAR FIREBASE AUTH
+==================================*/
 
-    const usuario = await obtenerUsuario(firebaseUser.uid);
+/*
+    Esto solamente controla sesiones
+    creadas mediante Firebase Authentication.
 
-    guardarUsuario(usuario);
+    Principalmente:
+    - Administrador
+*/
 
-    switch (usuario.rol) {
+observarSesion(
+    async (firebaseUser) => {
 
-        case "administrador":
-            window.location.href = "dashboard.html";
-            break;
+        if (!firebaseUser) {
 
-        case "atencion":
-        case "capturista":
-            window.location.href = "index.html";
-            break;
+            return;
+
+        }
+
+
+        try {
+
+            const usuario =
+                await obtenerUsuario(
+                    firebaseUser.uid
+                );
+
+
+            guardarUsuario(
+                usuario
+            );
+
+
+            redirigirSegunRol(
+                usuario
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Error recuperando sesión Firebase:",
+                error
+            );
+
+        }
+
     }
-
-});
-
-
-btnIngresar.addEventListener("click", ingresar);
+);
 
 
-async function ingresar(){
+/*==================================
+BOTÓN INGRESAR
+==================================*/
 
-    mensaje.textContent = "";
+btnIngresar.addEventListener(
+    "click",
+    ingresar
+);
 
-    const correo = txtCorreo.value.trim();
 
-    const password = txtPassword.value;
+/*==================================
+INGRESAR
+==================================*/
 
-    if(correo === "" || password === ""){
+async function ingresar() {
 
-        mensaje.textContent = "Ingrese su correo y contraseña.";
+    mensaje.textContent =
+        "";
+
+
+    const identificador =
+        txtCorreo.value.trim();
+
+
+    const password =
+        txtPassword.value;
+
+
+    if (
+        identificador === "" ||
+        password === ""
+    ) {
+
+        mensaje.textContent =
+            "Ingrese su usuario y contraseña.";
 
         return;
 
     }
 
-    btnIngresar.disabled = true;
 
-    btnIngresar.textContent = "Ingresando...";
+    btnIngresar.disabled =
+        true;
 
-    try{
 
-        const firebaseUser = await iniciarSesion(correo, password);
+    btnIngresar.textContent =
+        "Ingresando...";
 
-// Buscar información del usuario en Firestore
-const usuario = await obtenerUsuario(firebaseUser.uid);
 
-guardarUsuario(usuario);
+    try {
 
-// Redirigir según el rol
-switch (usuario.rol) {
+        /*
+        ==================================
+        DETECTAR TIPO DE ACCESO
+        ==================================
+        */
 
-    case "administrador":
-        window.location.href = "dashboard.html";
-        break;
+        const esUsuarioAtencion =
+            /^ATN-[A-Z0-9]{8}$/i.test(
+                identificador
+            );
 
-    case "atencion":
-    case "capturista":
-        window.location.href = "index.html";
-        break;
 
-    default:
-        alert("Este usuario no tiene un rol válido.");
-        break;
+        /*==================================
+        ATENCIÓN
+        ==================================*/
+
+        if (esUsuarioAtencion) {
+
+            const usuario =
+                await iniciarSesionAtencion(
+                    identificador,
+                    password
+                );
+
+
+            /*
+            Guardar sesión propia
+            */
+
+            guardarUsuario(
+                usuario
+            );
+
+
+            /*
+            Ir al sistema de turnos
+            */
+
+            window.location.href =
+                "index.html";
+
+
+            return;
+
+        }
+
+
+        /*==================================
+        ADMINISTRADOR
+        ==================================*/
+
+        const firebaseUser =
+            await iniciarSesion(
+                identificador,
+                password
+            );
+
+
+        /*
+        Buscar información adicional
+        del administrador
+        */
+
+        const usuario =
+            await obtenerUsuario(
+                firebaseUser.uid
+            );
+
+
+        guardarUsuario(
+            usuario
+        );
+
+
+        redirigirSegunRol(
+            usuario
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Error iniciando sesión:",
+            error
+        );
+
+
+        mostrarErrorLogin(
+            error
+        );
+
+    } finally {
+
+        btnIngresar.disabled =
+            false;
+
+
+        btnIngresar.textContent =
+            "Iniciar sesión";
+
+    }
+
 }
-    }catch(error){
 
-        console.error(error);
 
-        switch(error.code){
+/*==================================
+REDIRECCIÓN SEGÚN ROL
+==================================*/
 
-            case "auth/invalid-credential":
+function redirigirSegunRol(
+    usuario
+) {
 
-                mensaje.textContent =
+    if (!usuario) {
+
+        mensaje.textContent =
+            "No fue posible identificar al usuario.";
+
+        return;
+
+    }
+
+
+    switch (
+        usuario.rol
+    ) {
+
+        case "administrador":
+
+            window.location.href =
+                "dashboard.html";
+
+            break;
+
+
+        case "atencion":
+
+            window.location.href =
+                "index.html";
+
+            break;
+
+
+        case "capturista":
+
+            window.location.href =
+                "index.html";
+
+            break;
+
+
+        default:
+
+            mensaje.textContent =
+                "Este usuario no tiene un rol válido.";
+
+            break;
+
+    }
+
+}
+
+
+/*==================================
+MENSAJES DE ERROR
+==================================*/
+
+function mostrarErrorLogin(
+    error
+) {
+
+    /*
+    ==================================
+    LOGIN ATENCIÓN
+    ==================================
+    */
+
+    switch (
+        error.message
+    ) {
+
+        case "credenciales-invalidas":
+
+            mensaje.textContent =
+                "Usuario o contraseña incorrectos.";
+
+            return;
+
+
+        case "usuario-inactivo":
+
+            mensaje.textContent =
+                "Este usuario se encuentra desactivado.";
+
+            return;
+
+
+        case "usuario-no-existe":
+
+            mensaje.textContent =
+                "La cuenta de usuario no existe.";
+
+            return;
+
+
+        case "rol-invalido":
+
+            mensaje.textContent =
+                "Esta cuenta no tiene permisos de atención.";
+
+            return;
+
+
+        case "acceso-invalido":
+
+            mensaje.textContent =
+                "La cuenta de acceso no está configurada correctamente.";
+
+            return;
+
+    }
+
+
+    /*
+    ==================================
+    LOGIN FIREBASE
+    ==================================
+    */
+
+    switch (
+        error.code
+    ) {
+
+        case "auth/invalid-credential":
+
+        case "auth/wrong-password":
+
+        case "auth/user-not-found":
+
+            mensaje.textContent =
                 "Correo o contraseña incorrectos.";
 
             break;
 
-            case "auth/too-many-requests":
 
-                mensaje.textContent =
+        case "auth/too-many-requests":
+
+            mensaje.textContent =
                 "Demasiados intentos. Intente más tarde.";
 
             break;
 
-            default:
 
-                mensaje.textContent =
+        case "auth/invalid-email":
+
+            mensaje.textContent =
+                "El correo electrónico no es válido.";
+
+            break;
+
+
+        default:
+
+            mensaje.textContent =
                 "No fue posible iniciar sesión.";
 
-        }
+            break;
 
     }
 
-    btnIngresar.disabled = false;
-
-    btnIngresar.textContent = "Iniciar sesión";
-
 }
 
-btnEscanearQR.addEventListener("click", abrirEscaner);
+
+/*==================================
+ESCANEAR QR
+==================================*/
+
+btnEscanearQR.addEventListener(
+    "click",
+    abrirEscaner
+);
+
+
+/*==================================
+ABRIR ESCÁNER
+==================================*/
 
 async function abrirEscaner() {
 
-    document.getElementById("lectorQR").style.display = "block";
+    const lector =
+        document.getElementById(
+            "lectorQR"
+        );
 
-    lectorQR = new Html5Qrcode("lectorQR");
+
+    lector.style.display =
+        "block";
+
+
+    mensaje.textContent =
+        "";
+
+
+    lectorQR =
+        new Html5Qrcode(
+            "lectorQR"
+        );
+
 
     try {
 
         await lectorQR.start(
 
-            { facingMode: "environment" },
+            {
+                facingMode:
+                    "environment"
+            },
 
             {
-                fps: 10,
-                qrbox: 250
+                fps:
+                    10,
+
+                qrbox:
+                    250
+
             },
 
             async (texto) => {
 
-                await lectorQR.stop();
+                try {
 
-                document.getElementById("lectorQR").style.display = "none";
+                    await lectorQR.stop();
 
-                const vinculacion = await validarCodigoQR(texto);
 
-if(!vinculacion){
+                    lector.style.display =
+                        "none";
 
-    alert("Este código QR no es válido.");
 
-    return;
+                    const vinculacion =
+                        await validarCodigoQR(
+                            texto
+                        );
 
-}
 
-const dispositivoId = obtenerIdDispositivo();
+                    if (!vinculacion) {
 
-await registrarDispositivo(vinculacion);
+                        mensaje.textContent =
+                            "Este código QR no es válido.";
 
-guardarDispositivo({
+                        return;
 
-    dispositivoId,
+                    }
 
-    institucionId: vinculacion.institucionId,
 
-    nombreInstitucion: vinculacion.nombreInstitucion
+                    const dispositivoId =
+                        obtenerIdDispositivo();
 
-});
 
-window.location.href = "index.html";
+                    await registrarDispositivo(
+                        vinculacion
+                    );
+
+
+                    guardarDispositivo({
+
+                        dispositivoId,
+
+                        institucionId:
+                            vinculacion.institucionId,
+
+                        nombreInstitucion:
+                            vinculacion.nombreInstitucion
+
+                    });
+
+
+                    window.location.href =
+                        "index.html";
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Error procesando QR:",
+                        error
+                    );
+
+
+                    mensaje.textContent =
+                        "No fue posible vincular este dispositivo.";
+
+                }
 
             },
 
@@ -220,9 +601,18 @@ window.location.href = "index.html";
 
         );
 
+
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Error abriendo cámara:",
+            error
+        );
+
+
+        lector.style.display =
+            "none";
+
 
         mensaje.textContent =
             "No fue posible abrir la cámara.";
@@ -232,43 +622,94 @@ window.location.href = "index.html";
 }
 
 
-async function validarCodigoQR(codigo){
+/*==================================
+VALIDAR QR
+==================================*/
 
-    const consulta = query(
-        collection(db, "vinculaciones"),
-        where("codigo", "==", codigo),
-        where("activo", "==", true)
-    );
+async function validarCodigoQR(
+    codigo
+) {
 
-    const resultados = await getDocs(consulta);
+    const consulta =
+        query(
 
-    if(resultados.empty){
+            collection(
+                db,
+                "vinculaciones"
+            ),
+
+            where(
+                "codigo",
+                "==",
+                codigo
+            ),
+
+            where(
+                "activo",
+                "==",
+                true
+            )
+
+        );
+
+
+    const resultados =
+        await getDocs(
+            consulta
+        );
+
+
+    if (
+        resultados.empty
+    ) {
 
         return null;
 
     }
 
+
     return resultados.docs[0].data();
 
 }
 
-async function registrarDispositivo(vinculacion){
 
-    await addDoc(collection(db, "dispositivos"), {
+/*==================================
+REGISTRAR DISPOSITIVO
+==================================*/
 
-        dispositivoId: obtenerIdDispositivo(),
+async function registrarDispositivo(
+    vinculacion
+) {
 
-        institucionId: vinculacion.institucionId,
+    await addDoc(
 
-        nombreInstitucion: vinculacion.nombreInstitucion,
+        collection(
+            db,
+            "dispositivos"
+        ),
 
-        activo: true,
+        {
 
-        fechaVinculacion: serverTimestamp(),
+            dispositivoId:
+                obtenerIdDispositivo(),
 
-        ultimoAcceso: serverTimestamp()
+            institucionId:
+                vinculacion.institucionId,
 
-    });
+            nombreInstitucion:
+                vinculacion.nombreInstitucion,
+
+            activo:
+                true,
+
+            fechaVinculacion:
+                serverTimestamp(),
+
+            ultimoAcceso:
+                serverTimestamp()
+
+        }
+
+    );
 
 }
-
