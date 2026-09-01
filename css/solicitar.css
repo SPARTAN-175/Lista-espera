@@ -1,0 +1,752 @@
+* {
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+}
+
+
+:root {
+
+    --verde: #0b8f3c;
+    --verde-oscuro: #087332;
+    --verde-claro: #eaf7ee;
+
+    --fondo: #f5f7f6;
+    --blanco: #ffffff;
+
+    --texto: #202724;
+    --gris: #737b76;
+
+    --borde: #e3e9e5;
+
+}
+
+
+body {
+
+    min-height: 100vh;
+
+    background:
+        var(--fondo);
+
+    color:
+        var(--texto);
+
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.top-header {
+
+    min-height: 76px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding:
+        12px 35px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--verde),
+            var(--verde-oscuro)
+        );
+
+    color: white;
+
+    box-shadow:
+        0 3px 15px
+        rgba(0,0,0,.12);
+
+}
+
+
+.marca {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+
+.marca img {
+
+    width: 46px;
+    height: 46px;
+
+    padding: 5px;
+
+    background: white;
+
+    border-radius: 12px;
+
+}
+
+
+.marca div {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.marca strong {
+
+    font-size: 18px;
+
+}
+
+
+.marca span {
+
+    margin-top: 4px;
+
+    color:
+        rgba(255,255,255,.72);
+
+    font-size: 10px;
+
+}
+
+
+/* =========================================
+   CONTENIDO
+========================================= */
+
+.contenido {
+
+    width: 100%;
+
+    max-width: 720px;
+
+    margin: auto;
+
+    padding:
+        45px 20px;
+
+}
+
+
+.introduccion {
+
+    margin-bottom: 25px;
+
+}
+
+
+.introduccion > span {
+
+    color:
+        var(--verde);
+
+    font-size: 9px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+}
+
+
+.introduccion h1 {
+
+    max-width: 600px;
+
+    margin-top: 8px;
+
+    font-size: 30px;
+
+    line-height: 1.2;
+
+}
+
+
+.introduccion p {
+
+    max-width: 580px;
+
+    margin-top: 10px;
+
+    color:
+        var(--gris);
+
+    font-size: 12px;
+
+    line-height: 1.6;
+
+}
+
+
+/* =========================================
+   TARJETA
+========================================= */
+
+.tarjeta {
+
+    padding:
+        30px;
+
+    background: white;
+
+    border:
+        1px solid
+        var(--borde);
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 10px 35px
+        rgba(0,0,0,.05);
+
+}
+
+
+.titulo-tarjeta {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding-bottom: 22px;
+
+    border-bottom:
+        1px solid
+        var(--borde);
+
+}
+
+
+.icono {
+
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background:
+        var(--verde-claro);
+
+    font-size: 21px;
+
+}
+
+
+.titulo-tarjeta h2 {
+
+    font-size: 18px;
+
+}
+
+
+.titulo-tarjeta p {
+
+    margin-top: 4px;
+
+    color:
+        var(--gris);
+
+    font-size: 10px;
+
+}
+
+
+/* =========================================
+   FORMULARIO
+========================================= */
+
+.seccion-formulario {
+
+    margin-top: 25px;
+
+}
+
+
+.seccion-titulo {
+
+    margin-bottom: 13px;
+
+    color:
+        var(--verde);
+
+    font-size: 10px;
+
+    font-weight: bold;
+
+    letter-spacing: .7px;
+
+}
+
+
+label {
+
+    display: block;
+
+    margin:
+        13px 0 6px;
+
+    font-size: 10px;
+
+    font-weight: bold;
+
+}
+
+
+input {
+
+    width: 100%;
+
+    height: 45px;
+
+    padding:
+        0 13px;
+
+    border:
+        1px solid
+        var(--borde);
+
+    border-radius: 10px;
+
+    outline: none;
+
+    background:
+        #fbfcfb;
+
+    color:
+        var(--texto);
+
+    font-size: 12px;
+
+    transition:
+        .2s ease;
+
+}
+
+
+input:focus {
+
+    border-color:
+        var(--verde);
+
+    background: white;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(11,143,60,.08);
+
+}
+
+
+/* =========================================
+   BOTÓN
+========================================= */
+
+.btn-principal {
+
+    width: 100%;
+
+    height: 47px;
+
+    margin-top: 25px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background:
+        var(--verde);
+
+    color: white;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+.btn-principal:hover {
+
+    background:
+        var(--verde-oscuro);
+
+}
+
+
+.btn-principal:disabled {
+
+    opacity: .65;
+
+    cursor:
+        wait;
+
+}
+
+
+.aviso {
+
+    margin-top: 12px;
+
+    color:
+        #9aa19d;
+
+    font-size: 8px;
+
+    line-height: 1.5;
+
+    text-align: center;
+
+}
+
+
+/* =========================================
+   MENSAJE
+========================================= */
+
+.mensaje {
+
+    margin-top: 15px;
+
+    color:
+        #c62828;
+
+    font-size: 10px;
+
+    text-align: center;
+
+}
+
+
+/* =========================================
+   PAGO
+========================================= */
+
+.tarjeta-pago {
+
+    margin-top: 20px;
+
+    padding:
+        30px;
+
+    background: white;
+
+    border:
+        1px solid
+        #dceee2;
+
+    border-radius: 20px;
+
+    text-align: center;
+
+    box-shadow:
+        0 10px 35px
+        rgba(0,0,0,.05);
+
+}
+
+
+.oculto {
+
+    display: none;
+
+}
+
+
+.pago-icono {
+
+    width: 48px;
+    height: 48px;
+
+    margin:
+        0 auto 12px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        var(--verde-claro);
+
+    color:
+        var(--verde);
+
+    font-weight: bold;
+
+}
+
+
+.tarjeta-pago h2 {
+
+    font-size: 19px;
+
+}
+
+
+.tarjeta-pago > p {
+
+    margin:
+        8px auto 20px;
+
+    max-width: 500px;
+
+    color:
+        var(--gris);
+
+    font-size: 10px;
+
+    line-height: 1.5;
+
+}
+
+
+.datos-pago {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap: 9px;
+
+}
+
+
+.datos-pago div {
+
+    padding: 13px;
+
+    border-radius: 10px;
+
+    background:
+        #f5faf7;
+
+    text-align: left;
+
+}
+
+
+.datos-pago span {
+
+    display: block;
+
+    color:
+        #9aa19d;
+
+    font-size: 7px;
+
+    font-weight: bold;
+
+}
+
+
+.datos-pago strong {
+
+    display: block;
+
+    margin-top: 5px;
+
+    color:
+        var(--texto);
+
+    font-size: 10px;
+
+    word-break: break-word;
+
+}
+
+
+.instruccion-pago {
+
+    margin-top: 15px;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    background:
+        #fffaf0;
+
+    color:
+        #76613a;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+
+}
+
+
+.btn-whatsapp {
+
+    width: 100%;
+
+    height: 44px;
+
+    margin-top: 13px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background:
+        #20a85a;
+
+    color: white;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+
+    padding:
+        0 20px 25px;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    color:
+        #9aa19d;
+
+    font-size: 8px;
+
+}
+
+
+footer strong {
+
+    color:
+        #737b76;
+
+}
+
+
+/* =========================================
+   MÓVIL
+========================================= */
+
+@media (max-width: 600px) {
+
+    .top-header {
+
+        min-height: 67px;
+
+        padding:
+            10px 14px;
+
+    }
+
+
+    .marca img {
+
+        width: 39px;
+        height: 39px;
+
+    }
+
+
+    .marca strong {
+
+        font-size: 15px;
+
+    }
+
+
+    .marca span {
+
+        font-size: 8px;
+
+    }
+
+
+    .contenido {
+
+        padding:
+            28px 13px;
+
+    }
+
+
+    .introduccion h1 {
+
+        font-size: 24px;
+
+    }
+
+
+    .introduccion p {
+
+        font-size: 10px;
+
+    }
+
+
+    .tarjeta,
+    .tarjeta-pago {
+
+        padding:
+            22px 15px;
+
+        border-radius: 17px;
+
+    }
+
+
+    .datos-pago {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    footer {
+
+        flex-direction: column;
+
+        align-items: center;
+
+    }
+
+}
