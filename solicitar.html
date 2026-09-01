@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="theme-color"
+        content="#0b8f3c">
+
+    <title>
+        Solicitar MOTI Queue
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/solicitar.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- =================================
+         ENCABEZADO
+    ================================== -->
+
+    <header class="top-header">
+
+        <div class="marca">
+
+            <img
+                src="img/logo.png"
+                alt="MOTI Queue">
+
+            <div>
+
+                <strong>
+                    MOTI Queue
+                </strong>
+
+                <span>
+                    Sistema de Gestión de Turnos
+                </span>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =================================
+         CONTENIDO
+    ================================== -->
+
+    <main class="contenido">
+
+
+        <section class="introduccion">
+
+            <span>
+                SOLICITA TU ACCESO
+            </span>
+
+            <h1>
+                Organiza tu atención
+                de forma sencilla.
+            </h1>
+
+            <p>
+                MOTI Queue te permite gestionar
+                turnos, controlar la atención y
+                permitir que las personas consulten
+                el avance de su fila.
+            </p>
+
+        </section>
+
+
+
+        <!-- =================================
+             FORMULARIO
+        ================================== -->
+
+        <section class="tarjeta">
+
+
+            <div class="titulo-tarjeta">
+
+                <div class="icono">
+                    🏢
+                </div>
+
+                <div>
+
+                    <h2>
+                        Solicitar MOTI Queue
+                    </h2>
+
+                    <p>
+                        Completa los datos de tu institución.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- INSTITUCIÓN -->
+
+            <div class="seccion-formulario">
+
+                <div class="seccion-titulo">
+                    Datos de la institución
+                </div>
+
+
+                <label for="nombreInstitucion">
+                    Nombre de la institución
+                </label>
+
+                <input
+                    type="text"
+                    id="nombreInstitucion"
+                    placeholder="Ej. Centro de Salud Ostuacán"
+                    autocomplete="organization">
+
+
+                <label for="ubicacion">
+                    Ubicación
+                </label>
+
+                <input
+                    type="text"
+                    id="ubicacion"
+                    placeholder="Municipio o localidad">
+
+
+                <label for="telefonoInstitucion">
+                    Teléfono de contacto
+                </label>
+
+                <input
+                    type="tel"
+                    id="telefonoInstitucion"
+                    placeholder="Número de teléfono">
+
+
+            </div>
+
+
+
+            <!-- ADMINISTRADOR -->
+
+            <div class="seccion-formulario">
+
+                <div class="seccion-titulo">
+                    Datos del administrador
+                </div>
+
+
+                <label for="nombreAdministrador">
+                    Nombre completo
+                </label>
+
+                <input
+                    type="text"
+                    id="nombreAdministrador"
+                    placeholder="Nombre del responsable"
+                    autocomplete="name">
+
+
+                <label for="correoAdministrador">
+                    Correo electrónico
+                </label>
+
+                <input
+                    type="email"
+                    id="correoAdministrador"
+                    placeholder="correo@ejemplo.com"
+                    autocomplete="email">
+
+
+                <label for="telefonoAdministrador">
+                    Teléfono
+                </label>
+
+                <input
+                    type="tel"
+                    id="telefonoAdministrador"
+                    placeholder="Número de teléfono"
+                    autocomplete="tel">
+
+
+            </div>
+
+
+
+            <!-- MENSAJE -->
+
+            <div
+                id="mensaje"
+                class="mensaje">
+            </div>
+
+
+
+            <!-- BOTÓN -->
+
+            <button
+                id="btnEnviar"
+                class="btn-principal"
+                type="button">
+
+                Enviar solicitud
+
+            </button>
+
+
+            <p class="aviso">
+
+                Al enviar la solicitud recibirás
+                información para realizar el pago
+                y activar tu cuenta.
+
+            </p>
+
+
+        </section>
+
+
+
+        <!-- =================================
+             PAGO
+        ================================== -->
+
+        <section
+            id="pago"
+            class="tarjeta-pago oculto">
+
+
+            <div class="pago-icono">
+                ✓
+            </div>
+
+
+            <h2>
+                Solicitud recibida
+            </h2>
+
+
+            <p>
+                Hemos recibido tus datos.
+                Para activar MOTI Queue realiza
+                tu pago mediante transferencia.
+            </p>
+
+
+            <div class="datos-pago">
+
+                <div>
+
+                    <span>
+                        BANCO
+                    </span>
+
+                    <strong id="pagoBanco">
+                        Configurar
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        TITULAR
+                    </span>
+
+                    <strong id="pagoTitular">
+                        Configurar
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        CUENTA
+                    </span>
+
+                    <strong id="pagoCuenta">
+                        Configurar
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        CLABE
+                    </span>
+
+                    <strong id="pagoClabe">
+                        Configurar
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="instruccion-pago">
+
+                Después de realizar el pago,
+                envía tu comprobante por WhatsApp
+                para que podamos verificarlo.
+
+            </div>
+
+
+            <button
+                id="btnWhatsApp"
+                class="btn-whatsapp"
+                type="button">
+
+                Contactar por WhatsApp
+
+            </button>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <footer>
+
+        <strong>
+            MOTI Queue
+        </strong>
+
+        <span>
+            Sistema Inteligente de Gestión de Turnos
+        </span>
+
+    </footer>
+
+
+
+    <script
+        type="module"
+        src="js/solicitar.js">
+    </script>
+
+
+</body>
+
+</html>
