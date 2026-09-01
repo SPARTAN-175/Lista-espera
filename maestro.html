@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="theme-color"
+        content="#0b8f3c">
+
+    <title>
+        Panel Maestro - MOTI Queue
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/maestro.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- =================================
+         BARRA SUPERIOR
+    ================================== -->
+
+    <header class="top-header">
+
+
+        <div class="marca">
+
+            <img
+                src="img/logo.png"
+                alt="MOTI Queue">
+
+
+            <div>
+
+                <strong>
+                    MOTI Queue
+                </strong>
+
+                <span>
+                    Panel maestro
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="usuario-maestro">
+
+            <div class="usuario-info">
+
+                <strong id="nombreMaestro">
+                    Administrador MOTI
+                </strong>
+
+                <span>
+                    Superadministrador
+                </span>
+
+            </div>
+
+
+            <button
+                id="btnSalir"
+                type="button">
+
+                Cerrar sesión
+
+            </button>
+
+        </div>
+
+
+    </header>
+
+
+
+    <!-- =================================
+         CONTENIDO PRINCIPAL
+    ================================== -->
+
+    <main class="contenido">
+
+
+        <!-- =================================
+             BIENVENIDA
+        ================================== -->
+
+        <section class="bienvenida">
+
+            <div>
+
+                <span class="etiqueta">
+                    CENTRO DE CONTROL
+                </span>
+
+                <h1>
+                    Administración de MOTI Queue
+                </h1>
+
+                <p>
+                    Desde aquí puedes administrar las
+                    instituciones que utilizan el sistema,
+                    revisar solicitudes y controlar sus accesos.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             RESUMEN
+        ================================== -->
+
+        <section class="resumen">
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon verde">
+                    ⏳
+                </div>
+
+                <div>
+
+                    <span>
+                        Solicitudes
+                    </span>
+
+                    <strong id="totalSolicitudes">
+                        0
+                    </strong>
+
+                    <small>
+                        pendientes
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon azul">
+                    🏢
+                </div>
+
+                <div>
+
+                    <span>
+                        Instituciones
+                    </span>
+
+                    <strong id="totalInstituciones">
+                        0
+                    </strong>
+
+                    <small>
+                        registradas
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon activo">
+                    ●
+                </div>
+
+                <div>
+
+                    <span>
+                        Activas
+                    </span>
+
+                    <strong id="totalActivas">
+                        0
+                    </strong>
+
+                    <small>
+                        actualmente
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon suspendido">
+                    !
+                </div>
+
+                <div>
+
+                    <span>
+                        Suspendidas
+                    </span>
+
+                    <strong id="totalSuspendidas">
+                        0
+                    </strong>
+
+                    <small>
+                        sin acceso
+                    </small>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================
+             SOLICITUDES
+        ================================== -->
+
+        <section class="panel">
+
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span class="etiqueta">
+                        NUEVOS REGISTROS
+                    </span>
+
+                    <h2>
+                        Solicitudes pendientes
+                    </h2>
+
+                    <p>
+                        Revisa las solicitudes recibidas
+                        antes de activar una institución.
+                    </p>
+
+                </div>
+
+
+                <button
+                    id="btnVerSolicitudes"
+                    class="btn-secundario"
+                    type="button">
+
+                    Ver solicitudes
+
+                </button>
+
+            </div>
+
+
+            <div
+                id="listaSolicitudes"
+                class="lista">
+
+                <div class="estado-vacio">
+
+                    <div class="estado-icono">
+                        ✓
+                    </div>
+
+                    <strong>
+                        No hay solicitudes pendientes
+                    </strong>
+
+                    <p>
+                        Las nuevas solicitudes aparecerán aquí.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================
+             INSTITUCIONES
+        ================================== -->
+
+        <section class="panel">
+
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span class="etiqueta">
+                        CUENTAS
+                    </span>
+
+                    <h2>
+                        Instituciones
+                    </h2>
+
+                    <p>
+                        Administra el acceso de las instituciones
+                        registradas en MOTI Queue.
+                    </p>
+
+                </div>
+
+
+                <button
+                    id="btnActualizar"
+                    class="btn-secundario"
+                    type="button">
+
+                    ↻ Actualizar
+
+                </button>
+
+            </div>
+
+
+            <div
+                id="listaInstituciones"
+                class="lista">
+
+                <div class="estado-vacio">
+
+                    <div class="estado-icono">
+                        🏢
+                    </div>
+
+                    <strong>
+                        No hay instituciones registradas
+                    </strong>
+
+                    <p>
+                        Las instituciones creadas aparecerán aquí.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================
+             INFORMACIÓN
+        ================================== -->
+
+        <section class="nota">
+
+
+            <div class="nota-icono">
+                ℹ
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Administración manual
+                </strong>
+
+                <p>
+                    Las solicitudes, pagos y activaciones
+                    son administrados manualmente desde este panel.
+                    Una institución podrá utilizar MOTI Queue
+                    después de que su cuenta sea activada.
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =================================
+         MODAL GESTIONAR INSTITUCIÓN
+    ================================== -->
+
+    <div
+        id="modalGestion"
+        class="modal oculto">
+
+
+        <div class="modal-contenido">
+
+
+            <div class="modal-header">
+
+
+                <div>
+
+                    <span class="etiqueta">
+                        ADMINISTRACIÓN
+                    </span>
+
+                    <h2>
+                        Gestionar institución
+                    </h2>
+
+                </div>
+
+
+                <button
+                    id="btnCerrarModal"
+                    class="btn-cerrar"
+                    type="button">
+
+                    ×
+
+                </button>
+
+
+            </div>
+
+
+
+            <div
+                id="detalleInstitucion"
+                class="detalle-institucion">
+
+            </div>
+
+
+
+            <div class="acciones-modal">
+
+
+                <button
+                    id="btnSuspender"
+                    class="btn-peligro"
+                    type="button">
+
+                    Suspender cuenta
+
+                </button>
+
+
+                <button
+                    id="btnReactivar"
+                    class="btn-principal oculto"
+                    type="button">
+
+                    Reactivar cuenta
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================
+         JAVASCRIPT
+    ================================== -->
+
+    <script
+        type="module"
+        src="js/maestro.js">
+    </script>
+
+
+</body>
+
+  </html>
