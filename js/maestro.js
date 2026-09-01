@@ -6,10 +6,10 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
+    doc,
+    getDoc,
     collection,
-    getDocs,
-    query,
-    orderBy
+    getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 
@@ -73,7 +73,7 @@ let institucionSeleccionada = null;
 
 
 /* =========================================
-   VERIFICAR CUENTA MAESTRA
+   VERIFICAR SESIÓN MAESTRA
 ========================================= */
 
 onAuthStateChanged(
@@ -86,19 +86,22 @@ onAuthStateChanged(
                 "maestro-login.html";
 
             return;
-
         }
 
 
         try {
 
-            const respuesta =
-                await fetchPerfilMaestro(
+            const perfil =
+                await obtenerPerfilMaestro(
                     usuario.uid
                 );
 
 
-            if (!respuesta) {
+            if (!perfil) {
+
+                alert(
+                    "Esta cuenta no tiene permisos de administrador maestro."
+                );
 
                 await signOut(auth);
 
@@ -106,12 +109,11 @@ onAuthStateChanged(
                     "maestro-login.html";
 
                 return;
-
             }
 
 
             nombreMaestro.textContent =
-                respuesta.nombre ||
+                perfil.nombre ||
                 "Administrador MOTI";
 
 
@@ -121,7 +123,7 @@ onAuthStateChanged(
         } catch (error) {
 
             console.error(
-                "Error verificando administrador:",
+                "Error verificando sesión maestra:",
                 error
             );
 
@@ -132,18 +134,10 @@ onAuthStateChanged(
 
 
 /* =========================================
-   PERFIL MAESTRO
+   OBTENER PERFIL DEL SUPERADMIN
 ========================================= */
 
-async function fetchPerfilMaestro(uid) {
-
-    const {
-        doc,
-        getDoc
-    } = await import(
-        "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
-    );
-
+async function obtenerPerfilMaestro(uid) {
 
     const referencia =
         doc(
@@ -154,13 +148,14 @@ async function fetchPerfilMaestro(uid) {
 
 
     const documento =
-        await getDoc(referencia);
+        await getDoc(
+            referencia
+        );
 
 
     if (!documento.exists()) {
 
         return null;
-
     }
 
 
@@ -174,28 +169,22 @@ async function fetchPerfilMaestro(uid) {
     ) {
 
         return null;
-
     }
 
 
     return datos;
-
 }
 
 
 /* =========================================
-   CARGAR TODO EL PANEL
+   CARGAR PANEL
 ========================================= */
 
 async function cargarPanel() {
 
-    await Promise.all([
+    await cargarSolicitudes();
 
-        cargarSolicitudes(),
-
-        cargarInstituciones()
-
-    ]);
+    await cargarInstituciones();
 
 }
 
@@ -209,73 +198,53 @@ async function cargarSolicitudes() {
     try {
 
         listaSolicitudes.innerHTML = `
-            <div class="cargando">
-                Cargando solicitudes...
+            <div class="estado-vacio">
+
+                <div class="estado-icono">
+                    ...
+                </div>
+
+                <strong>
+                    Cargando solicitudes...
+                </strong>
+
             </div>
         `;
 
 
-        let documentos;
-
-
-        try {
-
-            const consulta =
-                query(
-                    collection(
-                        db,
-                        "solicitudes"
-                    ),
-                    orderBy(
-                        "fechaSolicitud",
-                        "desc"
-                    )
-                );
-
-
-            const resultado =
-                await getDocs(
-                    consulta
-                );
-
-
-            documentos =
-                resultado.docs;
-
-
-        } catch (error) {
-
-            console.warn(
-                "No se pudo ordenar solicitudes:",
-                error
+        const referencia =
+            collection(
+                db,
+                "solicitudes"
             );
 
 
-            const resultado =
-                await getDocs(
-                    collection(
-                        db,
-                        "solicitudes"
-                    )
-                );
+        const resultado =
+            await getDocs(
+                referencia
+            );
 
 
-            documentos =
-                resultado.docs;
-
-        }
+        console.log(
+            "🔥 Solicitudes encontradas:",
+            resultado.size
+        );
 
 
         const solicitudes =
-            documentos.map(
-                documento => ({
+            resultado.docs.map(
+                documento => {
 
-                    id:
-                        documento.id,
+                    return {
 
-                    ...documento.data()
+                        id:
+                            documento.id,
 
-                })
+                        ...documento.data()
+
+                    };
+
+                }
             );
 
 
@@ -298,8 +267,13 @@ async function cargarSolicitudes() {
 
     } catch (error) {
 
-        console.error(
-            "Error cargando solicitudes:",
+        /*
+         * Es normal que todavía no exista
+         * la colección solicitudes.
+         */
+
+        console.warn(
+            "No se pudieron cargar solicitudes:",
             error
         );
 
@@ -313,15 +287,15 @@ async function cargarSolicitudes() {
             <div class="estado-vacio">
 
                 <div class="estado-icono">
-                    !
+                    ✓
                 </div>
 
                 <strong>
-                    No fue posible cargar las solicitudes
+                    No hay solicitudes pendientes
                 </strong>
 
                 <p>
-                    Revisa la consola para obtener más información.
+                    Las nuevas solicitudes aparecerán aquí.
                 </p>
 
             </div>
@@ -366,217 +340,62 @@ function mostrarSolicitudes(
         `;
 
         return;
-
     }
 
 
     listaSolicitudes.innerHTML =
         solicitudes.map(
-            solicitud => `
+            solicitud => {
 
-                <div class="item-lista">
+                return `
 
-                    <div class="item-info">
+                    <div class="item-lista">
 
-                        <strong>
-                            ${escaparHTML(
-                                solicitud.nombreInstitucion ||
-                                "Institución sin nombre"
-                            )}
-                        </strong>
+                        <div class="item-info">
 
-                        <span>
-                            Administrador:
-                            ${escaparHTML(
-                                solicitud.nombreAdministrador ||
-                                "No especificado"
-                            )}
-                        </span>
+                            <strong>
+                                ${escaparHTML(
+                                    solicitud.nombreInstitucion ||
+                                    "Institución"
+                                )}
+                            </strong>
 
-                        <span>
-                            ${escaparHTML(
-                                solicitud.correoAdministrador ||
-                                ""
-                            )}
-                        </span>
+                            <span>
+                                Administrador:
+                                ${escaparHTML(
+                                    solicitud.nombreAdministrador ||
+                                    "No especificado"
+                                )}
+                            </span>
+
+                            <span>
+                                ${escaparHTML(
+                                    solicitud.correoAdministrador ||
+                                    ""
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="item-acciones">
+
+                            <button
+                                class="btn-gestionar"
+                                type="button">
+
+                                Revisar →
+
+                            </button>
+
+                        </div>
 
                     </div>
 
-                    <div class="item-acciones">
-
-                        <button
-                            class="btn-gestionar"
-                            type="button"
-                            data-solicitud="${solicitud.id}">
-
-                            Revisar →
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            `
-        ).join("");
-
-
-    listaSolicitudes
-        .querySelectorAll(
-            "[data-solicitud]"
-        )
-        .forEach(
-            boton => {
-
-                boton.addEventListener(
-                    "click",
-                    () => {
-
-                        const solicitud =
-                            solicitudes.find(
-                                item =>
-                                    item.id ===
-                                    boton.dataset.solicitud
-                            );
-
-
-                        if (solicitud) {
-
-                            mostrarSolicitud(
-                                solicitud
-                            );
-
-                        }
-
-                    }
-                );
+                `;
 
             }
-        );
-
-}
-
-
-/* =========================================
-   MOSTRAR SOLICITUD
-========================================= */
-
-function mostrarSolicitud(
-    solicitud
-) {
-
-    detalleInstitucion.innerHTML = `
-
-        <div class="detalle-fila">
-
-            <span>
-                Institución
-            </span>
-
-            <strong>
-                ${escaparHTML(
-                    solicitud.nombreInstitucion ||
-                    "-"
-                )}
-            </strong>
-
-        </div>
-
-
-        <div class="detalle-fila">
-
-            <span>
-                Ubicación
-            </span>
-
-            <strong>
-                ${escaparHTML(
-                    solicitud.ubicacion ||
-                    "-"
-                )}
-            </strong>
-
-        </div>
-
-
-        <div class="detalle-fila">
-
-            <span>
-                Administrador
-            </span>
-
-            <strong>
-                ${escaparHTML(
-                    solicitud.nombreAdministrador ||
-                    "-"
-                )}
-            </strong>
-
-        </div>
-
-
-        <div class="detalle-fila">
-
-            <span>
-                Correo
-            </span>
-
-            <strong>
-                ${escaparHTML(
-                    solicitud.correoAdministrador ||
-                    "-"
-                )}
-            </strong>
-
-        </div>
-
-
-        <div class="detalle-fila">
-
-            <span>
-                Teléfono
-            </span>
-
-            <strong>
-                ${escaparHTML(
-                    solicitud.telefonoAdministrador ||
-                    "-"
-                )}
-            </strong>
-
-        </div>
-
-
-        <div class="detalle-fila">
-
-            <span>
-                Pago
-            </span>
-
-            <strong>
-                ${escaparHTML(
-                    solicitud.pago ||
-                    "pendiente"
-                )}
-            </strong>
-
-        </div>
-
-    `;
-
-
-    btnSuspender.classList.add(
-        "oculto"
-    );
-
-    btnReactivar.classList.add(
-        "oculto"
-    );
-
-
-    modalGestion.classList.remove(
-        "oculto"
-    );
+        ).join("");
 
 }
 
@@ -590,46 +409,79 @@ async function cargarInstituciones() {
     try {
 
         listaInstituciones.innerHTML = `
-            <div class="cargando">
-                Cargando instituciones...
+
+            <div class="estado-vacio">
+
+                <div class="estado-icono">
+                    ...
+                </div>
+
+                <strong>
+                    Cargando instituciones...
+                </strong>
+
             </div>
+
         `;
+
+
+        const referencia =
+            collection(
+                db,
+                "instituciones"
+            );
 
 
         const resultado =
             await getDocs(
-                collection(
-                    db,
-                    "instituciones"
-                )
+                referencia
             );
 
-        console.log(
-    "🔥 INSTITUCIONES ENCONTRADAS:",
-    resultado.size
-);
 
-console.log(
-    "🔥 DOCUMENTOS:",
-    resultado.docs.map(
-        documento => ({
-            id: documento.id,
-            datos: documento.data()
-        })
-    )
-);
+        /*
+         * DIAGNÓSTICO
+         */
+
+        console.log(
+            "🔥 INSTITUCIONES ENCONTRADAS:",
+            resultado.size
+        );
+
+
+        console.log(
+            "🔥 DOCUMENTOS:",
+            resultado.docs.map(
+                documento => {
+
+                    return {
+
+                        id:
+                            documento.id,
+
+                        datos:
+                            documento.data()
+
+                    };
+
+                }
+            )
+        );
 
 
         institucionesActuales =
             resultado.docs.map(
-                documento => ({
+                documento => {
 
-                    id:
-                        documento.id,
+                    return {
 
-                    ...documento.data()
+                        id:
+                            documento.id,
 
-                })
+                        ...documento.data()
+
+                    };
+
+                }
             );
 
 
@@ -640,16 +492,14 @@ console.log(
         const activas =
             institucionesActuales.filter(
                 institucion =>
-                    institucion.activa === true ||
-                    institucion.activo === true
+                    institucion.activa === true
             );
 
 
         const suspendidas =
             institucionesActuales.filter(
                 institucion =>
-                    institucion.activa === false ||
-                    institucion.activo === false
+                    institucion.activa === false
             );
 
 
@@ -669,19 +519,9 @@ console.log(
     } catch (error) {
 
         console.error(
-            "Error cargando instituciones:",
+            "❌ Error cargando instituciones:",
             error
         );
-
-
-        totalInstituciones.textContent =
-            "0";
-
-        totalActivas.textContent =
-            "0";
-
-        totalSuspendidas.textContent =
-            "0";
 
 
         listaInstituciones.innerHTML = `
@@ -742,7 +582,6 @@ function mostrarInstituciones(
         `;
 
         return;
-
     }
 
 
@@ -751,8 +590,7 @@ function mostrarInstituciones(
             institucion => {
 
                 const activa =
-                    institucion.activa === true ||
-                    institucion.activo === true;
+                    institucion.activa === true;
 
 
                 return `
@@ -764,10 +602,21 @@ function mostrarInstituciones(
                             <strong>
                                 ${escaparHTML(
                                     institucion.nombre ||
-                                    institucion.nombreInstitucion ||
                                     "Institución"
                                 )}
                             </strong>
+
+
+                            <span>
+
+                                ${escaparHTML(
+                                    institucion.municipio ||
+                                    institucion.direccion ||
+                                    ""
+                                )}
+
+                            </span>
+
 
                             <span
                                 class="${
@@ -808,6 +657,10 @@ function mostrarInstituciones(
         ).join("");
 
 
+    /*
+     * Activar botones Gestionar
+     */
+
     listaInstituciones
         .querySelectorAll(
             "[data-institucion]"
@@ -827,7 +680,9 @@ function mostrarInstituciones(
                             );
 
 
-                        if (institucion) {
+                        if (
+                            institucion
+                        ) {
 
                             abrirGestion(
                                 institucion
@@ -845,7 +700,7 @@ function mostrarInstituciones(
 
 
 /* =========================================
-   GESTIONAR INSTITUCIÓN
+   ABRIR GESTIÓN
 ========================================= */
 
 function abrirGestion(
@@ -857,8 +712,7 @@ function abrirGestion(
 
 
     const activa =
-        institucion.activa === true ||
-        institucion.activo === true;
+        institucion.activa === true;
 
 
     detalleInstitucion.innerHTML = `
@@ -872,7 +726,6 @@ function abrirGestion(
             <strong>
                 ${escaparHTML(
                     institucion.nombre ||
-                    institucion.nombreInstitucion ||
                     "-"
                 )}
             </strong>
@@ -883,12 +736,45 @@ function abrirGestion(
         <div class="detalle-fila">
 
             <span>
-                ID
+                Municipio
             </span>
 
             <strong>
                 ${escaparHTML(
-                    institucion.id
+                    institucion.municipio ||
+                    "-"
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="detalle-fila">
+
+            <span>
+                Dirección
+            </span>
+
+            <strong>
+                ${escaparHTML(
+                    institucion.direccion ||
+                    "-"
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="detalle-fila">
+
+            <span>
+                Teléfono
+            </span>
+
+            <strong>
+                ${escaparHTML(
+                    institucion.telefono ||
+                    "-"
                 )}
             </strong>
 
@@ -909,22 +795,6 @@ function abrirGestion(
                     : "🔴 Suspendida"
                 }
 
-            </strong>
-
-        </div>
-
-
-        <div class="detalle-fila">
-
-            <span>
-                Ubicación
-            </span>
-
-            <strong>
-                ${escaparHTML(
-                    institucion.ubicacion ||
-                    "-"
-                )}
             </strong>
 
         </div>
@@ -974,7 +844,7 @@ btnCerrarModal.addEventListener(
 
 modalGestion.addEventListener(
     "click",
-    (evento) => {
+    evento => {
 
         if (
             evento.target ===
@@ -1020,15 +890,21 @@ btnActualizar.addEventListener(
 
             await cargarPanel();
 
-        } finally {
+        } catch (error) {
 
-            btnActualizar.disabled =
-                false;
-
-            btnActualizar.textContent =
-                "↻ Actualizar";
+            console.error(
+                "Error actualizando:",
+                error
+            );
 
         }
+
+
+        btnActualizar.disabled =
+            false;
+
+        btnActualizar.textContent =
+            "↻ Actualizar";
 
     }
 );
@@ -1042,13 +918,9 @@ btnVerSolicitudes.addEventListener(
     "click",
     () => {
 
-        document
-            .getElementById(
-                "listaSolicitudes"
-            )
-            .scrollIntoView({
-                behavior: "smooth"
-            });
+        listaSolicitudes.scrollIntoView({
+            behavior: "smooth"
+        });
 
     }
 );
@@ -1062,11 +934,13 @@ btnSalir.addEventListener(
     "click",
     async () => {
 
-        if (
-            !confirm(
+        const confirmar =
+            confirm(
                 "¿Deseas cerrar la sesión del panel maestro?"
-            )
-        ) {
+            );
+
+
+        if (!confirmar) {
 
             return;
 
@@ -1075,13 +949,127 @@ btnSalir.addEventListener(
 
         try {
 
-            await signOut(auth);
+            await signOut(
+                auth
+            );
+
 
             sessionStorage.removeItem(
                 "motiQueueSuperAdmin"
             );
 
+
             window.location.href =
                 "maestro-login.html";
 
 
+        } catch (error) {
+
+            console.error(
+                "Error cerrando sesión:",
+                error
+            );
+
+
+            alert(
+                "No fue posible cerrar la sesión."
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   BOTÓN SUSPENDER
+   TODAVÍA NO MODIFICA FIREBASE
+========================================= */
+
+btnSuspender.addEventListener(
+    "click",
+    () => {
+
+        if (
+            !institucionSeleccionada
+        ) {
+
+            return;
+
+        }
+
+
+        alert(
+            "La función de suspensión la conectaremos en el siguiente paso."
+        );
+
+    }
+);
+
+
+/* =========================================
+   BOTÓN REACTIVAR
+   TODAVÍA NO MODIFICA FIREBASE
+========================================= */
+
+btnReactivar.addEventListener(
+    "click",
+    () => {
+
+        if (
+            !institucionSeleccionada
+        ) {
+
+            return;
+
+        }
+
+
+        alert(
+            "La función de reactivación la conectaremos en el siguiente paso."
+        );
+
+    }
+);
+
+
+/* =========================================
+   ESCAPAR HTML
+========================================= */
+
+function escaparHTML(
+    valor
+) {
+
+    if (
+        valor === null ||
+        valor === undefined
+    ) {
+
+        return "";
+    }
+
+
+    return String(valor)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+                                                    }
