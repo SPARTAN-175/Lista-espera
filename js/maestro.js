@@ -336,6 +336,27 @@ function mostrarSolicitudes(
                 </p>
 
             </div>
+function mostrarSolicitudes(solicitudes) {
+
+    if (solicitudes.length === 0) {
+
+        listaSolicitudes.innerHTML = `
+
+            <div class="estado-vacio">
+
+                <div class="estado-icono">
+                    ✓
+                </div>
+
+                <strong>
+                    No hay solicitudes pendientes
+                </strong>
+
+                <p>
+                    Las nuevas solicitudes aparecerán aquí.
+                </p>
+
+            </div>
 
         `;
 
@@ -344,58 +365,104 @@ function mostrarSolicitudes(
 
 
     listaSolicitudes.innerHTML =
-        solicitudes.map(
-            solicitud => {
+        solicitudes.map(solicitud => {
 
-                return `
+            return `
 
-                    <div class="item-lista">
+                <div class="item-lista">
 
-                        <div class="item-info">
+                    <div class="item-info">
 
-                            <strong>
-                                ${escaparHTML(
-                                    solicitud.nombreInstitucion ||
-                                    "Institución"
-                                )}
-                            </strong>
-
-                            <span>
-                                Administrador:
-                                ${escaparHTML(
-                                    solicitud.nombreAdministrador ||
-                                    "No especificado"
-                                )}
-                            </span>
-
-                            <span>
-                                ${escaparHTML(
-                                    solicitud.correoAdministrador ||
-                                    ""
-                                )}
-                            </span>
-
-                        </div>
+                        <strong>
+                            ${escaparHTML(
+                                solicitud.nombreInstitucion ||
+                                "Institución"
+                            )}
+                        </strong>
 
 
-                        <div class="item-acciones">
+                        <span>
+                            Administrador:
+                            ${escaparHTML(
+                                solicitud.nombreAdministrador ||
+                                "No especificado"
+                            )}
+                        </span>
 
-                            <button
-                                class="btn-gestionar"
-                                type="button">
 
-                                Revisar →
-
-                            </button>
-
-                        </div>
+                        <span>
+                            ${escaparHTML(
+                                solicitud.correoAdministrador ||
+                                ""
+                            )}
+                        </span>
 
                     </div>
 
-                `;
 
-            }
-        ).join("");
+                    <div class="item-acciones">
+
+                        <button
+                            class="btn-gestionar"
+                            type="button"
+                            data-solicitud="${solicitud.id}">
+
+                            Revisar →
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+
+    /* =====================================
+       ACTIVAR BOTONES REVISAR
+    ===================================== */
+
+    listaSolicitudes
+        .querySelectorAll(
+            "[data-solicitud]"
+        )
+        .forEach(boton => {
+
+            boton.addEventListener(
+                "click",
+                () => {
+
+                    const id =
+                        boton.dataset.solicitud;
+
+
+                    const solicitud =
+                        solicitudes.find(
+                            item =>
+                                item.id === id
+                        );
+
+
+                    if (!solicitud) {
+
+                        alert(
+                            "No fue posible encontrar la solicitud."
+                        );
+
+                        return;
+                    }
+
+
+                    mostrarSolicitud(
+                        solicitud
+                    );
+
+                }
+            );
+
+        });
 
 }
 
