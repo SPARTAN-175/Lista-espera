@@ -604,6 +604,21 @@ async function cargarInstituciones() {
                 )
             );
 
+        console.log(
+    "🔥 INSTITUCIONES ENCONTRADAS:",
+    resultado.size
+);
+
+console.log(
+    "🔥 DOCUMENTOS:",
+    resultado.docs.map(
+        documento => ({
+            id: documento.id,
+            datos: documento.data()
+        })
+    )
+);
+
 
         institucionesActuales =
             resultado.docs.map(
